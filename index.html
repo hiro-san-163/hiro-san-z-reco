@@ -26,43 +26,11 @@
     <p>ようこそ！ここでは山行記録や活動の様子をまとめています。</p>
 
     <h2>最新の山行記録</h2>
-    <div class="card-list" id="latest-cards"></div>
+    <div class="blog cards" id="latest-cards"></div>
   </div>
 
   <!-- Bloggerから最新5件を取得 -->
-   <script>
-    const feedURL = "https://api.rss2json.com/v1/api.json?rss_url=https://hiro-san-163.blogspot.com/feeds/posts/default?alt=json&max-results=5";
-
-    fetch(feedURL)
-      .then(response => response.json())
-      .then(data => {
-        let output = "";
-        data.items.forEach(item => {
-          const date = new Date(item.pubDate).toLocaleDateString("ja-JP", {
-            year: "numeric", month: "short", day: "numeric"
-          });
-          const thumb = item.thumbnail || "https://via.placeholder.com/300x180?text=No+Image";
-
-          output += `
-            <div class="blog-card">
-              <a href="${item.link}" target="_blank">
-                <img src="${thumb}" alt="${item.title}">
-                <div class="blog-card-text">
-                  <h3>${item.title}</h3>
-                  <p>${date}</p>
-                </div>
-              </a>
-            </div>
-          `;
-        });
-        document.getElementById("blog-cards").innerHTML = output;
-      })
-      .catch(() => {
-        document.getElementById("blog-cards").innerHTML =
-          "<p style='color:#888;'>記事を読み込めませんでした。</p>";
-      });
-  </script>
+ <script src="js/blogfeed.js"></script>
 
 </body>
 </html>
-
