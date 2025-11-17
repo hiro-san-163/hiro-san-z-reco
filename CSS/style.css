@@ -1,270 +1,107 @@
-/* =============================
-   style.css（ナビ横並び対応版）
-   - サイト名: hiro-sanの山歩き
-   - ナビはデスクトップで横並び、モバイルで折りたたみ表示
-   ============================= */
+:root {
+  --bg: #f3fbf5;
+  --green-1: #9fc7a1;
+  --green-2: #70a97a;
+  --accent: #2f7a4f;
+  --muted: #6b7b6b;
+  --container-width: 1100px;
+}
 
-/* 基本 */
+* {
+  box-sizing: border-box;
+}
 body {
-  font-family: "Hiragino Sans", "Meiryo", sans-serif;
+  font-family: "Noto Sans JP", system-ui, -apple-system, "Segoe UI", Roboto, "ヒラギノ角ゴ ProN", "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, sans-serif;
   margin: 0;
   padding: 0;
-  background:  #F0F8F5; /* フォレストグリーン系の淡い背景 */
-  color: #333333; /* ダークグレーで読みやすい文字色 */
+  background: var(--bg);
+  color: #234;
 }
-
-/* ヘッダー（ナビ領域） */
-header {
-  background: #2E5E4E; /* ディープグリーン */
-  color: #FFFFFF;
-  padding: 4px 6px;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
-/* ナビゲーション全体の配置 */
-header nav {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 6px;
-}
-
-/* ul を横並びに */
-header nav ul {
-  list-style: none;
-  display: flex;
-  flex-wrap: nowrap;
-  margin: 0;
-  padding: 0;
-  gap: 1px;
-}
-
-/* li の基本 */
-header nav ul li {
-  margin: 4px;
-}
-
-/* リンクの見た目（ボタン風） */
-header nav ul li a {
-  color: #fff;
-  text-decoration: none;
-  font-weight: bold;
-  padding: 8px 12px;
+.container{max-width:var(--container-width); margin:0 auto; padding:1rem;}
+.header-inner{display:flex; align-items:center; justify-content:space-between; gap:1rem;}
+.logo {
   display: inline-block;
-  border-radius: 6px;
-  background-color: #3C7A65; /* ボタンの背景色 */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 影で浮き出し感 */
-  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--accent);
+  font-size: 1.25rem;
 }
-
-/* ホバー時の効果 */
-header nav ul li a:hover {
-  background-color: #4E9A7E; /* 少し明るく */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* 影を強調 */
-  transform: translateY(-2px); /* 少し浮かせる */
-}
-
-/* --- ハンバーガー表示（モバイル時に有効にする） --- */
-/* ハンバーガーボタンの見た目（非表示がデフォルト） */
-.menu-toggle {
-  display: none; /* PC では非表示 */
-  background: transparent;
-  border: none;
-  color: white;
-  font-size: 20px;
-  padding: 6px 8px;
-  cursor: pointer;
-}
-
-/* --- レイアウトのコンテナ --- */
-.container {
-  max-width: 960px;
-  margin: 20px auto;
-  padding: 0 15px;
-}
-
-/* ラベルボタン（左サイド） */
-.label-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-/* ラベルボタンの見た目 */
-.label-buttons a {
+.main-nav ul{display:flex; gap:0.5rem; list-style:none; margin:0; padding:0;}
+.main-nav a{display:block; padding:0.5rem 0.75rem; text-decoration:none; color:var(--muted); border-radius:8px}
+.main-nav a:hover{background:linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0)); transform:translateY(-2px); color:var(--accent);}
+.has-sub{position:relative}
+.has-sub .sub{position:absolute; left:0; top:100%; background:white; border-radius:6px; box-shadow:0 6px 18px rgba(0,0,0,0.08); display:none; padding:0.5rem;}
+.has-sub:hover .sub{display:block}
+.sub a{display:block; padding:0.4rem 0.6rem; color:#234}
+.nav-toggle{display:none; background:none; border:0}
+.nav-toggle span {
   display: block;
-  padding: 8px 12px;
-  background: #e0f2f1;
-  border: 1px solid #009688;
-  border-radius: 4px;
-  color: #004d40;
-  text-decoration: none;
-  font-size: 14px;
+  width: 22px;
+  height: 2px;
+  background: #234;
+  margin: 4px 0;
+  transition: transform 0.3s ease;
 }
-.label-buttons a:hover {
-  background: #b2dfdb;
-}
+.site-header{background:linear-gradient(180deg,var(--green-1),var(--green-2)); padding:0.6rem 0; box-shadow:0 1px 0 rgba(0,0,0,0.06)}
+.site-footer{background:#fff; border-top:1px solid #e6efe6; padding:1rem 0; margin-top:2rem}
+.footer-inner{display:flex; justify-content:space-between; align-items:center}
+.main-content{padding:1.5rem 0}
+.hero{background:rgba(255,255,255,0.6); padding:1rem; border-radius:10px; margin-bottom:1rem}
+.featured-card{display:flex; gap:1rem; align-items:center; padding:0.8rem; background:#fff; border-radius:10px; box-shadow:0 6px 18px rgba(0,0,0,0.04)}
+.featured-card img{width:220px; height:140px; object-fit:cover; border-radius:8px}
+.list-cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:0.7rem; margin-top:1rem}
+.record-card{background:#fff; padding:0.6rem; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.04)}
+.record-meta{font-size:0.9rem; color:var(--muted)}
+.label-grid{display:flex; gap:0.5rem; flex-wrap:wrap; margin:0.5rem 0}
+.label{background:#fff; border-radius:8px; padding:0.4rem 0.6rem; border:1px solid #e6efe6}
+.sub-nav{display:flex; gap:0.5rem; margin:0.6rem 0}
 
-/* 記事リストのボックス */
-.list-box {
-  flex: 1;
-  border: 1px solid #ddd;
-  padding: 15px;
-  border-radius: 5px;
-  background: #fff;
-}
-.list-box h3 {
-  margin-top: 0;
-  border-bottom: 2px solid #009688;
-  padding-bottom: 5px;
-}
-.list-box ul { list-style: none; padding: 0; margin: 0; }
-.list-box li { margin: 8px 0; font-size: 14px; }
-.list-box li a { color: #00796b; text-decoration: none; }
-.list-box li a:hover { text-decoration: underline; }
-
-/* トップページのカードレイアウト（省略） */
-.card-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 15px;
-}
-.card {
-  border: 1px solid #ddd;
+/* レコード要素のスタイル */
+.record-thumbnail {
+  width: 100%;
   border-radius: 6px;
-  padding: 15px;
-  background: #fff;
-}
-.card h3 { margin-top: 0; font-size: 16px; color: #004d40; }
-.card small { color: #666; }
-
-/* =========================
-   レスポンシブ（スマホ）設定
-   - 画面幅が768px以下の場合はナビを折りたたむ
-   ========================= */
-@media (max-width: 768px) {
-  /* ハンバーガーボタンを表示 */
-  .menu-toggle {
-    display: inline-block;
-  }
-
-  /* nav の配置を縦にして、初期は非表示にする */
-  header nav ul {
-    display: none;         /* 非表示（メニュー開閉で表示） */
-    flex-direction: column;
-    width: 100%;
-    background: #004d40;
-    margin-top: 8px;
-    padding: 8px 0;
-  }
-
-  /* メニューを開くとき body に .nav-open を付ける想定 */
-  /* 表示用のクラス：.nav-open が付いていると nav を表示 */
-  body.nav-open header nav ul {
-    display: flex;
-  }
-
-  /* nav 内リンクの幅をいっぱいに */
-  header nav ul li a {
-    display: block;
-    width: 100%;
-    padding: 10px 16px;
-  }
-
-  /* header の配置を左右に分ける（左：Site title 右：toggle） */
-  header nav {
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 12px;
-  }
+  object-fit: cover;
+  transition: transform 0.3s ease;
 }
 
-
-/* ==== サイト共通 背景写真（超シンプル版） ==== */
-/* ↓↓↓ この1行だけ、あなたの写真のパスに変えればOK ↓↓↓ */
-body {
-  background-image: https://api.yamareco.com/modules/yamareco/include/imgresize.php?maxsize=352&crop=1&fname=%2Fmodules%2Fyamareco%2Fupimg%2F891%2F8919418%2F0b3b25c27910edd20adaad063e2548d6.jpg;
-  background-size: cover;        /* 画面いっぱいに拡大/縮小 */
-  background-position: center;   /* 画像の中心を表示 */
-  background-repeat: no-repeat;  /* 繰り返さない */
-  background-color: #f6f8fb;     /* 万が一、画像が読めない時の色 */
-}
-/* 文字が読みづらい場合に使う“読みやすい面”（任意） */
-.surface {
-  background: rgba(255, 255, 255, 0.85); /* 半透明の白 */
-  border-radius: 10px;
-  padding: 1rem;
-}
-/* レイアウトの横幅を整える（任意） */
-.container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 1rem;
-
-/* パンくずリストのスタイル */
-.breadcrumb {
-  font-size: 0.9em;
-  margin-bottom: 1em;
-  color: #555;
+.record-thumbnail:hover {
+  transform: scale(1.02);
 }
 
-.breadcrumb a {
-  color: #007acc;
+.record-title {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.record-title a {
+  color: var(--accent);
   text-decoration: none;
 }
 
-.breadcrumb a:hover {
+.record-title a:hover {
   text-decoration: underline;
 }
 
+/* ナビゲーションのトグルアニメーション */
+#main-nav {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
 
-.blog-cards {
-      width: 100%;
-      max-width: 280px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
-      transition: transform 0.2s;
-      background-color: #fff;
-    }
-    .blog-cards:hover {
-      transform: scale(1.02);
-    }
-    .blog-cards a {
-      display: flex;
-      flex-direction: column;
-      text-decoration: none;
-      color: inherit;
-    }
-    .blog-cards img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
-    .blog-cards-text {
-      padding: 0.8rem 1rem 1rem;
-    }
-    .blog-cards-text h3 {
-      font-size: 1rem;
-      margin: 0 0 0.4rem;
-    }
-    .blog-cards-text p {
-      color: #555;
-      font-size: 0.85rem;
-      margin: 0;
-    }
+#main-nav.nav-active {
+  max-height: 500px;
+}
 
-    /* ▼ スマホ対応 */
-    @media (max-width: 600px) {
-      #blog-cards {
-        flex-direction: column;
-        align-items: center;
-      }
-      .blog-cards {
-        max-width: 95%;
-      }
-    }
+@media (min-width: 801px) {
+  #main-nav {
+    max-height: none;
+  }
+}
 
+@media (max-width:800px){
+  .main-nav{display:none}
+  .nav-toggle{display:block}
+  .header-inner{align-items:flex-start}
+  .featured-card{flex-direction:column}
+}
