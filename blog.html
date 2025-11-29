@@ -3,25 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <title>ブログ - hiro-sanの山歩き</title>
+
+  <!-- CSS -->
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" href="favicon.ico">
 </head>
 <body>
-  <header>
-<!-- ヘッダー内でタイトルなどと一緒に置く -->
-<button class="menu-toggle" aria-label="メニュー切替">☰</button>
 
-    <nav>
-      <ul>
-        <li><a href="index.html">トップ</a></li>
-        <li><a href="records/index.html">山行記録</a></li>
-        <li><a href="about.html">自己紹介</a></li>
-        <li><a href="blog.html">ブログ</a></li>
-        <li><a href="other.html">その他</a></li>
-      </ul>
-    </nav>
-  </header>
+  <!-- ▼ 共通ヘッダー読み込み位置 ▼ -->
+  <div id="header"></div>
 
+  <!-- ▼ ページ内容 ▼ -->
   <div class="container">
     <h1>ブログリンク</h1>
     <p>以下のリンクからブログ記事一覧にアクセスできます。</p>
@@ -30,5 +22,13 @@
       <li><a href="https://hiro-san-163.blogspot.com/" target="_blank">hiro-sanの山歩き ブログトップ</a></li>
     </ul>
   </div>
+  <!-- ▲ ページ内容ここまで ▲ -->
+
+  <!-- ▼ 共通フッター読み込み ▼ -->
+  <div id="footer"></div>
+
+  <!-- include.js を読み込む（相対パス） -->
+  <script src="js/include.js"></script>
+
 </body>
 </html>
