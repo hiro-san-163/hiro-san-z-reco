@@ -3,22 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <title>トップページ - hiro-sanの山歩き</title>
-  <link rel="stylesheet" href="CSS/style.css">
-  <link rel="icon" href="favicon.ico">
+
+  <!-- CSS パスは小文字の css に修正 -->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" href="/favicon.ico">
 </head>
 <body>
-  <header>
-    <nav>
-      <ul>
-        <li><a href="index.html">トップ</a></li>
-        <li><a href="records/index.html">山行記録</a></li>
-        <li><a href="about.html">自己紹介</a></li>
-        <li><a href="blog.html">ブログ</a></li>
-        <li><a href="other.html">その他</a></li>
-      </ul>
-    </nav>
-  </header>
-  <!-- ヘッダー内でタイトルなどと一緒に置く -->
+
+  <!-- ▼ 共通ヘッダー読み込み位置 ▼ -->
+  <div id="header"></div>
+
+  <!-- ▼ ページの内容ここから ▼ -->
   <button class="menu-toggle" aria-label="メニュー切替">☰</button>
 
   <div class="container">
@@ -28,9 +23,14 @@
     <h2>最新の山行記録</h2>
     <div class="blog cards" id="latest-cards"></div>
   </div>
+  <!-- ▲ ページの内容ここまで ▲ -->
 
-  <!-- Bloggerから最新5件を取得 -->
- <script src="js/blogfeed.js"></script>
+  <!-- Blogger から最新5件取得 -->
+  <script src="/js/blogfeed.js"></script>
+
+  <!-- ▼ 共通フッター／JS 読み込み ▼ -->
+  <div id="footer"></div>
+  <script src="/js/include.js"></script>
 
 </body>
 </html>
