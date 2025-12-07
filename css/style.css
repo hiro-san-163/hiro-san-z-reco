@@ -1,0 +1,268 @@
+* =============================
+   style.css（ナビ横並び対応版）
+   - サイト名: hiro-sanの山歩き
+   - ナビはデスクトップで横並び、モバイルで折りたたみ表示
+   ============================= */
+
+/* 基本 */
+body {
+  font-family: "Hiragino Sans", "Meiryo", sans-serif;
+  margin: 0;
+  padding: 0;
+  background:  #F0F8F5; /* フォレストグリーン系の淡い背景 */
+  color: #333333; /* ダークグレーで読みやすい文字色 */
+}
+
+/* ヘッダー（ナビ領域） */
+header {
+  background: #2E5E4E; /* ディープグリーン */
+  color:  #FFFFFF;
+  padding: 8px 12px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* ---- ナビ（ここを横並びにする） ---- */
+/* nav の ul を flex にして横並びにする（デフォルト） */
+header nav {
+  display: flex;             /* 横並びをサポート */
+  justify-content: center;   /* 中央寄せ */
+  align-items: center;
+  gap: 12px;
+}
+
+/* ul を横並びに */
+header nav ul {
+  list-style: none;
+  display: flex;             /* 横並び */
+  flex-wrap: nowrap;
+  margin: 0;
+  padding: 0;
+  gap: 8px;
+}
+
+/* li の基本 */
+header nav ul li {
+  margin: 0;
+}
+
+/* リンク見た目 */
+header nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 8px 12px;
+  display: inline-block;
+  border-radius: 4px;
+  transition: background 0.18s, color 0.18s;
+}
+
+/* ホバー時 */
+header nav ul li a:hover,
+header nav ul li a:focus {
+  background: rgba(255,255,255,0.06);
+}
+
+/* --- ハンバーガー表示（モバイル時に有効にする） --- */
+/* ハンバーガーボタンの見た目（非表示がデフォルト） */
+.menu-toggle {
+  display: none; /* PC では非表示 */
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 20px;
+  padding: 6px 8px;
+  cursor: pointer;
+}
+
+/* --- レイアウトのコンテナ --- */
+.container {
+  max-width: 960px;
+  margin: 20px auto;
+  padding: 0 15px;
+}
+
+/* ラベルボタン（左サイド） */
+.label-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ラベルボタンの見た目 */
+.label-buttons a {
+  display: block;
+  padding: 8px 12px;
+  background: #e0f2f1;
+  border: 1px solid #009688;
+  border-radius: 4px;
+  color: #004d40;
+  text-decoration: none;
+  font-size: 14px;
+}
+.label-buttons a:hover {
+  background: #b2dfdb;
+}
+
+/* 記事リストのボックス */
+.list-box {
+  flex: 1;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 5px;
+  background: #fff;
+}
+.list-box h3 {
+  margin-top: 0;
+  border-bottom: 2px solid #009688;
+  padding-bottom: 5px;
+}
+.list-box ul { list-style: none; padding: 0; margin: 0; }
+.list-box li { margin: 8px 0; font-size: 14px; }
+.list-box li a { color: #00796b; text-decoration: none; }
+.list-box li a:hover { text-decoration: underline; }
+
+/* トップページのカードレイアウト（省略） */
+.card-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 15px;
+}
+.card {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 15px;
+  background: #fff;
+}
+.card h3 { margin-top: 0; font-size: 16px; color: #004d40; }
+.card small { color: #666; }
+
+/* =========================
+   レスポンシブ（スマホ）設定
+   - 画面幅が768px以下の場合はナビを折りたたむ
+   ========================= */
+@media (max-width: 768px) {
+  /* ハンバーガーボタンを表示 */
+  .menu-toggle {
+    display: inline-block;
+  }
+
+  /* nav の配置を縦にして、初期は非表示にする */
+  header nav ul {
+    display: none;         /* 非表示（メニュー開閉で表示） */
+    flex-direction: column;
+    width: 100%;
+    background: #004d40;
+    margin-top: 8px;
+    padding: 8px 0;
+  }
+
+  /* メニューを開くとき body に .nav-open を付ける想定 */
+  /* 表示用のクラス：.nav-open が付いていると nav を表示 */
+  body.nav-open header nav ul {
+    display: flex;
+  }
+
+  /* nav 内リンクの幅をいっぱいに */
+  header nav ul li a {
+    display: block;
+    width: 100%;
+    padding: 10px 16px;
+  }
+
+  /* header の配置を左右に分ける（左：Site title 右：toggle） */
+  header nav {
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 12px;
+  }
+}
+
+
+/* ==== サイト共通 背景写真（超シンプル版） ==== */
+/* ↓↓↓ この1行だけ、あなたの写真のパスに変えればOK ↓↓↓ */
+body {
+  background-image: url('/assets/img/mountain.webp');
+  background-size: cover;        /* 画面いっぱいに拡大/縮小 */
+  background-position: center;   /* 画像の中心を表示 */
+  background-repeat: no-repeat;  /* 繰り返さない */
+  background-color: #f6f8fb;     /* 万が一、画像が読めない時の色 */
+}
+/* 文字が読みづらい場合に使う“読みやすい面”（任意） */
+.surface {
+  background: rgba(255, 255, 255, 0.85); /* 半透明の白 */
+  border-radius: 10px;
+  padding: 1rem;
+}
+/* レイアウトの横幅を整える（任意） */
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1rem;
+
+/* パンくずリストのスタイル */
+.breadcrumb {
+  font-size: 0.9em;
+  margin-bottom: 1em;
+  color: #555;
+}
+
+.breadcrumb a {
+  color: #007acc;
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+
+.blog-card {
+      width: 100%;
+      max-width: 280px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+      background-color: #fff;
+    }
+    .blog-card:hover {
+      transform: scale(1.02);
+    }
+    .blog-card a {
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+    }
+    .blog-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    .blog-card-text {
+      padding: 0.8rem 1rem 1rem;
+    }
+    .blog-card-text h3 {
+      font-size: 1rem;
+      margin: 0 0 0.4rem;
+    }
+    .blog-card-text p {
+      color: #555;
+      font-size: 0.85rem;
+      margin: 0;
+    }
+
+    /* ▼ スマホ対応 */
+    @media (max-width: 600px) {
+      #blog-cards {
+        flex-direction: column;
+        align-items: center;
+      }
+      .blog-card {
+        max-width: 95%;
+      }
+    }
+
