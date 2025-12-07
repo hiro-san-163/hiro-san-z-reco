@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>トップページ - hiro-sanの山歩き</title>
+
+  <!-- CSS パスは小文字の css に修正 -->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" href="/favicon.ico">
+</head>
+<body>
+
+  <!-- ▼ 共通ヘッダー読み込み位置 ▼ -->
+  <div id="header"></div>
+
+  <!-- ▼ ページの内容ここから ▼ -->
+  <button class="menu-toggle" aria-label="メニュー切替">☰</button>
+
+  <div class="container">
+    <h1>hiro-sanの山歩き</h1>
+    <p>ようこそ！ここでは山行記録や活動の様子をまとめています。</p>
+
+    <h2>最新の山行記録</h2>
+    <div class="blog cards" id="latest-cards"></div>
+  </div>
+  <!-- ▲ ページの内容ここまで ▲ -->
+
+  <!-- Blogger から最新5件取得 -->
+  <script src="/js/blogfeed.js"></script>
+
+  <!-- ▼ 共通フッター／JS 読み込み ▼ -->
+  <div id="footer"></div>
+  <script src="/js/include.js"></script>
+
+</body>
+</html>
