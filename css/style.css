@@ -265,4 +265,39 @@ body {
         max-width: 95%;
       }
     }
+    
+/* トップページのナビゲーションカード */
+.nav-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.nav-card {
+  display: block;
+  padding: 20px;
+  background: rgba(20, 60, 30, 0.85);
+  border-radius: 12px;
+  text-decoration: none;
+  color: #f1f7f2;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nav-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+}
+
+.nav-card h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+}
+
+.nav-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
 
