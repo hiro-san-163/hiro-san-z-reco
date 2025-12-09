@@ -1,14 +1,17 @@
-// header の読み込み
-fetch("header.html")
-  .then(response => response.text())
-  .then(data => {
-    document.getElementById("header").innerHTML = data;
-  });
+// 現在のページのパスからルートまでの距離を判断
+const depth = window.location.pathname.split("/").length - 2; 
+// 例） /index.html → depth=1
+//      /records/index.html → depth=2
+//      /records/2025/xxx.html → depth=4 など
 
-// footer の読み込み
-fetch("footer.html")
-  .then(response => response.text())
-  .then(data => {
-    document.getElementById("footer").innerHTML = data;
-  });
+// "../" を depth-1 回つなげてルートパスを生成
+let root = "";
+for (let i = 1; i < depth; i++) {
+  root += "../";
+}
+
+// 読み込み実行
+loadPart("header", `${root}header.html`);
+loadPart("footer", `${root}footer.html`);
+
 
