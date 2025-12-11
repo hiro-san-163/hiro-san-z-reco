@@ -1,4 +1,3 @@
-// header / footer を読み込む関数
 function loadPart(id, url) {
   fetch(url)
     .then(res => {
@@ -11,22 +10,26 @@ function loadPart(id, url) {
     .catch(err => console.error(err));
 }
 
-// 現在のページのパスから階層の深さを判定
-// 例:
-//  /index.html               → ["", "index.html"] → depth = 1
-//  /records/index.html       → ["", "records", "index.html"] → depth = 2
-//  /records/2025/xxx.html    → ["", "records", "2025", "xxx.html"] → depth = 3
-const pathParts = window.location.pathname.split("/").filter(p => p !== "");
-const depth = pathParts.length;
+// --- ▼ スマホでもズレない pathname 判定 ▼ ---
+let path = window.location.pathname;
 
-// depth に応じて ../ を作る（トップ=0）
+// スマホで "/" の場合は index.html とみなす
+if (path === "/") {
+  path = "/index.html";
+}
+
+const parts = path.split("/").filter(p => p.length > 0);
+const depth = parts.length;
+
+// --- ▼ depth からルートパスを算出 ---
 let root = "";
 for (let i = 1; i < depth; i++) {
   root += "../";
 }
 
-// HTMLを読み込む
-loadPart("header", `${root}header.html`);
-loadPart("footer", `${root}footer.html`);
+// --- ▼ キャッシュ破壊パラメータ ---
+const v = "20250205";
 
-
+// --- ▼ header/footer を読み込み ---
+loadPart("header", `${root}header.html?v=${v}`);
+loadPart("footer", `${root}footer.html?v=${v}`);
