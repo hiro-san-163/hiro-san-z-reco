@@ -1,40 +1,33 @@
-<!-- ========== header.html ==========
-このファイルは、すべてのページから読み込まれる「共通ヘッダー」です。
-・サイトタイトルの表示
-・グローバルナビゲーション（各ページへのリンク）
-を一元管理します。
-ここを修正すると、全ページに反映されます。
-================================== -->
+<!-- ========== header.html ========== -->
 <link rel="stylesheet" href="css/style.css">
 
 <header class="site-header">
 
-  <!-- サイトタイトル部分 -->
-  <!-- hiro-sanの山歩き、というサイト名を表示 -->
+  <!-- サイトタイトル -->
   <div class="site-title">
-    <h1>hiro-sanの山歩き</h1>
+    <h1><a href="index.html">hiro-sanの山歩き</a></h1>
     <p class="site-subtitle">山行記録と日々のメモ</p>
   </div>
 
-  <!-- グローバルナビゲーション -->
-  <!-- どのページからでも各ページへ移動できるメニュー -->
-  <nav class="global-nav">
-    <ul>
-      <!-- トップページ -->
-      <li><a href="index.html">ホーム</a></li>
+  <!-- ハンバーガー（スマホ用） -->
+  <button class="menu-toggle" aria-label="メニュー切替" onclick="toggleMenu()">
+    ☰
+  </button>
 
-      <!-- 山行記録トップ（フォルダ内のindex.html） -->
-      <li><a href="records/index.html">山行記録</a></li>
-
-      <!-- ヤマレコ検索ページ -->
-      <li><a href="research.html">検索</a></li>
-
-      <!-- Bloggerから読み込む日記ページ -->
-      <li><a href="blog.html">日記</a></li>
-
-      <!-- 自己紹介・リンク集ページ -->
-      <li><a href="about.html">自己紹介</a></li>
-    </ul>
+  <!-- グローバルナビ（CSSに合わせて nav-links に変更） -->
+  <nav id="global-nav" class="nav-links">
+    <a href="index.html">ホーム</a>
+    <a href="records/index.html">山行記録</a>
+    <a href="research.html">検索</a>
+    <a href="blog.html">日記</a>
+    <a href="about.html">自己紹介</a>
   </nav>
 
 </header>
+
+<script>
+  function toggleMenu() {
+    document.getElementById("global-nav").classList.toggle("active");
+  }
+</script>
+
