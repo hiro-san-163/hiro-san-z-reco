@@ -15,8 +15,8 @@ function loadPart(id, url) {
 const v = "20250210";
 
 // header / footer 読み込み
-loadPart("header", `parts/header.html?v=${v}`);
-loadPart("footer", `parts/footer.html?v=${v}`);
+loadPart("header", "parts/header.html?v=${v}");
+loadPart("footer", "parts/footer.html?v=${v}");
 
 // ヘッダ・フッタを読み込み
 function loadHeaderFooter() {
