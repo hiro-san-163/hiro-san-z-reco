@@ -1,0 +1,223 @@
+/* ========== 検索ページ専用 ========== */
+
+:root {
+  --bg: #f0f7f3;
+  --card: #ffffff;
+  --brand: #1c6b4f;
+  --brand-soft: #e4f2ec;
+  --muted: #567;
+}
+
+/* ===============================
+   ページヘッダー
+================================ */
+
+.search-header {
+  background: #ffffff;
+  padding: 1rem;
+  border-bottom: 1px solid #ddebe4;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.search-header h1 {
+  margin: 0 0 .75rem;
+  font-size: 1.3rem;
+  color: var(--brand);
+}
+
+/* ===============================
+   検索条件 操作パネル（確定）
+================================ */
+
+.filters {
+  display: grid;
+  grid-auto-flow: column;                 /* ★ 横方向に並べる */
+  grid-auto-columns: minmax(160px, 1fr);  /* ★ 各BOX幅 */
+  gap: .75rem;
+  align-items: end;
+
+  background: var(--brand-soft);
+  padding: .75rem;
+  border-radius: .75rem;
+  border: 1px solid #cfe2d8;
+}
+
+/* ===============================
+   疑似ラベル（HTML変更なし）
+   ※ select直下でも表示される方式
+================================ */
+
+.filters select,
+.filters input[type="number"] {
+  position: relative;
+}
+
+/* ラベル共通スタイル */
+.filters select::before,
+.filters input[type="number"]::before {
+  content: "";
+  display: block;
+  margin-bottom: .25rem;
+  font-size: .75rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* 各ラベル文言 */
+#year::before {
+  content: "年";
+}
+
+#area::before {
+  content: "山域";
+}
+
+#genre::before {
+  content: "ジャンル";
+}
+
+#sort::before {
+  content: "並び順";
+}
+
+#pageSize::before {
+  content: "表示件数";
+}
+
+/* ===============================
+   フォーム共通スタイル
+================================ */
+
+.filters select,
+.filters input[type="number"] {
+  height: 2.4rem;
+  padding: .45rem .65rem;
+  border-radius: .5rem;
+  border: 1px solid #cfe2d8;
+  background: #fff;
+  font-size: .9rem;
+}
+
+#pageSize {
+  max-width: 100px;
+  text-align: right;
+}
+
+/* ===============================
+   ツールバー
+================================ */
+
+.toolbar {
+  margin: .5rem 0 1rem;
+  color: var(--muted);
+}
+
+/* ===============================
+   カード一覧
+================================ */
+
+.list {
+  display: grid;
+  gap: .75rem;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid #e0eee8;
+  border-radius: .75rem;
+  padding: .75rem;
+  display: grid;
+  grid-template-columns: 140px 1fr 120px;
+  grid-template-areas:
+    "date title actions"
+    "meta meta actions";
+  gap: .25rem .75rem;
+}
+
+.card.is-focused {
+  outline: 2px solid var(--brand);
+  background: var(--brand-soft);
+}
+
+.card .date {
+  grid-area: date;
+  color: var(--muted);
+}
+
+.card .title {
+  grid-area: title;
+  font-weight: 600;
+}
+
+.card .meta {
+  grid-area: meta;
+  font-size: .9rem;
+  color: var(--muted);
+}
+
+.card .actions {
+  grid-area: actions;
+  text-align: right;
+}
+
+.card .btn {
+  background: var(--brand);
+  color: #fff;
+  padding: .4rem .6rem;
+  border-radius: .5rem;
+  font-size: .9rem;
+  text-decoration: none;
+}
+
+/* ===============================
+   ページャ
+================================ */
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .25rem;
+  margin: 1rem 0;
+}
+
+.pagination button {
+  padding: .4rem .6rem;
+  border-radius: .5rem;
+  border: 1px solid #cfe2d8;
+  background: #fff;
+}
+
+.pagination button.active {
+  background: var(--brand);
+  color: #fff;
+  border-color: var(--brand);
+}
+
+/* ===============================
+   空表示
+================================ */
+
+.empty {
+  text-align: center;
+  padding: 2rem;
+  color: var(--muted);
+}
+
+/* ===============================
+   レスポンシブ調整
+================================ */
+
+@media (max-width: 800px) {
+  .filters {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .filters {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+
+    <!-- ★ 追加：base（GitHub Pages のリポジトリ名） -->
+  <base href="/hiro-san-z-reco/">
+  
+  <title>トップページ - hiro-sanの山歩き</title>
+
+  <!-- CSS（相対パスで確実に読める形に修正） -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="favicon.ico">
+
+   <!-- スマホ対応 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+  <!-- ▼ 共通ヘッダー読み込み位置 ▼ -->
+  <div id="header"></div>
+
+  <!-- ▼ ページの内容ここから ▼ -->
+  <button class="menu-toggle" aria-label="メニュー切替">☰</button>
+
+  <div class="container">
+
+    <!-- Welcome セクション -->
+    <section class="welcome">
+      <h1>hiro-sanの山歩き</h1>
+      <p class="lead">
+        山を歩いた記録、日々のこと、気づいたことをまとめた小さな山小屋のような場所です。
+      </p>
+    </section>
+
+    <!-- サイト案内 -->
+    <section class="guide">
+      <h2>このサイトでできること</h2>
+
+      <div class="nav-cards">
+        <a href="records/index.html" class="nav-card">
+          <h3>📍 山行記録</h3>
+          <p>年別・山域別・ジャンル別に整理した記録</p>
+        </a>
+
+        <a href="research.html" class="nav-card">
+          <h3>🔍 山行検索</h3>
+          <p>ヤマレコデータから山行を検索</p>
+        </a>
+
+        <a href="blog.html" class="nav-card">
+          <h3>📖 日記</h3>
+          <p>Bloggerから取得した日々の記録</p>
+        </a>
+
+        <a href="about.html" class="nav-card">
+          <h3>👣 自己紹介</h3>
+          <p>自己紹介</p>
+        </a>
+
+	<a href="other.html" class="nav-card">
+          <h3>👣 その他諸々</h3>
+          <p>雑件とリンク集</p>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- 最新の山行記録 -->
+    <section class="latest">
+      <h2>最新の山行記録</h2>
+      <div class="blog cards" id="latest-cards"></div>
+    </section>
+
+  </div>
+  <!-- ▲ ページの内容ここまで ▲ -->
+
+  <!-- Blogger から最新5件取得 -->
+  <script src="js/blogfeed.js"></script>
+
+  <!-- ▼ 共通フッター／JS 読み込み ▼ -->
+  <div id="footer"></div>
+  <script src="js/include.js"></script>
+
+</body>
+</html>
+
