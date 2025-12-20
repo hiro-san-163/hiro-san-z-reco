@@ -6,7 +6,7 @@
   'use strict';
 
   /* ---------- データ取得 ---------- */
-  const resp = await fetch('records.json');
+  const resp = await fetch('data/records.json');
   if (!resp.ok) {
     console.error('records.json の読み込みに失敗しました');
     return;
