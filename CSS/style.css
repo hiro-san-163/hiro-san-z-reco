@@ -326,3 +326,36 @@ a:hover {
 .breadcrumb a:hover {
   opacity: 0.85;
 }
+
+/* ===================================
+   山行記録カード
+   =================================== */
+
+.record-card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.record-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.record-card a {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #0a4a2a;
+}
+
+.record-card a:hover {
+  opacity: 0.85;
+}
+
+.record-meta {
+  font-size: 0.9rem;
+  color: #666;
+}
