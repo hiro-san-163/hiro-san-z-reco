@@ -1,6 +1,8 @@
 // Blog/RSS -> JSON を取得してページにレンダリングする簡易モジュール
 const BLOG_BASE = 'https://hiro-san-163.blogspot.com';
-const BLOG_FEED_JSON = BLOG_BASE + '/feeds/posts/default?alt=json';
+// CORS回避のため、allorigins.winプロキシを使用
+const PROXY_URL = 'https://api.allorigins.win/get?url=';
+const BLOG_FEED_JSON = PROXY_URL + encodeURIComponent(BLOG_BASE + '/feeds/posts/default?alt=json');
 
 // 山行記録JSON
 const RECORDS_JSON = 'data/records.json';
@@ -21,7 +23,8 @@ async function fetchBlogJson(forceRefresh = false) {
     const res = await fetch(BLOG_FEED_JSON);
     if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
     
-    const data = await res.json();
+    const proxyData = await res.json();
+    const data = JSON.parse(proxyData.contents); // プロキシのcontentsをパース
     cachedEntries = data.feed.entry || [];
     cacheTimestamp = now;
     return cachedEntries;

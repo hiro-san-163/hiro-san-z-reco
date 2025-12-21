@@ -27,6 +27,12 @@
     <ul>
       <li><a href="https://hiro-san-163-daily.blogspot.com/" target="_blank">hiro-sanの山歩き ブログトップ</a></li>
     </ul>
+
+    <!-- 最新のブログ記事 -->
+    <section class="latest-blog">
+      <h2>最新のブログ記事</h2>
+      <div class="blog-cards" id="blog-cards"></div>
+    </section>
   </div>
   <!-- ▲ ページ内容ここまで ▲ -->
 
@@ -35,6 +41,17 @@
 
   <!-- include.js を読み込む（相対パス） -->
   <script src="JS/include.js"></script>
+
+  <!-- Bloggerフィード取得 -->
+  <script src="JS/blogfeed.js"></script>
+  <script>
+    // Bloggerから最新5件を取得（CORS回避のため、プロキシやサーバーサイドが必要だが、ここでは仮に）
+    // 注意: GitHub PagesではCORS制限があるため、実際には動作しない可能性あり
+    renderLatestBlogPosts({
+      target: '#blog-cards',
+      max: 5
+    });
+  </script>
 
 </body>
 </html>
