@@ -13,14 +13,15 @@ let cacheTimestamp = 0;
 const CACHE_DURATION = 5 * 60 * 1000; // 5分
 
 // ブログデータを取得（キャッシュ機能付き）
-async function fetchBlogJson(forceRefresh = false) {
+async function fetchBlogJson(blogUrl = BLOG_BASE, forceRefresh = false) {
   try {
     const now = Date.now();
     if (cachedEntries && !forceRefresh && (now - cacheTimestamp) < CACHE_DURATION) {
       return cachedEntries;
     }
 
-    const res = await fetch(BLOG_FEED_JSON);
+    const proxyUrl = PROXY_URL + encodeURIComponent(blogUrl + '/feeds/posts/default?alt=json');
+    const res = await fetch(proxyUrl);
     if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
     
     const proxyData = await res.json();
@@ -187,9 +188,9 @@ async function renderRecordsByGenre(genre) {
 // ===============================
 // Blogger 最新5件（トップページ用）
 // ===============================
-async function renderLatestBlogPosts({ max = 5, target = '#latest-cards' } = {}) {
+async function renderLatestBlogPosts({ max = 5, target = '#latest-cards', blogUrl = BLOG_BASE } = {}) {
   try {
-    const entries = await fetchBlogJson();
+    const entries = await fetchBlogJson(blogUrl);
     const parsed = entries.map(parseEntry);
 
     const container = document.querySelector(target);

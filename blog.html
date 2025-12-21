@@ -45,11 +45,11 @@
   <!-- Bloggerフィード取得 -->
   <script src="JS/blogfeed.js"></script>
   <script>
-    // Bloggerから最新5件を取得（CORS回避のため、プロキシやサーバーサイドが必要だが、ここでは仮に）
-    // 注意: GitHub PagesではCORS制限があるため、実際には動作しない可能性あり
+    // ひびのことブログから最新5件を取得
     renderLatestBlogPosts({
       target: '#blog-cards',
-      max: 5
+      max: 5,
+      blogUrl: 'https://hiro-san-163-daily.blogspot.com'
     });
   </script>
 
