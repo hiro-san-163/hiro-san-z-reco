@@ -2,6 +2,9 @@
 const BLOG_BASE = 'https://hiro-san-163.blogspot.com';
 const BLOG_FEED_JSON = BLOG_BASE + '/feeds/posts/default?alt=json';
 
+// 山行記録JSON
+const RECORDS_JSON = 'data/records.json';
+
 // キャッシュ用変数
 let cachedEntries = null;
 let cacheTimestamp = 0;
@@ -24,6 +27,27 @@ async function fetchBlogJson(forceRefresh = false) {
     return cachedEntries;
   } catch (e) {
     console.error('ブログフィード取得失敗:', e);
+    return [];
+  }
+}
+
+// 山行記録データを取得（キャッシュ機能付き）
+async function fetchRecordsJson(forceRefresh = false) {
+  try {
+    const now = Date.now();
+    if (cachedEntries && !forceRefresh && (now - cacheTimestamp) < CACHE_DURATION) {
+      return cachedEntries;
+    }
+
+    const res = await fetch(RECORDS_JSON);
+    if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
+    
+    const data = await res.json();
+    cachedEntries = Array.isArray(data) ? data : [];
+    cacheTimestamp = now;
+    return cachedEntries;
+  } catch (e) {
+    console.error('山行記録取得失敗:', e);
     return [];
   }
 }
@@ -57,6 +81,25 @@ function parseEntry(entry) {
     thumbnail,
     genre: genreMatch || '',
     region: regionMatch || ''
+  };
+}
+
+// 山行記録をパース
+function parseRecord(record) {
+  const title = record.title || '無題';
+  const date = record.date ? new Date(record.date).toLocaleDateString('ja-JP') : '';
+  const link = record.yamareco_url || '#';
+  const area = record.area || '';
+  const genre = record.genre || '';
+  
+  return {
+    title,
+    date,
+    year: record.date ? record.date.slice(0, 4) : '',
+    link,
+    thumbnail: '', // 山行記録にはサムネイルがない
+    genre,
+    region: area
   };
 }
 
@@ -94,13 +137,20 @@ async function renderLatestRecords({ max = 5, target = '#records-list' } = {}) {
   const entries = await fetchBlogJson();
   const parsed = entries.map(parseEntry);
   
+  // 山行記事のみフィルタリング（ジャンルがあるもの、またはタイトルに山行関連キーワード）
+  const mountainRecords = parsed.filter(record => {
+    const hasGenre = record.genre && record.genre.trim() !== '';
+    const hasMountainKeyword = /山行|登山|ハイキング|沢登り|縦走|雪山/i.test(record.title);
+    return hasGenre || hasMountainKeyword;
+  });
+  
   const container = document.querySelector(target);
   if (!container) {
     console.warn(`コンテナが見つかりません: ${target}`);
     return;
   }
   
-  renderToContainer(container, parsed, max);
+  renderToContainer(container, mountainRecords, max);
 }
 
 // フィルター関数を統合
