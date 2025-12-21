@@ -181,3 +181,53 @@ async function renderRecordsByArea(area) {
 async function renderRecordsByGenre(genre) {
   await renderRecordsByFilter(e => e.genre === genre, 'genre-results');
 }
+// ===============================
+// Blogger 最新5件（トップページ用）
+// ===============================
+async function renderLatestBlogPosts({ max = 5, target = '#latest-cards' } = {}) {
+  try {
+    const entries = await fetchBlogJson();
+    const parsed = entries.map(parseEntry);
+
+    const container = document.querySelector(target);
+    if (!container) {
+      console.warn(`コンテナが見つかりません: ${target}`);
+      return;
+    }
+
+    container.innerHTML = '';
+    parsed.slice(0, max).forEach(post => {
+      const div = document.createElement('div');
+      div.className = 'record-card';
+
+      if (post.thumbnail) {
+        const img = document.createElement('img');
+        img.src = post.thumbnail;
+        img.alt = post.title;
+        img.loading = 'lazy';
+        div.appendChild(img);
+      }
+
+      const a = document.createElement('a');
+      a.href = post.link;
+      a.textContent = post.title;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+
+      const meta = document.createElement('div');
+      meta.className = 'record-meta';
+      meta.textContent = [post.date, post.region, post.genre]
+        .filter(Boolean)
+        .join(' ');
+
+      div.appendChild(a);
+      div.appendChild(meta);
+
+      container.appendChild(div);
+    });
+
+  } catch (e) {
+    console.error('Blogger最新記事の表示に失敗:', e);
+  }
+}
+
