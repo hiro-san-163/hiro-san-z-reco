@@ -135,18 +135,10 @@ function renderToContainer(container, records, max = 20) {
 // 最新レコードをレンダリング
 async function renderLatestRecords({ max = 5, target = '#records-list' } = {}) {
   try {
-    const entries = await fetchBlogJson();
-    console.log('取得したエントリ数:', entries.length);
-    const parsed = entries.map(parseEntry);
+    const records = await fetchRecordsJson();
+    console.log('取得したレコード数:', records.length);
+    const parsed = records.map(parseRecord);
     console.log('パースしたレコード:', parsed.slice(0, 3)); // 最初の3件を表示
-    
-    // 山行記事のみフィルタリング（ジャンルがあるもの、またはタイトルに山行関連キーワード）
-    const mountainRecords = parsed.filter(record => {
-      const hasGenre = record.genre && record.genre.trim() !== '';
-      const hasMountainKeyword = /山行|登山|ハイキング|沢登り|縦走|雪山/i.test(record.title);
-      return hasGenre || hasMountainKeyword;
-    });
-    console.log('フィルタリング後の山行レコード数:', mountainRecords.length);
     
     const container = document.querySelector(target);
     if (!container) {
@@ -154,7 +146,7 @@ async function renderLatestRecords({ max = 5, target = '#records-list' } = {}) {
       return;
     }
     
-    renderToContainer(container, mountainRecords, max);
+    renderToContainer(container, parsed, max);
   } catch (error) {
     console.error('renderLatestRecords エラー:', error);
   }
