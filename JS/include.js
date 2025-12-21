@@ -1,5 +1,5 @@
 function loadPart(id, url) {
-  fetch(url)
+  return fetch(url)
     .then(res => {
       if (!res.ok) throw new Error("Failed load: " + url);
       return res.text();
@@ -7,6 +7,7 @@ function loadPart(id, url) {
     .then(html => {
       const target = document.getElementById(id);
       if (target) target.innerHTML = html;
+      return html;
     })
     .catch(err => console.error(err));
 }
@@ -15,7 +16,9 @@ function loadPart(id, url) {
 const v = "20250210";
 
 // header / footer 読み込み
-loadPart("header", "parts/header.html?v=${v}");
+loadPart("header", "parts/header.html?v=${v}").then(() => {
+  initNavToggle();
+});
 loadPart("footer", "parts/footer.html?v=${v}");
 
 // ヘッダ・フッタを読み込み
