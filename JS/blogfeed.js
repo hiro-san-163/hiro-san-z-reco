@@ -204,19 +204,24 @@ async function renderLatestBlogPosts({ max = 5, target = '#latest-cards', blogUr
       const div = document.createElement('div');
       div.className = 'record-card';
 
+      const a = document.createElement('a');
+      a.href = post.link;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+
       if (post.thumbnail) {
         const img = document.createElement('img');
         img.src = post.thumbnail;
         img.alt = post.title;
         img.loading = 'lazy';
-        div.appendChild(img);
+        a.appendChild(img);
       }
 
-      const a = document.createElement('a');
-      a.href = post.link;
-      a.textContent = post.title;
-      a.target = '_blank';
-      a.rel = 'noopener noreferrer';
+      // タイトルをaタグに追加
+      const titleSpan = document.createElement('span');
+      titleSpan.textContent = post.title;
+      titleSpan.className = 'post-title';
+      a.appendChild(titleSpan);
 
       const meta = document.createElement('div');
       meta.className = 'record-meta';
