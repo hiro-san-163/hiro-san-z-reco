@@ -354,8 +354,32 @@ a:hover {
 .record-card a:hover {
   opacity: 0.85;
 }
+.records-note {
+  font-size: 0.9em;
+  color: #555;
+  margin-bottom: 1em;
+}
+
+.records-navigation {
+  margin-top: 2em;
+  padding-top: 1em;
+  border-top: 1px solid #ddd;
+}
+
+.records-navigation ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.records-navigation li.divider {
+  margin: 0.5em 0;
+  border-top: 1px dashed #ccc;
+}
+
+
 
 .record-meta {
   font-size: 0.9rem;
   color: #666;
 }
+
