@@ -2,22 +2,30 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-     <!-- ★ 追加：base（GitHub Pages のリポジトリ名） -->
+
+  <!-- GitHub Pages 用 base -->
   <base href="/hiro-san-z-reco/">
- <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>山行記録 - 年別 | hiro-sanの山歩き</title>
+
   <link rel="stylesheet" href="CSS/style.css">
   <link rel="icon" href="favicon.ico">
 </head>
-<body>
-  <!-- ▼ 共通ヘッダー読み込み位置 ▼ -->
-  <div id="header"></div> 
 
-  <div class="container">
+<body>
+  <!-- 共通ヘッダー -->
+  <div id="header"></div>
+
+  <main class="container main-content">
+    <!-- ブレッドクラム -->
     <nav class="breadcrumb"></nav>
-    
+
     <h1>山行記録 - 年別</h1>
-    <p>年ごとに分類された山行記録です。ラベルをクリックすると対応する記事一覧が表示されます。</p>
+    <p>
+      年ごとに分類された山行記録です。
+      ラベルをクリックすると対応する記事一覧が表示されます。
+    </p>
 
     <div style="display:flex; gap:20px;">
       <!-- ラベルボタン -->
@@ -35,42 +43,64 @@
         <p><a id="more-link" href="#" target="_blank">▶ もっと見る</a></p>
       </div>
     </div>
-  </div>
+  </main>
 
-  <!-- Bloggerのラベル別フィードを取得 -->
+  <!-- 共通フッター -->
+  <div id="footer"></div>
+
+  <!-- 共通JS -->
+  <script src="JS/include.js"></script>
+
+  <!-- 共通初期化 + ブレッドクラム -->
+  <script>
+    loadHeaderFooter();
+    initNavToggle();
+
+    renderBreadcrumb([
+      { label: "ホーム", url: "/index.html" },
+      { label: "山行記録", url: "/records/index.html" },
+      { label: "年別" }
+    ]);
+  </script>
+
+  <!-- Blogger ラベル別フィード取得 -->
   <script>
     const params = new URLSearchParams(window.location.search);
     const labelName = params.get("label") || "2025";
 
-    document.getElementById("list-title").textContent = labelName + " の最新5件";
+    document.getElementById("list-title").textContent =
+      labelName + " の最新5件";
 
-    const feedUrl = "https://hiro-san-163.blogspot.com/feeds/posts/default/-/" 
-                  + encodeURIComponent(labelName) 
-                  + "?alt=json&max-results=5";
+    const feedUrl =
+      "https://hiro-san-163.blogspot.com/feeds/posts/default/-/" +
+      encodeURIComponent(labelName) +
+      "?alt=json&max-results=5";
 
-    const moreUrl = "https://hiro-san-163.blogspot.com/search/label/" + encodeURIComponent(labelName);
+    const moreUrl =
+      "https://hiro-san-163.blogspot.com/search/label/" +
+      encodeURIComponent(labelName);
+
     document.getElementById("more-link").href = moreUrl;
 
     fetch(feedUrl)
       .then(r => r.json())
       .then(data => {
-        let posts = data.feed.entry || [];
+        const posts = data.feed.entry || [];
         let html = "";
         posts.forEach(post => {
-          let title = post.title.$t;
-          let link = post.link.find(l => l.rel === "alternate").href;
-          let date = new Date(post.published.$t).toLocaleDateString();
+          const title = post.title.$t;
+          const link = post.link.find(l => l.rel === "alternate").href;
+          const date = new Date(post.published.$t).toLocaleDateString();
           html += `<li><small>${date}</small> <a href="${link}" target="_blank">${title}</a></li>`;
         });
-        document.querySelector("#latest-list ul").innerHTML = html;
+        document.querySelector("#latest-list ul").innerHTML =
+          html || "<li>記事が見つかりません</li>";
       })
       .catch(() => {
-        document.querySelector("#latest-list ul").innerHTML = "<li>記事が見つかりません</li>";
+        document.querySelector("#latest-list ul").innerHTML =
+          "<li>記事が見つかりません</li>";
       });
   </script>
-  
-   <!-- ▼ 共通フッター／JS 読み込み ▼ -->
-  <div id="footer"></div>
-  <script src="JS/include.js"></script>
+
 </body>
 </html>
