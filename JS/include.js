@@ -67,3 +67,46 @@ function renderBreadcrumb(items) {
   html += "</ul>";
   nav.innerHTML = html;
 }
+// ================================
+// breadcrumb 最終共通定義
+// ================================
+
+const SITE_ROOT = "/hiro-san-z-reco/";
+
+const BREADCRUMB_MAP = {
+  "home": [
+    { label: "ホーム" }
+  ],
+
+  "records": [
+    { label: "ホーム", url: SITE_ROOT },
+    { label: "山行記録" }
+  ],
+
+  "records-year": [
+    { label: "ホーム", url: SITE_ROOT },
+    { label: "山行記録", url: SITE_ROOT + "records/" },
+    { label: "年別" }
+  ],
+
+  "records-area": [
+    { label: "ホーム", url: SITE_ROOT },
+    { label: "山行記録", url: SITE_ROOT + "records/" },
+    { label: "山域別" }
+  ],
+
+  "records-genre": [
+    { label: "ホーム", url: SITE_ROOT },
+    { label: "山行記録", url: SITE_ROOT + "records/" },
+    { label: "ジャンル別" }
+  ]
+};
+
+function setBreadcrumb(key) {
+  const items = BREADCRUMB_MAP[key];
+  if (!items) {
+    console.warn("Breadcrumb 未定義:", key);
+    return;
+  }
+  renderBreadcrumb(items);
+}
