@@ -66,6 +66,19 @@
   <script src="JS/include.js"></script>
   <script src="JS/blogfeed.js"></script>
   
+  //breadclumのJS
+  <script>
+  loadHeaderFooter();
+  initNavToggle();
+
+  renderBreadcrumb([
+    { label: "ホーム", url: "/index.html" },
+    { label: "山行記録" }
+  ]);
+
+  renderLatestRecords({ max: 20, target: "#records-list" });
+</script>
+
 </body>
 
 </html>
