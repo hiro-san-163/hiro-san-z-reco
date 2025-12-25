@@ -48,3 +48,22 @@ function initNavToggle() {
     }
   });
 }
+//breadcrum 共通化
+
+function renderBreadcrumb(items) {
+  const nav = document.querySelector(".breadcrumb");
+  if (!nav) return;
+
+  let html = "<ul>";
+
+  items.forEach((item, index) => {
+    if (item.url && index !== items.length - 1) {
+      html += `<li><a href="${item.url}">${item.label}</a></li>`;
+    } else {
+      html += `<li>${item.label}</li>`;
+    }
+  });
+
+  html += "</ul>";
+  nav.innerHTML = html;
+}
