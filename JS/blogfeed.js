@@ -205,39 +205,63 @@ async function renderLatestBlogPosts({ max = 5, target = '#latest-cards', blogUr
       if (index === 0) {
         // 最新の1件はカード形式
         div.className = 'record-card';
+
+        if (post.thumbnail) {
+          const img = document.createElement('img');
+          img.src = post.thumbnail;
+          img.alt = post.title;
+          img.loading = 'lazy';
+          div.appendChild(img);
+        }
+
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'card-content';
+
+        const a = document.createElement('a');
+        a.href = post.link;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+
+        const titleSpan = document.createElement('span');
+        titleSpan.textContent = post.title;
+        titleSpan.className = 'post-title';
+        a.appendChild(titleSpan);
+
+        contentDiv.appendChild(a);
+
+        const meta = document.createElement('div');
+        meta.className = 'record-meta';
+        meta.textContent = [post.date, post.region, post.genre]
+          .filter(Boolean)
+          .join(' ');
+
+        contentDiv.appendChild(meta);
+
+        div.appendChild(contentDiv);
       } else {
         // 残りはリスト形式
         div.className = 'record-list';
+
+        const a = document.createElement('a');
+        a.href = post.link;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+
+        const titleSpan = document.createElement('span');
+        titleSpan.textContent = post.title;
+        titleSpan.className = 'post-title';
+        a.appendChild(titleSpan);
+
+        div.appendChild(a);
+
+        const meta = document.createElement('div');
+        meta.className = 'record-meta';
+        meta.textContent = [post.date, post.region, post.genre]
+          .filter(Boolean)
+          .join(' ');
+
+        div.appendChild(meta);
       }
-
-      const a = document.createElement('a');
-      a.href = post.link;
-      a.target = '_blank';
-      a.rel = 'noopener noreferrer';
-
-      if (post.thumbnail && index === 0) {
-        // カード形式のみサムネイルを表示
-        const img = document.createElement('img');
-        img.src = post.thumbnail;
-        img.alt = post.title;
-        img.loading = 'lazy';
-        a.appendChild(img);
-      }
-
-      // タイトルをaタグに追加
-      const titleSpan = document.createElement('span');
-      titleSpan.textContent = post.title;
-      titleSpan.className = 'post-title';
-      a.appendChild(titleSpan);
-
-      const meta = document.createElement('div');
-      meta.className = 'record-meta';
-      meta.textContent = [post.date, post.region, post.genre]
-        .filter(Boolean)
-        .join(' ');
-
-      div.appendChild(a);
-      div.appendChild(meta);
 
       container.appendChild(div);
     });
