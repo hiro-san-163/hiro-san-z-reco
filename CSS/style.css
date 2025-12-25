@@ -383,3 +383,24 @@ a:hover {
   color: #666;
 }
 
+/* ===================================
+   山行記録リスト（トップページ用）
+   =================================== */
+
+.record-list {
+  margin-bottom: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.record-list a {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #0a4a2a;
+}
+
+.record-list a:hover {
+  opacity: 0.85;
+}
+

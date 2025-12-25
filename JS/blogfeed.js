@@ -200,16 +200,23 @@ async function renderLatestBlogPosts({ max = 5, target = '#latest-cards', blogUr
     }
 
     container.innerHTML = '';
-    parsed.slice(0, max).forEach(post => {
+    parsed.slice(0, max).forEach((post, index) => {
       const div = document.createElement('div');
-      div.className = 'record-card';
+      if (index === 0) {
+        // 最新の1件はカード形式
+        div.className = 'record-card';
+      } else {
+        // 残りはリスト形式
+        div.className = 'record-list';
+      }
 
       const a = document.createElement('a');
       a.href = post.link;
       a.target = '_blank';
       a.rel = 'noopener noreferrer';
 
-      if (post.thumbnail) {
+      if (post.thumbnail && index === 0) {
+        // カード形式のみサムネイルを表示
         const img = document.createElement('img');
         img.src = post.thumbnail;
         img.alt = post.title;
