@@ -16,39 +16,36 @@ function loadPart(id, url) {
 const v = "20250210";
 
 // header / footer 読み込み
-loadPart("header", "parts/header.html?v=${v}").then(() => {
+loadPart("header", `parts/header.html?v=${v}`).then(() => {
   initNavToggle();
 });
-loadPart("footer", "parts/footer.html?v=${v}");
+loadPart("footer", `parts/footer.html?v=${v}`);
 
-// ヘッダ・フッタを読み込み
-function loadHeaderFooter() {
-  // すでに読み込んでいるので何もしない
-}
+// ダミー（既存HTMLとの互換用）
+function loadHeaderFooter() {}
 
 // ナビゲーション トグル初期化
 function initNavToggle() {
   const toggleBtn = document.getElementById('nav-toggle');
   const mainNav = document.getElementById('main-nav');
 
-  if (!toggleBtn || !mainNav) {
-    console.warn('ナビゲーション要素が見つかりません');
-    return;
-  }
+  if (!toggleBtn || !mainNav) return;
 
   toggleBtn.addEventListener('click', (ev) => {
     ev.preventDefault();
     mainNav.classList.toggle('nav-active');
   });
 
-  // 外側クリックでナビを閉じる
   document.addEventListener('click', (ev) => {
     if (!ev.target.closest('#nav-toggle') && !ev.target.closest('#main-nav')) {
       mainNav.classList.remove('nav-active');
     }
   });
 }
-//breadcrum 共通化
+
+// ================================
+// breadcrumb 共通処理
+// ================================
 
 function renderBreadcrumb(items) {
   const nav = document.querySelector(".breadcrumb");
@@ -67,38 +64,42 @@ function renderBreadcrumb(items) {
   html += "</ul>";
   nav.innerHTML = html;
 }
-// ================================
-// breadcrumb 最終共通定義
-// ================================
 
-const SITE_ROOT = "/hiro-san-z-reco/";
+// ================================
+// breadcrumb 最終定義（確定版）
+// ================================
 
 const BREADCRUMB_MAP = {
   "home": [
     { label: "ホーム" }
   ],
 
-  "records": [
-    { label: "ホーム", url: SITE_ROOT },
+  "records-index": [
+    { label: "ホーム", url: "index.html" },
     { label: "山行記録" }
   ],
 
   "records-year": [
-    { label: "ホーム", url: SITE_ROOT },
-    { label: "山行記録", url: SITE_ROOT + "records/" },
+    { label: "ホーム", url: "index.html" },
+    { label: "山行記録", url: "records/index.html" },
     { label: "年別" }
   ],
 
   "records-area": [
-    { label: "ホーム", url: SITE_ROOT },
-    { label: "山行記録", url: SITE_ROOT + "records/" },
+    { label: "ホーム", url: "index.html" },
+    { label: "山行記録", url: "records/index.html" },
     { label: "山域別" }
   ],
 
   "records-genre": [
-    { label: "ホーム", url: SITE_ROOT },
-    { label: "山行記録", url: SITE_ROOT + "records/" },
+    { label: "ホーム", url: "index.html" },
+    { label: "山行記録", url: "records/index.html" },
     { label: "ジャンル別" }
+  ],
+
+  "logs-index": [
+    { label: "ホーム", url: "index.html" },
+    { label: "山行ログ（ヤマレコ）" }
   ]
 };
 
@@ -110,8 +111,3 @@ function setBreadcrumb(key) {
   }
   renderBreadcrumb(items);
 }
-
-BREADCRUMB_MAP["logs-index"] = [
-  { label: "ホーム", url: "/" },
-  { label: "山行ログ（ヤマレコ）" }
-];
