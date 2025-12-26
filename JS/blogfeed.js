@@ -81,25 +81,28 @@ function parseEntry(entry) {
   
   if (entry.content?.['$t']) {
     const contentText = entry.content.$t.replace(/<[^>]*>/g, '').trim();
+    console.log('Content text:', contentText); // デバッグ用
     
     // 実施日: を探す
-    const dateMatch = contentText.match(/実施日:\s*(.+?)(?:\n|$)/);
+    const dateMatch = contentText.match(/実施日:\s*([^\n\r]+)/);
     if (dateMatch) date = dateMatch[1].trim();
     
     // 山域: を探す
-    const regionMatch = contentText.match(/山域:\s*(.+?)(?:\n|$)/);
+    const regionMatch = contentText.match(/山域:\s*([^\n\r]+)/);
     if (regionMatch) region = regionMatch[1].trim();
     
     // ジャンル: を探す
-    const genreMatch = contentText.match(/ジャンル:\s*(.+?)(?:\n|$)/);
+    const genreMatch = contentText.match(/ジャンル:\s*([^\n\r]+)/);
     if (genreMatch) genre = genreMatch[1].trim();
     
     // 山行概要: を探す
-    const summaryMatch = contentText.match(/山行概要:\s*(.+?)(?:\n|$)/s);
+    const summaryMatch = contentText.match(/山行概要:\s*([\s\S]*)/);
     if (summaryMatch) {
       const fullSummary = summaryMatch[1].trim();
       summary = fullSummary.substring(0, 100) + (fullSummary.length > 100 ? '...' : '');
     }
+    
+    console.log('Extracted:', { date, region, genre, summary }); // デバッグ用
   }
   
   return {
@@ -304,6 +307,7 @@ async function renderLatestBlogPosts({ max = 5, target = '#latest-cards', blogUr
   try {
     const entries = await fetchBlogJson(blogUrl);
     const parsed = entries.map(parseEntry);
+    console.log('Parsed entries:', parsed); // デバッグ用
 
     const container = document.querySelector(target);
     if (!container) {
