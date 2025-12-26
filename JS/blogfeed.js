@@ -101,8 +101,6 @@ function parseEntry(entry) {
     // 代表写真
     const imgEl = doc.querySelector('.main-photo img');
     if (imgEl) thumbnail = imgEl.src;
-    
-    console.log('Extracted:', { title, date, region, genre, summary, thumbnail }); // デバッグ用
   }
   
   return {
@@ -307,7 +305,6 @@ async function renderLatestBlogPosts({ max = 5, target = '#latest-cards', blogUr
   try {
     const entries = await fetchBlogJson(blogUrl);
     const parsed = entries.map(parseEntry);
-    console.log('Parsed entries:', parsed); // デバッグ用
 
     const container = document.querySelector(target);
     if (!container) {
