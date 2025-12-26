@@ -2,27 +2,28 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8">
-
-    <!-- ★ 追加：base（GitHub Pages のリポジトリ名） -->
   <base href="/hiro-san-z-reco/">
-  
+
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="hiro-sanの山行記録です">
   <title>山行記録 - hiro-sanの山歩き</title>
+
   <link rel="stylesheet" href="CSS/style.css">
   <link rel="icon" href="favicon.ico">
 </head>
+
 <body>
-  <!-- ▼ 共通ヘッダー読み込み位置 ▼ -->
+  <!-- 共通ヘッダー -->
   <div id="header"></div>
 
-
   <main class="container main-content">
-  <nav class="breadcrumb">
-    <ul></ul>
-  </nav>
+
+    <!-- breadcrumb（中身はJSで生成） -->
+    <nav class="breadcrumb"></nav>
 
     <h1 class="sr-only">山行記録</h1>
+
+    <!-- 主導線 -->
     <nav class="sub-nav">
       <a href="records/year.html">年別</a>
       <a href="records/area.html">山域別</a>
@@ -32,60 +33,46 @@
     <section>
       <h2>山行記録一覧</h2>
 
-      <!-- ★ 追加：記録の性格を説明する案内文 -->
-  <p class="records-note">
-    ここでは、ヤマレコに投稿した山行をもとに、
-    ブログ用にまとめた山行記録を掲載しています。
-    行動データから山行を探したい場合は
-    <a href="/logs/">山行ログ（ヤマレコ）</a>
-    をご覧ください。
-  </p>
+      <p class="records-note">
+        ここでは、ヤマレコに投稿した山行をもとに、
+        ブログ用にまとめた山行記録を掲載しています。
+        行動データから山行を探したい場合は
+        <a href="logs/">山行ログ（ヤマレコ）</a>
+        をご覧ください。
+      </p>
+
       <div id="records-list"></div>
 
-      <!-- ★ 追加：別の探し方への導線 -->
-  <div class="records-navigation">
-    <h3>別の見方</h3>
-    <ul>
-      <li><a href="records/year.html">年別に見る（ブログ記録）</a></li>
-      <li><a href="records/area.html">山域別に見る（ブログ記録）</a></li>
-      <li><a href="records/genre.html">ジャンル別に見る（ブログ記録）</a></li>
-      <li class="divider"></li>
-      <li><a href="/logs/">山行ログ一覧（ヤマレコ）</a></li>
-    </ul>
-  </div>
-
+      <!-- 補助導線 -->
+      <div class="records-navigation">
+        <h3>別の見方</h3>
+        <ul>
+          <li><a href="records/year.html">年別に見る（ブログ記録）</a></li>
+          <li><a href="records/area.html">山域別に見る（ブログ記録）</a></li>
+          <li><a href="records/genre.html">ジャンル別に見る（ブログ記録）</a></li>
+          <li class="divider"></li>
+          <li><a href="logs/">山行ログ一覧（ヤマレコ）</a></li>
+        </ul>
+      </div>
     </section>
+
   </main>
 
-  
-  <script>
-    loadHeaderFooter();
-    initNavToggle();
-    renderLatestRecords({ max: 20, target: '#records-list' });
-  </script>
-  <!-- ▼ 共通フッター／JS 読み込み ▼ -->
+  <!-- 共通フッター -->
   <div id="footer"></div>
+
+  <!-- JS -->
   <script src="JS/include.js"></script>
   <script src="JS/blogfeed.js"></script>
 
-   <script>
-  loadHeaderFooter();
-  initNavToggle();
-
-  renderBreadcrumb([
-    { label: "ホーム", url: "/hiro-san-z-reco/"},
-    { label: "山行記録" }
-  ]);
-
-  renderLatestRecords({ max: 20, target: "#records-list" });
-</script>
-
-<script>
-  setBreadcrumb("records-index");
-</script>
+  <!-- breadcrumb 指定（1行） -->
+  <script>
+    setBreadcrumb("records-index");
+    renderLatestRecords({ max: 20, target: "#records-list" });
+  </script>
 
 </body>
-
 </html>
+
 
 
