@@ -77,6 +77,12 @@ function parseEntry(entry) {
   const genreMatch = labels.find(l => /(沢登り|ハイキング|縦走|雪山|街道|トレーニング)/i.test(l));
   const regionMatch = labels.find(l => /(近畿|関東|中部|北海道|東北|中国|四国|九州)/i.test(l));
   
+  let summary = '';
+  if (entry.content?.['$t']) {
+    const text = entry.content.$t.replace(/<[^>]*>/g, '').trim();
+    summary = text.substring(0, 100) + (text.length > 100 ? '...' : '');
+  }
+  
   return {
     title,
     date: published,
@@ -84,7 +90,8 @@ function parseEntry(entry) {
     link,
     thumbnail,
     genre: genreMatch || '',
-    region: regionMatch || ''
+    region: regionMatch || '',
+    summary
   };
 }
 
@@ -323,6 +330,13 @@ async function renderLatestBlogPosts({ max = 5, target = '#latest-cards', blogUr
 
         contentDiv.appendChild(meta);
 
+        if (post.summary) {
+          const summaryDiv = document.createElement('div');
+          summaryDiv.className = 'record-summary';
+          summaryDiv.textContent = post.summary;
+          contentDiv.appendChild(summaryDiv);
+        }
+
         div.appendChild(contentDiv);
       } else {
         // 残りはリスト形式
@@ -347,6 +361,13 @@ async function renderLatestBlogPosts({ max = 5, target = '#latest-cards', blogUr
           .join(' ');
 
         div.appendChild(meta);
+
+        if (post.summary) {
+          const summaryDiv = document.createElement('div');
+          summaryDiv.className = 'record-summary';
+          summaryDiv.textContent = post.summary;
+          div.appendChild(summaryDiv);
+        }
       }
 
       container.appendChild(div);
