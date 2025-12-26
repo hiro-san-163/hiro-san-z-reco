@@ -73,24 +73,43 @@ function parseEntry(entry) {
     thumbnail = match?.[1] || '';
   }
   
-  const labels = entry.category?.map(c => c.term) || [];
-  const genreMatch = labels.find(l => /(沢登り|ハイキング|縦走|雪山|街道|トレーニング)/i.test(l));
-  const regionMatch = labels.find(l => /(近畿|関東|中部|北海道|東北|中国|四国|九州)/i.test(l));
-  
+  // 本文から項目を抽出
+  let date = published;
+  let region = '';
+  let genre = '';
   let summary = '';
+  
   if (entry.content?.['$t']) {
-    const text = entry.content.$t.replace(/<[^>]*>/g, '').trim();
-    summary = text.substring(0, 100) + (text.length > 100 ? '...' : '');
+    const contentText = entry.content.$t.replace(/<[^>]*>/g, '').trim();
+    
+    // 実施日: を探す
+    const dateMatch = contentText.match(/実施日:\s*(.+?)(?:\n|$)/);
+    if (dateMatch) date = dateMatch[1].trim();
+    
+    // 山域: を探す
+    const regionMatch = contentText.match(/山域:\s*(.+?)(?:\n|$)/);
+    if (regionMatch) region = regionMatch[1].trim();
+    
+    // ジャンル: を探す
+    const genreMatch = contentText.match(/ジャンル:\s*(.+?)(?:\n|$)/);
+    if (genreMatch) genre = genreMatch[1].trim();
+    
+    // 山行概要: を探す
+    const summaryMatch = contentText.match(/山行概要:\s*(.+?)(?:\n|$)/s);
+    if (summaryMatch) {
+      const fullSummary = summaryMatch[1].trim();
+      summary = fullSummary.substring(0, 100) + (fullSummary.length > 100 ? '...' : '');
+    }
   }
   
   return {
     title,
-    date: published,
-    year: published.slice(0, 4),
+    date,
+    year: date.slice(0, 4),
     link,
     thumbnail,
-    genre: genreMatch || '',
-    region: regionMatch || '',
+    genre,
+    region,
     summary
   };
 }
