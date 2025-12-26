@@ -96,44 +96,21 @@ function parseRecord(record) {
   const area = record.area || '';
   const genre = record.genre || '';
   const summary = record.summary || '';
+  const recordId = record.record_id;
+  
+  // ヤマレコの画像URLを推測
+  const thumbnail = recordId ? `https://www.yamareco.com/modules/yamareco/photo/${recordId}/1.jpg` : '';
   
   return {
     title,
     date,
     year: record.date ? record.date.slice(0, 4) : '',
     link,
-    thumbnail: '', // 後で取得
+    thumbnail,
     genre,
     region: area,
     summary
   };
-}
-
-// ヤマレコからサムネイルを取得
-async function fetchYamarecoThumbnail(url) {
-  try {
-    const proxyUrl = PROXY_URL + encodeURIComponent(url);
-    const res = await fetch(proxyUrl);
-    if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
-    
-    const proxyData = await res.json();
-    const html = proxyData.contents;
-    
-    // imgタグから最初のsrcを取得
-    const imgMatch = html.match(/<img[^>]+src=["']([^"']+)["']/i);
-    if (imgMatch) {
-      let src = imgMatch[1];
-      // 相対URLを絶対URLに変換
-      if (src.startsWith('/')) {
-        src = 'https://www.yamareco.com' + src;
-      }
-      // サムネイルサイズに変更（もし可能なら）
-      return src;
-    }
-  } catch (e) {
-    console.error('ヤマレコサムネイル取得失敗:', e);
-  }
-  return '';
 }
 
 // DOM要素を作成
@@ -175,11 +152,6 @@ async function renderLatestRecords({ max = 5, target = '#records-list' } = {}) {
     // 最新5件を取得
     const latestRecords = parsed.slice(0, max);
     
-    // 最初のレコードのサムネイルを取得
-    if (latestRecords.length > 0) {
-      latestRecords[0].thumbnail = await fetchYamarecoThumbnail(latestRecords[0].link);
-    }
-    
     const container = document.querySelector(target);
     if (!container) {
       console.warn(`コンテナが見つかりません: ${target}`);
@@ -201,6 +173,7 @@ async function renderLatestRecords({ max = 5, target = '#records-list' } = {}) {
           img.alt = record.title;
           img.loading = 'lazy';
           img.className = 'record-thumbnail';
+          img.onerror = () => img.style.display = 'none';
           div.appendChild(img);
         }
         
