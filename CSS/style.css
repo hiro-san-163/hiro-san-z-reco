@@ -418,3 +418,76 @@ a:hover {
   opacity: 0.85;
 }
 
+/* ===================================
+   最新山行記録（records/index.html用）
+   =================================== */
+
+.record-card-featured {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.record-thumbnail {
+  width: 200px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.record-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.record-title a {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #0a4a2a;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.record-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.record-summary {
+  font-size: 0.9rem;
+  color: #444;
+  line-height: 1.5;
+}
+
+.record-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.record-list-item a {
+  font-weight: 600;
+  color: #0a4a2a;
+  flex: 1;
+}
+
+.record-list-item .record-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0;
+}
+

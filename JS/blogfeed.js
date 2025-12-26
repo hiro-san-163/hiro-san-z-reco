@@ -95,16 +95,45 @@ function parseRecord(record) {
   const link = record.yamareco_url || '#';
   const area = record.area || '';
   const genre = record.genre || '';
+  const summary = record.summary || '';
   
   return {
     title,
     date,
     year: record.date ? record.date.slice(0, 4) : '',
     link,
-    thumbnail: '', // 山行記録にはサムネイルがない
+    thumbnail: '', // 後で取得
     genre,
-    region: area
+    region: area,
+    summary
   };
+}
+
+// ヤマレコからサムネイルを取得
+async function fetchYamarecoThumbnail(url) {
+  try {
+    const proxyUrl = PROXY_URL + encodeURIComponent(url);
+    const res = await fetch(proxyUrl);
+    if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
+    
+    const proxyData = await res.json();
+    const html = proxyData.contents;
+    
+    // imgタグから最初のsrcを取得
+    const imgMatch = html.match(/<img[^>]+src=["']([^"']+)["']/i);
+    if (imgMatch) {
+      let src = imgMatch[1];
+      // 相対URLを絶対URLに変換
+      if (src.startsWith('/')) {
+        src = 'https://www.yamareco.com' + src;
+      }
+      // サムネイルサイズに変更（もし可能なら）
+      return src;
+    }
+  } catch (e) {
+    console.error('ヤマレコサムネイル取得失敗:', e);
+  }
+  return '';
 }
 
 // DOM要素を作成
@@ -142,7 +171,14 @@ async function renderLatestRecords({ max = 5, target = '#records-list' } = {}) {
     const records = await fetchRecordsJson();
     console.log('取得したレコード数:', records.length);
     const parsed = records.map(parseRecord);
-    console.log('パースしたレコード:', parsed.slice(0, 3)); // 最初の3件を表示
+    
+    // 最新5件を取得
+    const latestRecords = parsed.slice(0, max);
+    
+    // 最初のレコードのサムネイルを取得
+    if (latestRecords.length > 0) {
+      latestRecords[0].thumbnail = await fetchYamarecoThumbnail(latestRecords[0].link);
+    }
     
     const container = document.querySelector(target);
     if (!container) {
@@ -150,7 +186,84 @@ async function renderLatestRecords({ max = 5, target = '#records-list' } = {}) {
       return;
     }
     
-    renderToContainer(container, parsed, max);
+    container.innerHTML = '';
+    
+    latestRecords.forEach((record, index) => {
+      if (index === 0) {
+        // 最新1件: カード形式
+        const div = document.createElement('div');
+        div.className = 'record-card-featured';
+        
+        // 写真
+        if (record.thumbnail) {
+          const img = document.createElement('img');
+          img.src = record.thumbnail;
+          img.alt = record.title;
+          img.loading = 'lazy';
+          img.className = 'record-thumbnail';
+          div.appendChild(img);
+        }
+        
+        // 右側のコンテンツ
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'record-content';
+        
+        // タイトル
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'record-title';
+        const a = document.createElement('a');
+        a.href = record.link;
+        a.textContent = record.title;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        titleDiv.appendChild(a);
+        contentDiv.appendChild(titleDiv);
+        
+        // 実施日、山域、ジャンル
+        const metaDiv = document.createElement('div');
+        metaDiv.className = 'record-meta';
+        metaDiv.innerHTML = `
+          <span class="record-date">${record.date}</span>
+          <span class="record-area">${record.region}</span>
+          <span class="record-genre">${record.genre}</span>
+        `;
+        contentDiv.appendChild(metaDiv);
+        
+        // 感想 (100字程度)
+        if (record.summary && record.summary.trim()) {
+          const summaryDiv = document.createElement('div');
+          summaryDiv.className = 'record-summary';
+          const truncatedSummary = record.summary.length > 100 ? record.summary.substring(0, 100) + '...' : record.summary;
+          summaryDiv.textContent = truncatedSummary;
+          contentDiv.appendChild(summaryDiv);
+        }
+        
+        div.appendChild(contentDiv);
+        container.appendChild(div);
+      } else {
+        // 残り4件: リスト形式
+        const div = document.createElement('div');
+        div.className = 'record-list-item';
+        
+        const a = document.createElement('a');
+        a.href = record.link;
+        a.textContent = record.title;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        div.appendChild(a);
+        
+        const meta = document.createElement('div');
+        meta.className = 'record-meta';
+        meta.innerHTML = `
+          <span class="record-date">${record.date}</span>
+          <span class="record-area">${record.region}</span>
+          <span class="record-genre">${record.genre}</span>
+        `;
+        div.appendChild(meta);
+        
+        container.appendChild(div);
+      }
+    });
   } catch (error) {
     console.error('renderLatestRecords エラー:', error);
   }
