@@ -110,3 +110,8 @@ function setBreadcrumb(key) {
   }
   renderBreadcrumb(items);
 }
+
+BREADCRUMB_MAP["logs-index"] = [
+  { label: "ホーム", url: "/" },
+  { label: "山行ログ（ヤマレコ）" }
+];
