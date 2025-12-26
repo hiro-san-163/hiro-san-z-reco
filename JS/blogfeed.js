@@ -58,7 +58,7 @@ async function fetchRecordsJson(forceRefresh = false) {
 
 // 単一のエントリをパース
 function parseEntry(entry) {
-  const title = entry.title?.$t || '無題';
+  let title = entry.title?.$t || '無題';
   const published = entry.published?.$t ? new Date(entry.published.$t).toLocaleDateString('ja-JP') : '';
   
   const links = entry.link || [];
@@ -66,43 +66,43 @@ function parseEntry(entry) {
   const link = postLinkObj?.href || '#';
   
   let thumbnail = '';
-  if (entry.media$thumbnail) {
-    thumbnail = entry.media$thumbnail.url.replace(/s\d+/, 's400');
-  } else if (entry.content?.['$t']) {
-    const match = entry.content.$t.match(/<img[^>]+src=["']([^"']+)["']/i);
-    thumbnail = match?.[1] || '';
-  }
-  
-  // 本文から項目を抽出
   let date = published;
   let region = '';
   let genre = '';
   let summary = '';
   
   if (entry.content?.['$t']) {
-    const contentText = entry.content.$t.replace(/<[^>]*>/g, '').trim();
-    console.log('Content text:', contentText); // デバッグ用
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(entry.content.$t, 'text/html');
     
-    // 実施日: を探す
-    const dateMatch = contentText.match(/実施日:\s*([^\n\r]+)/);
-    if (dateMatch) date = dateMatch[1].trim();
+    // タイトル
+    const titleEl = doc.querySelector('.mountain-title');
+    if (titleEl) title = titleEl.textContent.trim();
     
-    // 山域: を探す
-    const regionMatch = contentText.match(/山域:\s*([^\n\r]+)/);
-    if (regionMatch) region = regionMatch[1].trim();
+    // 実施日
+    const dateEl = doc.querySelector('.date');
+    if (dateEl) date = dateEl.textContent.trim();
     
-    // ジャンル: を探す
-    const genreMatch = contentText.match(/ジャンル:\s*([^\n\r]+)/);
-    if (genreMatch) genre = genreMatch[1].trim();
+    // 山域
+    const areaEl = doc.querySelector('.area');
+    if (areaEl) region = areaEl.textContent.trim();
     
-    // 山行概要: を探す
-    const summaryMatch = contentText.match(/山行概要:\s*([\s\S]*)/);
-    if (summaryMatch) {
-      const fullSummary = summaryMatch[1].trim();
+    // ジャンル
+    const genreEl = doc.querySelector('.genre');
+    if (genreEl) genre = genreEl.textContent.trim();
+    
+    // 山行概要
+    const summaryEl = doc.querySelector('.mountain-summary p');
+    if (summaryEl) {
+      const fullSummary = summaryEl.textContent.trim();
       summary = fullSummary.substring(0, 100) + (fullSummary.length > 100 ? '...' : '');
     }
     
-    console.log('Extracted:', { date, region, genre, summary }); // デバッグ用
+    // 代表写真
+    const imgEl = doc.querySelector('.main-photo img');
+    if (imgEl) thumbnail = imgEl.src;
+    
+    console.log('Extracted:', { title, date, region, genre, summary, thumbnail }); // デバッグ用
   }
   
   return {
