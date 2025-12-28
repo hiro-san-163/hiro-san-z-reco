@@ -22,19 +22,41 @@
 }
 
 .search-header h1 {
-  margin: 0 0 .75rem;
+  margin: 0 0 .5rem;
   font-size: 1.3rem;
   color: var(--brand);
 }
 
+.page-desc {
+  font-size: .9rem;
+  color: var(--muted);
+  margin-bottom: .5rem;
+}
+
 /* ===============================
-   検索条件 操作パネル（確定）
+   キーワード検索
+================================ */
+
+.keyword-search {
+  margin-bottom: .75rem;
+}
+
+.keyword-search input {
+  width: 100%;
+  padding: .5rem .6rem;
+  font-size: .95rem;
+  border-radius: .5rem;
+  border: 1px solid #cfe2d8;
+}
+
+/* ===============================
+   検索条件 操作パネル
 ================================ */
 
 .filters {
   display: grid;
-  grid-auto-flow: column;                 /* ★ 横方向に並べる */
-  grid-auto-columns: minmax(160px, 1fr);  /* ★ 各BOX幅 */
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(160px, 1fr);
   gap: .75rem;
   align-items: end;
 
@@ -44,20 +66,15 @@
   border: 1px solid #cfe2d8;
 }
 
-/* ===============================
-   疑似ラベル（HTML変更なし）
-   ※ select直下でも表示される方式
-================================ */
+/* 疑似ラベル */
 
 .filters select,
 .filters input[type="number"] {
   position: relative;
 }
 
-/* ラベル共通スタイル */
 .filters select::before,
 .filters input[type="number"]::before {
-  content: "";
   display: block;
   margin-bottom: .25rem;
   font-size: .75rem;
@@ -65,30 +82,11 @@
   color: var(--muted);
 }
 
-/* 各ラベル文言 */
-#year::before {
-  content: "年";
-}
-
-#area::before {
-  content: "山域";
-}
-
-#genre::before {
-  content: "ジャンル";
-}
-
-#sort::before {
-  content: "並び順";
-}
-
-#pageSize::before {
-  content: "表示件数";
-}
-
-/* ===============================
-   フォーム共通スタイル
-================================ */
+#year::before { content: "年"; }
+#area::before { content: "山域"; }
+#genre::before { content: "ジャンル"; }
+#sort::before { content: "並び順"; }
+#pageSize::before { content: "表示件数"; }
 
 .filters select,
 .filters input[type="number"] {
@@ -206,7 +204,7 @@
 }
 
 /* ===============================
-   レスポンシブ調整
+   レスポンシブ
 ================================ */
 
 @media (max-width: 800px) {
@@ -221,3 +219,4 @@
     grid-template-columns: 1fr;
   }
 }
+

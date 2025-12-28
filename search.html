@@ -11,9 +11,8 @@
   <link rel="stylesheet" href="CSS/style.css">
   <!-- 検索ページ専用CSS -->
   <link rel="stylesheet" href="CSS/search.css">
+
   <link rel="icon" href="favicon.ico">
-  <!-- スマホ対応 -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 
@@ -28,19 +27,36 @@
         <li>検索</li>
       </ul>
     </nav>
+
     <h1>山行記録検索</h1>
 
+    <p class="page-desc">
+      年・山域・ジャンル・キーワードから山行記録を絞り込めます。
+    </p>
+
+    <!-- キーワード検索 -->
+    <div class="keyword-search">
+      <input
+        type="text"
+        id="keyword"
+        placeholder="キーワード（山名・内容・印象的な言葉など）"
+      >
+    </div>
+
+    <!-- フィルタ -->
     <div class="filters">
       <select id="year"></select>
       <select id="area"></select>
       <select id="genre"></select>
+
       <select id="sort">
         <option value="date_desc" selected>日付（新しい順）</option>
         <option value="date_asc">日付（古い順）</option>
         <option value="title_asc">タイトル（A→Z）</option>
         <option value="title_desc">タイトル（Z→A）</option>
       </select>
-      <input id="pageSize" type="number" min="5" max="100" step="5" value="20">
+
+      <input id="pageSize" type="number" min="5" max="100" step="5" value="10">
     </div>
   </header>
 
@@ -63,3 +79,4 @@
 
 </body>
 </html>
+
