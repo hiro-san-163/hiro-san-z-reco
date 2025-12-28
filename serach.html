@@ -10,7 +10,7 @@
   <!-- 共通CSS -->
   <link rel="stylesheet" href="CSS/style.css">
   <!-- 検索ページ専用CSS -->
-  <link rel="stylesheet" href="CSS/search.css">
+  <link rel="stylesheet" href="CSS/serach.css">
   <link rel="icon" href="favicon.ico">
   <!-- スマホ対応 -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,7 +23,10 @@
   <!-- ページ固有ヘッダー -->
   <header class="search-header">
     <nav class="breadcrumb">
-      <ul></ul>
+      <ul>
+        <li><a href="index.html">ホーム</a></li>
+        <li>検索</li>
+      </ul>
     </nav>
     <h1>山行記録検索</h1>
 
@@ -58,11 +61,5 @@
   <!-- 検索ページ専用JS -->
   <script src="JS/search.js"></script>
 
-  <!-- NAVIの呼び出し専用JS -->
- <script>
-  setBreadcrumb("logs-index");
-</script>
- 
 </body>
 </html>
-
