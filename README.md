@@ -89,4 +89,5 @@
 
 ## メンテナンス履歴
 - 2025-12-27  
-  未使用となっていた JS/script.js を _archive に退避。
+  未使用となっていた JS/script.js を _archive に退避。  
+  research.html research.css research.js を search.html search.css search.js にリネーム
