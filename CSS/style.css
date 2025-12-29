@@ -18,7 +18,7 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(240, 247, 243, 0.8); /* 背景画像を薄くする */
+  background: rgba(240, 247, 243, 0.6); /* 背景画像を薄くする */
   z-index: -1;
 }
 
