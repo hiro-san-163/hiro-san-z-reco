@@ -269,6 +269,10 @@ a:hover {
     grid-template-columns: 1fr;
   }
 
+  .nav-cards {
+    grid-template-columns: 1fr;
+  }
+
   .nav-card {
     padding: 14px;
   }
