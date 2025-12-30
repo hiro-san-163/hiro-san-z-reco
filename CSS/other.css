@@ -1,1 +1,68 @@
+/* ===============================
+   その他ページ専用
+================================ */
+
+.other-page {
+  line-height: 1.7;
+}
+
+/* ページヘッダー補足 */
+.page-description {
+  color: #567;
+  margin-top: 0.5rem;
+}
+
+/* ===============================
+   アンカー导航（タブ風）
+================================ */
+
+.other-nav {
+  display: flex;
+  gap: 1rem;
+  margin: 2rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #ddebe4;
+}
+
+.other-nav a {
+  text-decoration: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.5rem;
+  color: #1c6b4f;
+  font-weight: 500;
+}
+
+.other-nav a:hover {
+  background: #e4f2ec;
+}
+
+/* ===============================
+   各セクション
+================================ */
+
+.other-section {
+  margin: 3rem 0;
+}
+
+.other-section h2 {
+  margin-bottom: 0.75rem;
+  color: #1c6b4f;
+  border-left: 4px solid #1c6b4f;
+  padding-left: 0.5rem;
+}
+
+.other-section p {
+  color: #345;
+}
+
+/* ===============================
+   レスポンシブ調整
+================================ */
+
+@media (max-width: 600px) {
+  .other-nav {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}
 
