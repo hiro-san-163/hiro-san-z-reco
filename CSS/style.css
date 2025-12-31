@@ -99,6 +99,10 @@ a:hover {
 /* スマホ時 */
 
 @media (max-width: 768px) {
+  body {
+    background-size: contain;
+  }
+
   .header-inner {
     position: relative;
   }
