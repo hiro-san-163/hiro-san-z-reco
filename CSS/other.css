@@ -203,4 +203,26 @@
   background: #f0f7f3;
 }
 
+/* ===============================
+   準備中 表示
+================================ */
+
+.coming-soon {
+  background: #f7faf8;
+  border: 1px dashed #cfe2d8;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  text-align: center;
+  color: #567;
+}
+
+.coming-soon p {
+  margin: 0.25rem 0;
+}
+
+.coming-soon .sub {
+  font-size: 0.9rem;
+  color: #789;
+}
+
 >>>>>>> 7fcb3db0b8ca9a3836101798122017cbfdccbeaf
