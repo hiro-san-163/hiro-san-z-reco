@@ -1,10 +1,12 @@
-<<<<<<< HEAD
 /* ===============================
    その他ページ専用
 ================================ */
 
 .other-page {
   line-height: 1.7;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1rem;
 }
 
 /* ページヘッダー補足 */
@@ -23,6 +25,8 @@
   margin: 2rem 0;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid #ddebe4;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .other-nav a {
@@ -31,79 +35,21 @@
   border-radius: 0.5rem;
   color: #1c6b4f;
   font-weight: 500;
+  transition: background-color 160ms ease, color 160ms ease, transform 120ms ease;
 }
 
 .other-nav a:hover {
   background: #e4f2ec;
 }
 
-/* ===============================
-   各セクション
-================================ */
-
-.other-section {
-  margin: 3rem 0;
+.other-nav a.active {
+  background: #1c6b4f;
+  color: #fff;
 }
 
-.other-section h2 {
-  margin-bottom: 0.75rem;
-  color: #1c6b4f;
-  border-left: 4px solid #1c6b4f;
-  padding-left: 0.5rem;
-}
-
-.other-section p {
-  color: #345;
-}
-
-/* ===============================
-   レスポンシブ調整
-================================ */
-
-@media (max-width: 600px) {
-  .other-nav {
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-}
-
-=======
-/* ===============================
-   その他ページ専用
-================================ */
-
-.other-page {
-  line-height: 1.7;
-}
-
-/* ページヘッダー補足 */
-.page-description {
-  color: #567;
-  margin-top: 0.5rem;
-}
-
-/* ===============================
-   アンカー导航（タブ風）
-================================ */
-
-.other-nav {
-  display: flex;
-  gap: 1rem;
-  margin: 2rem 0;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid #ddebe4;
-}
-
-.other-nav a {
-  text-decoration: none;
-  padding: 0.4rem 0.8rem;
-  border-radius: 0.5rem;
-  color: #1c6b4f;
-  font-weight: 500;
-}
-
-.other-nav a:hover {
-  background: #e4f2ec;
+.other-nav a:focus-visible {
+  outline: 3px solid rgba(28,107,79,0.18);
+  outline-offset: 3px;
 }
 
 /* ===============================
@@ -163,6 +109,7 @@
   margin: 0;
   display: grid;
   gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
 
 .link-card {
@@ -170,8 +117,8 @@
   border: 1px solid #ddebe4;
   border-radius: 0.75rem;
   padding: 0.75rem;
+  transition: transform 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
 }
-
 .link-card a {
   text-decoration: none;
   display: flex;
@@ -201,6 +148,26 @@
 
 .link-card:hover {
   background: #f0f7f3;
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(24,45,35,0.06);
+}
+
+/* アクセシビリティ: フォーカス時の見やすさ */
+.link-card a:focus-visible {
+  outline: 3px solid rgba(28,107,79,0.16);
+  outline-offset: 3px;
+}
+
+/* ユーザーが動きを減らしたい場合の配慮 */
+@media (prefers-reduced-motion: reduce) {
+  .other-nav a,
+  .link-card {
+    transition: none !important;
+  }
+  .link-card:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
 }
 
 /* ===============================
@@ -224,5 +191,3 @@
   font-size: 0.9rem;
   color: #789;
 }
-
->>>>>>> 7fcb3db0b8ca9a3836101798122017cbfdccbeaf
