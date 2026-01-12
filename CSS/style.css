@@ -506,3 +506,17 @@ a:hover {
   margin: 0;
 }
 
+/* ===== 年別ラベル（自動生成・体感ゼロ） ===== */
+.label-placeholder {
+  color: #777;
+  font-size: 0.9em;
+}
+
+.label-buttons a {
+  display: inline-block;
+  margin: 0 6px 6px 0;
+  padding: 6px 12px;
+  background: #f2f2f2;
+  border-radius: 4px;
+  text-decoration: none;
+}

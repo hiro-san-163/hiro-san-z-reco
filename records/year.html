@@ -27,13 +27,18 @@
       ラベルをクリックすると対応する記事一覧が表示されます。
     </p>
 
-    <div style="display:flex; gap:20px;">
-      <!-- ラベルボタン -->
-      <div class="label-buttons">
-        <a href="records/year.html?label=2025">2025</a>
-        <a href="records/year.html?label=2024">2024</a>
-        <a href="records/year.html?label=2023">2023</a>
-        <a href="records/year.html?label=2022">2022</a>
+    <div style="display:flex; gap:20px; flex-wrap:wrap;">
+
+      <!--
+        年別ラベルは Blogger の投稿ラベルから自動生成する。
+        手動ラベルは以下の理由で廃止：
+         - 年追加忘れ防止
+         - 表記ゆれ事故防止
+         - 長期運用での保守性確保
+        ※ 復活させる場合は Git 履歴を参照
+      -->
+      <div class="label-buttons" id="year-labels-auto">
+        <span class="label-placeholder">年別データを準備中…</span>
       </div>
 
       <!-- 記事リスト -->
@@ -42,6 +47,7 @@
         <ul></ul>
         <p><a id="more-link" href="#" target="_blank">▶ もっと見る</a></p>
       </div>
+
     </div>
   </main>
 
@@ -63,7 +69,7 @@
     ]);
   </script>
 
-  <!-- Blogger ラベル別フィード取得 -->
+  <!-- Blogger ラベル別 最新5件取得 -->
   <script>
     const params = new URLSearchParams(window.location.search);
     const labelName = params.get("label") || "2025";
@@ -102,9 +108,60 @@
       });
   </script>
 
-<script>
-  setBreadcrumb("records-year");
-</script>
+  <!-- 年別ラベル自動生成（体感ゼロ設計・150件版） -->
+  <script>
+  (function () {
+
+    const container = document.getElementById("year-labels-auto");
+    if (!container) return;
+
+    function loadYearLabels() {
+      const years = new Set();
+
+      const feedUrl =
+        "https://hiro-san-163.blogspot.com/feeds/posts/default" +
+        "?alt=json&max-results=150";
+
+      fetch(feedUrl)
+        .then(r => r.json())
+        .then(data => {
+          const entries = data.feed.entry || [];
+
+          entries.forEach(entry => {
+            (entry.category || []).forEach(cat => {
+              if (/^\d{4}$/.test(cat.term)) {
+                years.add(cat.term);
+              }
+            });
+          });
+
+          if (years.size === 0) {
+            container.innerHTML =
+              "<span class='label-placeholder'>年別データが見つかりません</span>";
+            return;
+          }
+
+          const sorted = [...years].sort((a, b) => b - a);
+
+          container.innerHTML = sorted.map(y =>
+            `<a href="records/year.html?label=${y}">${y}</a>`
+          ).join("");
+        })
+        .catch(() => {
+          container.innerHTML =
+            "<span class='label-placeholder'>年別データを取得できません</span>";
+        });
+    }
+
+    // 体感ゼロ：ブラウザの空き時間に実行
+    if ("requestIdleCallback" in window) {
+      requestIdleCallback(loadYearLabels);
+    } else {
+      setTimeout(loadYearLabels, 200);
+    }
+
+  })();
+  </script>
 
 </body>
 </html>
