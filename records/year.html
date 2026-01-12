@@ -18,6 +18,7 @@
   <div id="header"></div>
 
   <main class="container main-content">
+
     <!-- ブレッドクラム -->
     <nav class="breadcrumb"></nav>
 
@@ -27,28 +28,18 @@
       ラベルをクリックすると対応する記事一覧が表示されます。
     </p>
 
-    <div style="display:flex; gap:20px; flex-wrap:wrap;">
-
-      <!--
-        年別ラベルは Blogger の投稿ラベルから自動生成する。
-        手動ラベルは以下の理由で廃止：
-         - 年追加忘れ防止
-         - 表記ゆれ事故防止
-         - 長期運用での保守性確保
-        ※ 復活させる場合は Git 履歴を参照
-      -->
-      <div class="label-buttons" id="year-labels-auto">
-        <span class="label-placeholder">年別データを準備中…</span>
-      </div>
-
-      <!-- 記事リスト -->
-      <div class="list-box" id="latest-list">
-        <h3 id="list-title">最新5件</h3>
-        <ul></ul>
-        <p><a id="more-link" href="#" target="_blank">▶ もっと見る</a></p>
-      </div>
-
+    <!-- 年ラベル -->
+    <div class="label-buttons" id="year-labels">
+      <span class="label-placeholder">年別データを取得中…</span>
     </div>
+
+    <!-- 記事リスト -->
+    <div class="list-box" id="latest-list">
+      <h3 id="list-title"></h3>
+      <ul></ul>
+      <p><a id="more-link" href="#" target="_blank">▶ もっと見る</a></p>
+    </div>
+
   </main>
 
   <!-- 共通フッター -->
@@ -57,7 +48,7 @@
   <!-- 共通JS -->
   <script src="JS/include.js"></script>
 
-  <!-- 共通初期化 + ブレッドクラム -->
+  <!-- 共通初期化 -->
   <script>
     loadHeaderFooter();
     initNavToggle();
@@ -69,98 +60,92 @@
     ]);
   </script>
 
-  <!-- Blogger ラベル別 最新5件取得 -->
+  <!-- ===== 年別 JSONP 処理 ===== -->
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const labelName = params.get("label") || "2025";
+    const BLOG_URL = "https://hiro-san-163.blogspot.com";
+    const MAX_RESULTS = 150;
 
-    document.getElementById("list-title").textContent =
-      labelName + " の最新5件";
+    /* --- フィード受信（年ラベル生成） --- */
+    function handleFeed(data) {
+      const entries = data.feed.entry || [];
+      const yearSet = new Set();
 
-    const feedUrl =
-      "https://hiro-san-163.blogspot.com/feeds/posts/default/-/" +
-      encodeURIComponent(labelName) +
-      "?alt=json&max-results=5";
-
-    const moreUrl =
-      "https://hiro-san-163.blogspot.com/search/label/" +
-      encodeURIComponent(labelName);
-
-    document.getElementById("more-link").href = moreUrl;
-
-    fetch(feedUrl)
-      .then(r => r.json())
-      .then(data => {
-        const posts = data.feed.entry || [];
-        let html = "";
-        posts.forEach(post => {
-          const title = post.title.$t;
-          const link = post.link.find(l => l.rel === "alternate").href;
-          const date = new Date(post.published.$t).toLocaleDateString();
-          html += `<li><small>${date}</small> <a href="${link}" target="_blank">${title}</a></li>`;
-        });
-        document.querySelector("#latest-list ul").innerHTML =
-          html || "<li>記事が見つかりません</li>";
-      })
-      .catch(() => {
-        document.querySelector("#latest-list ul").innerHTML =
-          "<li>記事が見つかりません</li>";
-      });
-  </script>
-
-  <!-- 年別ラベル自動生成（体感ゼロ設計・150件版） -->
-  <script>
-  (function () {
-
-    const container = document.getElementById("year-labels-auto");
-    if (!container) return;
-
-    function loadYearLabels() {
-      const years = new Set();
-
-      const feedUrl =
-        "https://hiro-san-163.blogspot.com/feeds/posts/default" +
-        "?alt=json&max-results=150";
-
-      fetch(feedUrl)
-        .then(r => r.json())
-        .then(data => {
-          const entries = data.feed.entry || [];
-
-          entries.forEach(entry => {
-            (entry.category || []).forEach(cat => {
-              if (/^\d{4}$/.test(cat.term)) {
-                years.add(cat.term);
-              }
-            });
-          });
-
-          if (years.size === 0) {
-            container.innerHTML =
-              "<span class='label-placeholder'>年別データが見つかりません</span>";
-            return;
+      entries.forEach(entry => {
+        if (!entry.category) return;
+        entry.category.forEach(cat => {
+          if (/^\d{4}$/.test(cat.term)) {
+            yearSet.add(cat.term);
           }
-
-          const sorted = [...years].sort((a, b) => b - a);
-
-          container.innerHTML = sorted.map(y =>
-            `<a href="records/year.html?label=${y}">${y}</a>`
-          ).join("");
-        })
-        .catch(() => {
-          container.innerHTML =
-            "<span class='label-placeholder'>年別データを取得できません</span>";
         });
+      });
+
+      const years = Array.from(yearSet).sort((a, b) => b - a);
+      const container = document.getElementById("year-labels");
+      container.innerHTML = "";
+
+      if (years.length === 0) {
+        container.innerHTML =
+          "<span class='label-placeholder'>年別データがありません</span>";
+        return;
+      }
+
+      years.forEach(year => {
+        const a = document.createElement("a");
+        a.href = `records/year.html?label=${year}`;
+        a.textContent = year;
+        container.appendChild(a);
+      });
+
+      const params = new URLSearchParams(location.search);
+      const currentYear = params.get("label") || years[0];
+      showLatestPosts(currentYear);
     }
 
-    // 体感ゼロ：ブラウザの空き時間に実行
-    if ("requestIdleCallback" in window) {
-      requestIdleCallback(loadYearLabels);
-    } else {
-      setTimeout(loadYearLabels, 200);
+    /* --- 最新5件表示 --- */
+    function showLatestPosts(year) {
+      document.getElementById("list-title").textContent =
+        `${year} の最新5件`;
+
+      document.getElementById("more-link").href =
+        `${BLOG_URL}/search/label/${encodeURIComponent(year)}`;
+
+      const script = document.createElement("script");
+      script.src =
+        `${BLOG_URL}/feeds/posts/default/-/${encodeURIComponent(year)}` +
+        `?alt=json-in-script&callback=handlePosts&max-results=5`;
+      document.body.appendChild(script);
     }
 
-  })();
+    function handlePosts(data) {
+      const list = document.querySelector("#latest-list ul");
+      list.innerHTML = "";
+
+      const entries = data.feed.entry || [];
+      if (entries.length === 0) {
+        list.innerHTML = "<li>記事が見つかりません</li>";
+        return;
+      }
+
+      entries.forEach(entry => {
+        const title = entry.title.$t;
+        const link = entry.link.find(l => l.rel === "alternate").href;
+        const date = new Date(entry.published.$t).toLocaleDateString();
+
+        const li = document.createElement("li");
+        li.innerHTML =
+          `<small>${date}</small> <a href="${link}" target="_blank">${title}</a>`;
+        list.appendChild(li);
+      });
+    }
+
+    /* --- JSONP 読み込み開始 --- */
+    (function () {
+      const script = document.createElement("script");
+      script.src =
+        `${BLOG_URL}/feeds/posts/default` +
+        `?alt=json-in-script&callback=handleFeed&max-results=${MAX_RESULTS}`;
+      document.body.appendChild(script);
+    })();
   </script>
 
 </body>
