@@ -18,32 +18,28 @@
   <div id="header"></div>
 
   <main class="container main-content">
+
     <!-- ブレッドクラム -->
     <nav class="breadcrumb"></nav>
 
     <h1>山行記録 - 山域別</h1>
     <p>
       山域ごとに分類された山行記録です。
-      ラベルをクリックすると対応する記事一覧が表示されます。
+      山域ラベルをクリックすると対応する記事一覧が表示されます。
     </p>
 
-    <div style="display:flex; gap:20px;">
-      <!-- ラベルボタン -->
-      <div class="label-buttons">
-        <a href="records/area.html?label=北アルプス">北アルプス</a>
-        <a href="records/area.html?label=南アルプス">南アルプス</a>
-        <a href="records/area.html?label=中央アルプス">中央アルプス</a>
-        <a href="records/area.html?label=大峰">大峰</a>
-        <a href="records/area.html?label=その他山域">その他</a>
-      </div>
-
-      <!-- 記事リスト -->
-      <div class="list-box" id="latest-list">
-        <h3 id="list-title">最新5件</h3>
-        <ul></ul>
-        <p><a id="more-link" href="#" target="_blank">▶ もっと見る</a></p>
-      </div>
+    <!-- 山域ラベル -->
+    <div class="label-buttons" id="area-labels">
+      <span class="label-placeholder">山域データを取得中…</span>
     </div>
+
+    <!-- 記事リスト -->
+    <div class="list-box" id="latest-list">
+      <h3 id="list-title"></h3>
+      <ul></ul>
+      <p><a id="more-link" href="#" target="_blank">▶ もっと見る</a></p>
+    </div>
+
   </main>
 
   <!-- 共通フッター -->
@@ -52,7 +48,7 @@
   <!-- 共通JS -->
   <script src="JS/include.js"></script>
 
-  <!-- 共通初期化 + ブレッドクラム -->
+  <!-- 共通初期化 -->
   <script>
     loadHeaderFooter();
     initNavToggle();
@@ -64,50 +60,118 @@
     ]);
   </script>
 
-  <!-- Blogger ラベル別フィード取得 -->
+  <!-- ===== 山域別 JSONP（全件対応／A案純粋形） ===== -->
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const labelName = params.get("label") || "北アルプス";
+    const BLOG_URL = "https://hiro-san-163.blogspot.com";
+    const MAX_RESULTS = 150;
 
-    document.getElementById("list-title").textContent =
-      labelName + " の最新5件";
+    let allEntries = [];
+    let startIndex = 1;
 
-    const feedUrl =
-      "https://hiro-san-163.blogspot.com/feeds/posts/default/-/" +
-      encodeURIComponent(labelName) +
-      "?alt=json&max-results=5";
+    /* --- ページング取得 --- */
+    function loadFeedPage() {
+      const script = document.createElement("script");
+      script.src =
+        `${BLOG_URL}/feeds/posts/default` +
+        `?alt=json-in-script` +
+        `&callback=handleFeedPage` +
+        `&max-results=${MAX_RESULTS}` +
+        `&start-index=${startIndex}`;
+      document.body.appendChild(script);
+    }
 
-    const moreUrl =
-      "https://hiro-san-163.blogspot.com/search/label/" +
-      encodeURIComponent(labelName);
+    function handleFeedPage(data) {
+      const entries = data.feed.entry || [];
+      allEntries = allEntries.concat(entries);
 
-    document.getElementById("more-link").href = moreUrl;
+      if (entries.length === MAX_RESULTS) {
+        startIndex += MAX_RESULTS;
+        loadFeedPage();
+      } else {
+        buildAreaLabels(allEntries);
+      }
+    }
 
-    fetch(feedUrl)
-      .then(r => r.json())
-      .then(data => {
-        const posts = data.feed.entry || [];
-        let html = "";
-        posts.forEach(post => {
-          const title = post.title.$t;
-          const link = post.link.find(l => l.rel === "alternate").href;
-          const date = new Date(post.published.$t).toLocaleDateString();
-          html += `<li><small>${date}</small> <a href="${link}" target="_blank">${title}</a></li>`;
+    /* --- 山域ラベル生成（A案：年以外すべて） --- */
+    function buildAreaLabels(entries) {
+      const areaSet = new Set();
+
+      entries.forEach(entry => {
+        if (!entry.category) return;
+
+        entry.category.forEach(cat => {
+          const label = cat.term;
+
+          // 年ラベル（4桁数字）のみ除外
+          if (/^\d{4}$/.test(label)) return;
+
+          // それ以外はすべて山域として扱う
+          areaSet.add(label);
         });
-        document.querySelector("#latest-list ul").innerHTML =
-          html || "<li>記事が見つかりません</li>";
-      })
-      .catch(() => {
-        document.querySelector("#latest-list ul").innerHTML =
-          "<li>記事が見つかりません</li>";
       });
+
+      const areas = Array.from(areaSet).sort();
+      const container = document.getElementById("area-labels");
+      container.innerHTML = "";
+
+      if (areas.length === 0) {
+        container.innerHTML =
+          "<span class='label-placeholder'>山域データがありません</span>";
+        return;
+      }
+
+      areas.forEach(area => {
+        const a = document.createElement("a");
+        a.href = `records/area.html?label=${encodeURIComponent(area)}`;
+        a.textContent = area;
+        container.appendChild(a);
+      });
+
+      const params = new URLSearchParams(location.search);
+      const currentArea = params.get("label") || areas[0];
+      showLatestPosts(currentArea);
+    }
+
+    /* --- 最新5件表示（year.html と同構造） --- */
+    function showLatestPosts(area) {
+      document.getElementById("list-title").textContent =
+        `${area} の最新5件`;
+
+      document.getElementById("more-link").href =
+        `${BLOG_URL}/search/label/${encodeURIComponent(area)}`;
+
+      const script = document.createElement("script");
+      script.src =
+        `${BLOG_URL}/feeds/posts/default/-/${encodeURIComponent(area)}` +
+        `?alt=json-in-script&callback=handlePosts&max-results=5`;
+      document.body.appendChild(script);
+    }
+
+    function handlePosts(data) {
+      const list = document.querySelector("#latest-list ul");
+      list.innerHTML = "";
+
+      const entries = data.feed.entry || [];
+      if (entries.length === 0) {
+        list.innerHTML = "<li>記事が見つかりません</li>";
+        return;
+      }
+
+      entries.forEach(entry => {
+        const title = entry.title.$t;
+        const link = entry.link.find(l => l.rel === "alternate").href;
+        const date = new Date(entry.published.$t).toLocaleDateString();
+
+        const li = document.createElement("li");
+        li.innerHTML =
+          `<small>${date}</small> <a href="${link}" target="_blank">${title}</a>`;
+        list.appendChild(li);
+      });
+    }
+
+    /* --- 起動 --- */
+    loadFeedPage();
   </script>
-  
-<script>
-  setBreadcrumb("records-area");
-</script>
 
 </body>
 </html>
-
-

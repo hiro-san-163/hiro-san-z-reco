@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
 
-  <!-- GitHub Pages 用 base -->
   <base href="/hiro-san-z-reco/">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,33 +17,25 @@
   <div id="header"></div>
 
   <main class="container main-content">
+
     <!-- ブレッドクラム -->
     <nav class="breadcrumb"></nav>
 
     <h1>山行記録 - ジャンル別</h1>
     <p>
-      ジャンルごとに分類された山行記録です。
-      ラベルをクリックすると対応する記事一覧が表示されます。
+      山行のスタイル（ジャンル）ごとに分類された記録です。
     </p>
 
-    <div style="display:flex; gap:20px;">
-      <!-- ラベルボタン -->
-      <div class="label-buttons">
-        <a href="records/genre.html?label=ハイキング">ハイキング</a>
-        <a href="records/genre.html?label=縦走">縦走</a>
-        <a href="records/genre.html?label=沢登り">沢登り</a>
-        <a href="records/genre.html?label=雪山">雪山</a>
-        <a href="records/genre.html?label=泊登山">泊登山</a>
-        <a href="records/genre.html?label=その他">その他</a>
-      </div>
+    <!-- ジャンルラベル -->
+    <div class="label-buttons" id="genre-labels"></div>
 
-      <!-- 記事リスト -->
-      <div class="list-box" id="latest-list">
-        <h3 id="list-title">最新5件</h3>
-        <ul></ul>
-        <p><a id="more-link" href="#" target="_blank">▶ もっと見る</a></p>
-      </div>
+    <!-- 記事リスト -->
+    <div class="list-box" id="latest-list">
+      <h3 id="list-title"></h3>
+      <ul></ul>
+      <p><a id="more-link" href="#" target="_blank">▶ もっと見る</a></p>
     </div>
+
   </main>
 
   <!-- 共通フッター -->
@@ -53,7 +44,6 @@
   <!-- 共通JS -->
   <script src="JS/include.js"></script>
 
-  <!-- 共通初期化 + ブレッドクラム -->
   <script>
     loadHeaderFooter();
     initNavToggle();
@@ -65,48 +55,73 @@
     ]);
   </script>
 
-  <!-- Blogger ラベル別フィード取得（既存ロジック） -->
+  <!-- ===== ジャンル別 JSONP ===== -->
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const labelName = params.get("label") || "ハイキング";
+    const BLOG_URL = "https://hiro-san-163.blogspot.com";
 
-    document.getElementById("list-title").textContent =
-      labelName + " の最新5件";
+    /* 明示的ジャンル定義 */
+    const GENRE_LABELS = [
+      "ハイキング",
+      "トレッキング",
+      "ピークハント",
+      "縦走",
+      "沢登り",
+      "トレーニング",
+      "ラン",
+      "雪山",
+    ];
 
-    const feedUrl =
-      "https://hiro-san-163.blogspot.com/feeds/posts/default/-/" +
-      encodeURIComponent(labelName) +
-      "?alt=json&max-results=5";
+    /* --- ジャンルボタン生成 --- */
+    const container = document.getElementById("genre-labels");
+    GENRE_LABELS.forEach(label => {
+      const a = document.createElement("a");
+      a.href = `records/genre.html?label=${encodeURIComponent(label)}`;
+      a.textContent = label;
+      container.appendChild(a);
+    });
 
-    const moreUrl =
-      "https://hiro-san-163.blogspot.com/search/label/" +
-      encodeURIComponent(labelName);
+    /* --- 初期表示ジャンル --- */
+    const params = new URLSearchParams(location.search);
+    const currentGenre = params.get("label") || GENRE_LABELS[0];
+    showLatestPosts(currentGenre);
 
-    document.getElementById("more-link").href = moreUrl;
+    /* --- 最新5件表示 --- */
+    function showLatestPosts(genre) {
+      document.getElementById("list-title").textContent =
+        `${genre} の最新5件`;
 
-    fetch(feedUrl)
-      .then(r => r.json())
-      .then(data => {
-        const posts = data.feed.entry || [];
-        let html = "";
-        posts.forEach(post => {
-          const title = post.title.$t;
-          const link = post.link.find(l => l.rel === "alternate").href;
-          const date = new Date(post.published.$t).toLocaleDateString();
-          html += `<li><small>${date}</small> <a href="${link}" target="_blank">${title}</a></li>`;
-        });
-        document.querySelector("#latest-list ul").innerHTML =
-          html || "<li>記事が見つかりません</li>";
-      })
-      .catch(() => {
-        document.querySelector("#latest-list ul").innerHTML =
-          "<li>記事が見つかりません</li>";
+      document.getElementById("more-link").href =
+        `${BLOG_URL}/search/label/${encodeURIComponent(genre)}`;
+
+      const script = document.createElement("script");
+      script.src =
+        `${BLOG_URL}/feeds/posts/default/-/${encodeURIComponent(genre)}` +
+        `?alt=json-in-script&callback=handlePosts&max-results=5`;
+      document.body.appendChild(script);
+    }
+
+    function handlePosts(data) {
+      const list = document.querySelector("#latest-list ul");
+      list.innerHTML = "";
+
+      const entries = data.feed.entry || [];
+      if (entries.length === 0) {
+        list.innerHTML = "<li>記事が見つかりません</li>";
+        return;
+      }
+
+      entries.forEach(entry => {
+        const title = entry.title.$t;
+        const link = entry.link.find(l => l.rel === "alternate").href;
+        const date = new Date(entry.published.$t).toLocaleDateString();
+
+        const li = document.createElement("li");
+        li.innerHTML =
+          `<small>${date}</small> <a href="${link}" target="_blank">${title}</a>`;
+        list.appendChild(li);
       });
+    }
   </script>
-
-<script>
-  setBreadcrumb("records-genre");
-</script>
 
 </body>
 </html>
