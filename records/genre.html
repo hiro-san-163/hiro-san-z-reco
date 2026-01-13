@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
 
+  <!-- GitHub Pages 用 base -->
   <base href="/hiro-san-z-reco/">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -44,6 +45,7 @@
   <!-- 共通JS -->
   <script src="JS/include.js"></script>
 
+  <!-- 共通初期化 -->
   <script>
     loadHeaderFooter();
     initNavToggle();
@@ -55,11 +57,11 @@
     ]);
   </script>
 
-  <!-- ===== ジャンル別 JSONP ===== -->
+  <!-- ===== ジャンル別 JSONP（最終版） ===== -->
   <script>
     const BLOG_URL = "https://hiro-san-163.blogspot.com";
 
-    /* 明示的ジャンル定義 */
+    /* 明示的ジャンル定義（最終） */
     const GENRE_LABELS = [
       "ハイキング",
       "トレッキング",
@@ -68,11 +70,13 @@
       "沢登り",
       "トレーニング",
       "ラン",
-      "雪山",
+      "雪山"
     ];
 
-    /* --- ジャンルボタン生成 --- */
     const container = document.getElementById("genre-labels");
+    let currentScript = null;
+
+    /* ジャンルボタン生成 */
     GENRE_LABELS.forEach(label => {
       const a = document.createElement("a");
       a.href = `records/genre.html?label=${encodeURIComponent(label)}`;
@@ -80,13 +84,18 @@
       container.appendChild(a);
     });
 
-    /* --- 初期表示ジャンル --- */
+    /* 初期表示ジャンル */
     const params = new URLSearchParams(location.search);
     const currentGenre = params.get("label") || GENRE_LABELS[0];
     showLatestPosts(currentGenre);
 
-    /* --- 最新5件表示 --- */
+    /* 最新5件表示（JSONP安全版） */
     function showLatestPosts(genre) {
+      if (currentScript) {
+        currentScript.remove();
+        currentScript = null;
+      }
+
       document.getElementById("list-title").textContent =
         `${genre} の最新5件`;
 
@@ -96,8 +105,10 @@
       const script = document.createElement("script");
       script.src =
         `${BLOG_URL}/feeds/posts/default/-/${encodeURIComponent(genre)}` +
-        `?alt=json-in-script&callback=handlePosts&max-results=5`;
+        `?alt=json-in-script&callback=handlePosts&max-results=5&_=${Date.now()}`;
+
       document.body.appendChild(script);
+      currentScript = script;
     }
 
     function handlePosts(data) {
@@ -125,3 +136,4 @@
 
 </body>
 </html>
+
