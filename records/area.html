@@ -24,7 +24,7 @@
     <h1>山行記録 - 山域別</h1>
     <p>
       山域ごとに分類された山行記録です。
-      ラベルをクリックすると該当山域の最新記事が表示されます。
+      ラベルをクリックすると該当する記録が表示されます。
     </p>
 
     <!-- 山域ラベル -->
@@ -32,8 +32,8 @@
       <span class="label-placeholder">山域データを取得中…</span>
     </div>
 
-    <!-- 記事リスト -->
-    <div class="list-box" id="latest-list">
+    <!-- 記事リスト（クエリあり時のみ） -->
+    <div class="list-box" id="latest-list" style="display:none;">
       <h3 id="list-title"></h3>
       <ul></ul>
       <p><a id="more-link" href="#" target="_blank">▶ もっと見る</a></p>
@@ -58,12 +58,12 @@
     ]);
   </script>
 
-  <!-- ===== 山域別 JSONP ===== -->
+  <!-- ===== 山域別 JSONP（③案） ===== -->
   <script>
     const BLOG_URL = "https://hiro-san-163.blogspot.com";
-    const MAX_RESULTS = 500;
+    const MAX_RESULTS = 150;
 
-    /* genre.html と同一のジャンル定義 */
+    /* genre.html と完全に同一のジャンル定義 */
     const GENRE_LABELS = [
       "ハイキング",
       "トレッキング",
@@ -75,32 +75,56 @@
       "雪山"
     ];
 
-    function isYearLabel(label) {
-      return /^\d{4}$/.test(label);
+    const areaSet = new Set();
+
+    /* --- 全件走査（ラベル収集専用） --- */
+    function fetchAllLabels(startIndex = 1) {
+      const script = document.createElement("script");
+      script.src =
+        `${BLOG_URL}/feeds/posts/default` +
+        `?alt=json-in-script&callback=handleFeed` +
+        `&max-results=${MAX_RESULTS}` +
+        `&start-index=${startIndex}`;
+      document.body.appendChild(script);
     }
 
-    function isAreaLabel(label) {
-      return !isYearLabel(label) && !GENRE_LABELS.includes(label);
-    }
-
-    /* --- フィード受信（山域ラベル生成） --- */
     function handleFeed(data) {
       const entries = data.feed.entry || [];
-      const areaSet = new Set();
 
       entries.forEach(entry => {
         if (!entry.category) return;
+
         entry.category.forEach(cat => {
           const label = cat.term;
-          if (isAreaLabel(label)) {
-            areaSet.add(label);
-          }
+
+          /* 年除外 */
+          if (/^\d{4}$/.test(label)) return;
+
+          /* ジャンル除外 */
+          if (GENRE_LABELS.includes(label)) return;
+
+          areaSet.add(label);
         });
       });
 
-      const areas = Array.from(areaSet).sort();
+      /* 次ページがあれば継続 */
+      if (entries.length === MAX_RESULTS) {
+        const nextIndex =
+          Number(data.feed.openSearch$startIndex.$t) + MAX_RESULTS;
+        fetchAllLabels(nextIndex);
+        return;
+      }
+
+      renderAreaLabels();
+      handleQueryIfExists();
+    }
+
+    /* --- 山域ラベル描画 --- */
+    function renderAreaLabels() {
       const container = document.getElementById("area-labels");
       container.innerHTML = "";
+
+      const areas = Array.from(areaSet).sort();
 
       if (areas.length === 0) {
         container.innerHTML =
@@ -114,16 +138,19 @@
         a.textContent = area;
         container.appendChild(a);
       });
-
-      /* クエリありのときだけ記事表示 */
-      const params = new URLSearchParams(location.search);
-      const currentArea = params.get("label");
-      if (currentArea && areas.includes(currentArea)) {
-        showLatestPosts(currentArea);
-      }
     }
 
-    /* --- 最新5件表示（クエリあり時のみ） --- */
+    /* --- クエリあり時のみ記事表示 --- */
+    function handleQueryIfExists() {
+      const params = new URLSearchParams(location.search);
+      const area = params.get("label");
+      if (!area) return;
+
+      document.getElementById("latest-list").style.display = "block";
+      showLatestPosts(area);
+    }
+
+    /* --- 最新5件表示（year / genre と同一） --- */
     function showLatestPosts(area) {
       document.getElementById("list-title").textContent =
         `${area} の最新5件`;
@@ -160,16 +187,11 @@
       });
     }
 
-    /* --- JSONP 読み込み開始 --- */
-    (function () {
-      const script = document.createElement("script");
-      script.src =
-        `${BLOG_URL}/feeds/posts/default` +
-        `?alt=json-in-script&callback=handleFeed&max-results=${MAX_RESULTS}`;
-      document.body.appendChild(script);
-    })();
+    /* 初期起動 */
+    fetchAllLabels();
   </script>
 
 </body>
 </html>
+
 
