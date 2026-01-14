@@ -2,65 +2,174 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+
   <base href="/hiro-san-z-reco/">
+
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>山域別一覧</title>
+  <title>山行記録 - 山域別 | hiro-sanの山歩き</title>
 
-  <link rel="stylesheet" href="../common.css">
+  <link rel="stylesheet" href="CSS/style.css">
+  <link rel="icon" href="favicon.ico">
 </head>
+
 <body>
+  <!-- 共通ヘッダー -->
+  <div id="header"></div>
 
-<header>
-  <h1>山域別 山行記録</h1>
-</header>
+  <main class="container main-content">
 
-<main>
-  <div id="label-list" class="label-grid"></div>
-</main>
+    <!-- ブレッドクラム -->
+    <nav class="breadcrumb"></nav>
 
-<script>
-/* ===== 除外ラベル定義 ===== */
+    <h1>山行記録 - 山域別</h1>
+    <p>
+      山域ごとに分類された山行記録です。
+      ラベルをクリックすると該当山域の最新記事が表示されます。
+    </p>
 
-/* 年ラベル（正規表現で除外） */
-const YEAR_PATTERN = /^\d{4}年$/;
+    <!-- 山域ラベル -->
+    <div class="label-buttons" id="area-labels">
+      <span class="label-placeholder">山域データを取得中…</span>
+    </div>
 
-/* ジャンルラベル（明示的に除外） */
-const GENRE_LABELS = [
-  "日帰り",
-  "縦走",
-  "沢登り",
-  "雪山",
-  "テント泊"
-];
+    <!-- 記事リスト -->
+    <div class="list-box" id="latest-list">
+      <h3 id="list-title"></h3>
+      <ul></ul>
+      <p><a id="more-link" href="#" target="_blank">▶ もっと見る</a></p>
+    </div>
 
-/* ===== ラベル取得 ===== */
-fetch("labels.json")
-  .then(res => res.json())
-  .then(labels => {
+  </main>
 
-    const areaLabels = labels.filter(label => {
-      return (
-        !YEAR_PATTERN.test(label) &&
-        !GENRE_LABELS.includes(label)
-      );
-    });
+  <!-- 共通フッター -->
+  <div id="footer"></div>
 
-    renderLabels(areaLabels);
-  });
+  <!-- 共通JS -->
+  <script src="JS/include.js"></script>
 
-/* ===== 表示処理 ===== */
-function renderLabels(labels) {
-  const container = document.getElementById("label-list");
+  <script>
+    loadHeaderFooter();
+    initNavToggle();
 
-  labels.forEach(label => {
-    const a = document.createElement("a");
-    a.href = `area/${encodeURIComponent(label)}.html`;
-    a.textContent = label;
-    a.className = "label-card";
-    container.appendChild(a);
-  });
-}
-</script>
+    renderBreadcrumb([
+      { label: "ホーム", url: "index.html" },
+      { label: "山行記録", url: "records/index.html" },
+      { label: "山域別" }
+    ]);
+  </script>
+
+  <!-- ===== 山域別 JSONP ===== -->
+  <script>
+    const BLOG_URL = "https://hiro-san-163.blogspot.com";
+    const MAX_RESULTS = 500;
+
+    /* genre.html と同一のジャンル定義 */
+    const GENRE_LABELS = [
+      "ハイキング",
+      "トレッキング",
+      "ピークハント",
+      "縦走",
+      "沢登り",
+      "トレーニング",
+      "ラン",
+      "雪山"
+    ];
+
+    function isYearLabel(label) {
+      return /^\d{4}$/.test(label);
+    }
+
+    function isAreaLabel(label) {
+      return !isYearLabel(label) && !GENRE_LABELS.includes(label);
+    }
+
+    /* --- フィード受信（山域ラベル生成） --- */
+    function handleFeed(data) {
+      const entries = data.feed.entry || [];
+      const areaSet = new Set();
+
+      entries.forEach(entry => {
+        if (!entry.category) return;
+        entry.category.forEach(cat => {
+          const label = cat.term;
+          if (isAreaLabel(label)) {
+            areaSet.add(label);
+          }
+        });
+      });
+
+      const areas = Array.from(areaSet).sort();
+      const container = document.getElementById("area-labels");
+      container.innerHTML = "";
+
+      if (areas.length === 0) {
+        container.innerHTML =
+          "<span class='label-placeholder'>山域データがありません</span>";
+        return;
+      }
+
+      areas.forEach(area => {
+        const a = document.createElement("a");
+        a.href = `records/area.html?label=${encodeURIComponent(area)}`;
+        a.textContent = area;
+        container.appendChild(a);
+      });
+
+      /* クエリありのときだけ記事表示 */
+      const params = new URLSearchParams(location.search);
+      const currentArea = params.get("label");
+      if (currentArea && areas.includes(currentArea)) {
+        showLatestPosts(currentArea);
+      }
+    }
+
+    /* --- 最新5件表示（クエリあり時のみ） --- */
+    function showLatestPosts(area) {
+      document.getElementById("list-title").textContent =
+        `${area} の最新5件`;
+
+      document.getElementById("more-link").href =
+        `${BLOG_URL}/search/label/${encodeURIComponent(area)}`;
+
+      const script = document.createElement("script");
+      script.src =
+        `${BLOG_URL}/feeds/posts/default/-/${encodeURIComponent(area)}` +
+        `?alt=json-in-script&callback=handlePosts&max-results=5`;
+      document.body.appendChild(script);
+    }
+
+    function handlePosts(data) {
+      const list = document.querySelector("#latest-list ul");
+      list.innerHTML = "";
+
+      const entries = data.feed.entry || [];
+      if (entries.length === 0) {
+        list.innerHTML = "<li>記事が見つかりません</li>";
+        return;
+      }
+
+      entries.forEach(entry => {
+        const title = entry.title.$t;
+        const link = entry.link.find(l => l.rel === "alternate").href;
+        const date = new Date(entry.published.$t).toLocaleDateString();
+
+        const li = document.createElement("li");
+        li.innerHTML =
+          `<small>${date}</small> <a href="${link}" target="_blank">${title}</a>`;
+        list.appendChild(li);
+      });
+    }
+
+    /* --- JSONP 読み込み開始 --- */
+    (function () {
+      const script = document.createElement("script");
+      script.src =
+        `${BLOG_URL}/feeds/posts/default` +
+        `?alt=json-in-script&callback=handleFeed&max-results=${MAX_RESULTS}`;
+      document.body.appendChild(script);
+    })();
+  </script>
 
 </body>
 </html>
+
