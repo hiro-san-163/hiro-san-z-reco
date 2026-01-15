@@ -23,6 +23,11 @@ function initRecordPage(config) {
 
   // 初期化
   config._labelSet = new Set();
+
+  // ★ ブレッドクラム描画
+  renderBreadcrumb(config);
+
+  // データ取得開始
   fetchAllEntries(config, 1);
 }
 
@@ -150,4 +155,36 @@ function handlePosts(data) {
       `<small>${date}</small> <a href="${link}" target="_blank">${title}</a>`;
     list.appendChild(li);
   });
+}
+
+/* =========================================================
+   ブレッドクラム描画
+========================================================= */
+function renderBreadcrumb(config) {
+  const bc = document.getElementById("breadcrumb");
+  if (!bc) return;
+
+  let labelText = "";
+
+  switch (config.pageType) {
+    case "year":
+      labelText = "年別";
+      break;
+    case "genre":
+      labelText = "ジャンル別";
+      break;
+    case "area":
+      labelText = "山域別";
+      break;
+    default:
+      labelText = "";
+  }
+
+  bc.innerHTML = `
+    <a href="/index.html">ホーム</a>
+    <span> &gt; </span>
+    <a href="/record/index.html">山行記録</a>
+    <span> &gt; </span>
+    <span>${labelText}</span>
+  `;
 }
