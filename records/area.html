@@ -2,90 +2,64 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-
   <base href="/hiro-san-z-reco/">
-
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>山行記録 - 山域別 | hiro-sanの山歩き</title>
-
+  <title>山行記録 - 山域別</title>
   <link rel="stylesheet" href="CSS/style.css">
-  <link rel="icon" href="favicon.ico">
 </head>
 
 <body>
-  <div id="header"></div>
+<div id="header"></div>
 
-  <main class="container main-content">
+<main class="container main-content">
+  <nav class="breadcrumb"></nav>
 
-    <nav class="breadcrumb"></nav>
+  <h1>山行記録 - 山域別</h1>
 
-    <h1>山行記録 - 山域別</h1>
-    <p>
-      山域ごとに分類された山行記録です。
-      ラベルをクリックすると該当する記録が表示されます。
-    </p>
+  <div class="label-buttons" id="area-labels">
+    <span class="label-placeholder">山域データ取得中…</span>
+  </div>
 
-    <div class="label-buttons" id="area-labels">
-      <span class="label-placeholder">山域データを取得中…</span>
-    </div>
+  <div class="list-box" id="latest-list" style="display:none;">
+    <h3 id="list-title"></h3>
+    <ul></ul>
+    <p><a id="more-link" href="#" target="_blank">▶ もっと見る</a></p>
+  </div>
+</main>
 
-    <div class="list-box" id="latest-list" style="display:none;">
-      <h3 id="list-title"></h3>
-      <ul></ul>
-      <p><a id="more-link" href="#" target="_blank">▶ もっと見る</a></p>
-    </div>
+<div id="footer"></div>
 
-  </main>
+<script src="JS/include.js"></script>
+<script src="JS/record_common.js"></script>
 
-  <div id="footer"></div>
+<script>
+loadHeaderFooter();
+initNavToggle();
 
-  <!-- 共通UI -->
-  <script src="JS/include.js"></script>
+const GENRE_LABELS = [
+  "ハイキング",
+  "トレッキング",
+  "ピークハント",
+  "縦走",
+  "沢登り",
+  "トレーニング",
+  "ラン",
+  "雪山"
+];
 
-  <script>
-    loadHeaderFooter();
-    initNavToggle();
+const RECORD_CONFIG = {
+  pageType: "area",
+  labelContainerId: "area-labels",
+  listBoxId: "latest-list",
+  excludeLabel: label =>
+    /^\d{4}$/.test(label) || GENRE_LABELS.includes(label)
+};
 
-    renderBreadcrumb([
-      { label: "ホーム", url: "index.html" },
-      { label: "山行記録", url: "records/index.html" },
-      { label: "山域別" }
-    ]);
-  </script>
-
-  <!-- ★ 共通ロジック -->
-  <script src="JS/record-common.js"></script>
-
-  <!-- ★ area 固有設定 -->
-  <script>
-    const RECORD_CONFIG = {
-      pageType: "area",
-      labelContainerId: "area-labels",
-      listBoxId: "latest-list",
-
-      /* 除外条件 */
-      excludeLabel: (label) => {
-        if (/^\d{4}$/.test(label)) return true;
-
-        const GENRE_LABELS = [
-          "ハイキング",
-          "トレッキング",
-          "ピークハント",
-          "縦走",
-          "沢登り",
-          "トレーニング",
-          "ラン",
-          "雪山"
-        ];
-        return GENRE_LABELS.includes(label);
-      }
-    };
-
-    initRecordPage(RECORD_CONFIG);
-  </script>
-
+initRecordPage(RECORD_CONFIG);
+</script>
 </body>
 </html>
+
 
 
 

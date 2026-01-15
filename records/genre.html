@@ -2,77 +2,57 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-
   <base href="/hiro-san-z-reco/">
-
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>山行記録 - ジャンル別 | hiro-sanの山歩き</title>
-
+  <title>山行記録 - ジャンル別</title>
   <link rel="stylesheet" href="CSS/style.css">
-  <link rel="icon" href="favicon.ico">
 </head>
 
 <body>
-  <div id="header"></div>
+<div id="header"></div>
 
-  <main class="container main-content">
+<main class="container main-content">
+  <nav class="breadcrumb"></nav>
 
-    <nav class="breadcrumb"></nav>
+  <h1>山行記録 - ジャンル別</h1>
 
-    <h1>山行記録 - ジャンル別</h1>
-    <p>
-      山行スタイル（ジャンル）ごとに分類された記録です。
-    </p>
+  <div class="label-buttons" id="genre-labels"></div>
 
-    <div class="label-buttons" id="genre-labels"></div>
+  <div class="list-box" id="latest-list">
+    <h3 id="list-title"></h3>
+    <ul></ul>
+    <p><a id="more-link" href="#" target="_blank">▶ もっと見る</a></p>
+  </div>
+</main>
 
-    <div class="list-box" id="latest-list" style="display:none;">
-      <h3 id="list-title"></h3>
-      <ul></ul>
-      <p><a id="more-link" href="#" target="_blank">▶ もっと見る</a></p>
-    </div>
+<div id="footer"></div>
 
-  </main>
+<script src="JS/include.js"></script>
+<script src="JS/record_common.js"></script>
 
-  <div id="footer"></div>
+<script>
+loadHeaderFooter();
+initNavToggle();
 
-  <script src="JS/include.js"></script>
-  <script>
-    loadHeaderFooter();
-    initNavToggle();
+const GENRE_LABELS = [
+  "ハイキング",
+  "トレッキング",
+  "ピークハント",
+  "縦走",
+  "沢登り",
+  "トレーニング",
+  "ラン",
+  "雪山"
+];
 
-    renderBreadcrumb([
-      { label: "ホーム", url: "index.html" },
-      { label: "山行記録", url: "records/index.html" },
-      { label: "ジャンル別" }
-    ]);
-  </script>
+const RECORD_CONFIG = {
+  pageType: "genre",
+  labelContainerId: "genre-labels",
+  listBoxId: "latest-list",
+  excludeLabel: label => !GENRE_LABELS.includes(label)
+};
 
-  <!-- 共通JS -->
-  <script src="JS/record-common.js"></script>
-
-  <!-- genre 固有設定 -->
-  <script>
-    const GENRE_LABELS = [
-      "ハイキング",
-      "トレッキング",
-      "ピークハント",
-      "縦走",
-      "沢登り",
-      "トレーニング",
-      "ラン",
-      "雪山"
-    ];
-
-    const RECORD_CONFIG = {
-      pageType: "genre",
-      labelContainerId: "genre-labels",
-      listBoxId: "latest-list",
-      excludeLabel: (label) => !GENRE_LABELS.includes(label)
-    };
-
-    initRecordPage(RECORD_CONFIG);
-  </script>
-
+initRecordPage(RECORD_CONFIG);
+</script>
 </body>
 </html>

@@ -1,25 +1,34 @@
 /* =========================================================
    山行記録 共通ロジック
-   year / genre / area 共通利用
+   year / genre / area 共通利用（JSONP・全件対応）
    ========================================================= */
 
 const BLOG_URL = "https://hiro-san-163.blogspot.com";
 const MAX_RESULTS = 150;
 
-/* エントリーポイント */
+/* =========================================================
+   エントリーポイント（HTML から必ず呼ぶ）
+========================================================= */
 function initRecordPage(config) {
-  if (!config || !config.labelContainerId) {
+  if (!config || !config.pageType || !config.labelContainerId) {
     console.error("RECORD_CONFIG が不正です");
     return;
   }
 
+  // JSONP callback 参照用にグローバル保持
+  window.RECORD_CONFIG = config;
+
+  // ページタイプ別 callback 登録
+  createFeedHandler(config.pageType);
+
+  // 初期化
   config._labelSet = new Set();
   fetchAllEntries(config, 1);
 }
 
-/* ---------------------------------------------------------
+/* =========================================================
    全件走査（JSONP ページング）
---------------------------------------------------------- */
+========================================================= */
 function fetchAllEntries(config, startIndex) {
   const script = document.createElement("script");
   script.src =
@@ -32,9 +41,9 @@ function fetchAllEntries(config, startIndex) {
   document.body.appendChild(script);
 }
 
-/* ---------------------------------------------------------
-   JSONP コールバック（ページタイプ別に生成）
---------------------------------------------------------- */
+/* =========================================================
+   JSONP コールバック（pageType 別に生成）
+========================================================= */
 function createFeedHandler(pageType) {
   window[`handleFeed_${pageType}`] = function (data) {
     const config = window.RECORD_CONFIG;
@@ -52,7 +61,7 @@ function createFeedHandler(pageType) {
       });
     });
 
-    /* 次ページ判定 */
+    // 次ページ判定
     if (entries.length === MAX_RESULTS) {
       const nextIndex =
         Number(data.feed.openSearch$startIndex.$t) + MAX_RESULTS;
@@ -60,15 +69,15 @@ function createFeedHandler(pageType) {
       return;
     }
 
-    /* 全件取得完了 */
+    // 全件取得完了
     renderLabels(config);
     handleQueryIfExists(config);
   };
 }
 
-/* ---------------------------------------------------------
+/* =========================================================
    ラベル描画
---------------------------------------------------------- */
+========================================================= */
 function renderLabels(config) {
   const container = document.getElementById(config.labelContainerId);
   container.innerHTML = "";
@@ -83,15 +92,16 @@ function renderLabels(config) {
 
   labels.forEach(label => {
     const a = document.createElement("a");
-    a.href = `records/${config.pageType}.html?label=${encodeURIComponent(label)}`;
+    a.href =
+      `records/${config.pageType}.html?label=${encodeURIComponent(label)}`;
     a.textContent = label;
     container.appendChild(a);
   });
 }
 
-/* ---------------------------------------------------------
+/* =========================================================
    クエリあり時のみ記事表示
---------------------------------------------------------- */
+========================================================= */
 function handleQueryIfExists(config) {
   const params = new URLSearchParams(location.search);
   const label = params.get("label");
@@ -103,9 +113,9 @@ function handleQueryIfExists(config) {
   showLatestPosts(label);
 }
 
-/* ---------------------------------------------------------
+/* =========================================================
    最新5件表示（共通）
---------------------------------------------------------- */
+========================================================= */
 function showLatestPosts(label) {
   document.getElementById("list-title").textContent =
     `${label} の最新5件`;
@@ -141,13 +151,3 @@ function handlePosts(data) {
     list.appendChild(li);
   });
 }
-
-/* ---------------------------------------------------------
-   初期化用（HTML 側で必ず呼ぶ）
---------------------------------------------------------- */
-(function bootstrap() {
-  if (!window.RECORD_CONFIG) return;
-
-  createFeedHandler(RECORD_CONFIG.pageType);
-})();
-
