@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
 
-  <!-- GitHub Pages 用 base -->
   <base href="/hiro-san-z-reco/">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,27 +13,23 @@
 </head>
 
 <body>
-  <!-- 共通ヘッダー -->
   <div id="header"></div>
 
   <main class="container main-content">
 
-    <!-- ブレッドクラム -->
     <nav class="breadcrumb"></nav>
 
     <h1>山行記録 - 年別</h1>
     <p>
       年ごとに分類された山行記録です。
-      ラベルをクリックすると対応する記事一覧が表示されます。
+      ラベルをクリックすると該当する記録が表示されます。
     </p>
 
-    <!-- 年ラベル -->
     <div class="label-buttons" id="year-labels">
       <span class="label-placeholder">年別データを取得中…</span>
     </div>
 
-    <!-- 記事リスト -->
-    <div class="list-box" id="latest-list">
+    <div class="list-box" id="latest-list" style="display:none;">
       <h3 id="list-title"></h3>
       <ul></ul>
       <p><a id="more-link" href="#" target="_blank">▶ もっと見る</a></p>
@@ -42,13 +37,9 @@
 
   </main>
 
-  <!-- 共通フッター -->
   <div id="footer"></div>
 
-  <!-- 共通JS -->
   <script src="JS/include.js"></script>
-
-  <!-- 共通初期化 -->
   <script>
     loadHeaderFooter();
     initNavToggle();
@@ -60,93 +51,21 @@
     ]);
   </script>
 
-  <!-- ===== 年別 JSONP 処理 ===== -->
+  <!-- 共通JS -->
+  <script src="JS/record-common.js"></script>
+
+  <!-- year 固有設定 -->
   <script>
-    const BLOG_URL = "https://hiro-san-163.blogspot.com";
-    const MAX_RESULTS = 150;
+    const RECORD_CONFIG = {
+      pageType: "year",
+      labelContainerId: "year-labels",
+      listBoxId: "latest-list",
+      excludeLabel: (label) => !/^\d{4}$/.test(label)
+    };
 
-    /* --- フィード受信（年ラベル生成） --- */
-    function handleFeed(data) {
-      const entries = data.feed.entry || [];
-      const yearSet = new Set();
-
-      entries.forEach(entry => {
-        if (!entry.category) return;
-        entry.category.forEach(cat => {
-          if (/^\d{4}$/.test(cat.term)) {
-            yearSet.add(cat.term);
-          }
-        });
-      });
-
-      const years = Array.from(yearSet).sort((a, b) => b - a);
-      const container = document.getElementById("year-labels");
-      container.innerHTML = "";
-
-      if (years.length === 0) {
-        container.innerHTML =
-          "<span class='label-placeholder'>年別データがありません</span>";
-        return;
-      }
-
-      years.forEach(year => {
-        const a = document.createElement("a");
-        a.href = `records/year.html?label=${year}`;
-        a.textContent = year;
-        container.appendChild(a);
-      });
-
-      const params = new URLSearchParams(location.search);
-      const currentYear = params.get("label") || years[0];
-      showLatestPosts(currentYear);
-    }
-
-    /* --- 最新5件表示 --- */
-    function showLatestPosts(year) {
-      document.getElementById("list-title").textContent =
-        `${year} の最新5件`;
-
-      document.getElementById("more-link").href =
-        `${BLOG_URL}/search/label/${encodeURIComponent(year)}`;
-
-      const script = document.createElement("script");
-      script.src =
-        `${BLOG_URL}/feeds/posts/default/-/${encodeURIComponent(year)}` +
-        `?alt=json-in-script&callback=handlePosts&max-results=5`;
-      document.body.appendChild(script);
-    }
-
-    function handlePosts(data) {
-      const list = document.querySelector("#latest-list ul");
-      list.innerHTML = "";
-
-      const entries = data.feed.entry || [];
-      if (entries.length === 0) {
-        list.innerHTML = "<li>記事が見つかりません</li>";
-        return;
-      }
-
-      entries.forEach(entry => {
-        const title = entry.title.$t;
-        const link = entry.link.find(l => l.rel === "alternate").href;
-        const date = new Date(entry.published.$t).toLocaleDateString();
-
-        const li = document.createElement("li");
-        li.innerHTML =
-          `<small>${date}</small> <a href="${link}" target="_blank">${title}</a>`;
-        list.appendChild(li);
-      });
-    }
-
-    /* --- JSONP 読み込み開始 --- */
-    (function () {
-      const script = document.createElement("script");
-      script.src =
-        `${BLOG_URL}/feeds/posts/default` +
-        `?alt=json-in-script&callback=handleFeed&max-results=${MAX_RESULTS}`;
-      document.body.appendChild(script);
-    })();
+    initRecordPage(RECORD_CONFIG);
   </script>
 
 </body>
 </html>
+

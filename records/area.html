@@ -13,12 +13,10 @@
 </head>
 
 <body>
-  <!-- 共通ヘッダー -->
   <div id="header"></div>
 
   <main class="container main-content">
 
-    <!-- ブレッドクラム -->
     <nav class="breadcrumb"></nav>
 
     <h1>山行記録 - 山域別</h1>
@@ -27,12 +25,10 @@
       ラベルをクリックすると該当する記録が表示されます。
     </p>
 
-    <!-- 山域ラベル -->
     <div class="label-buttons" id="area-labels">
       <span class="label-placeholder">山域データを取得中…</span>
     </div>
 
-    <!-- 記事リスト（クエリあり時のみ） -->
     <div class="list-box" id="latest-list" style="display:none;">
       <h3 id="list-title"></h3>
       <ul></ul>
@@ -41,10 +37,9 @@
 
   </main>
 
-  <!-- 共通フッター -->
   <div id="footer"></div>
 
-  <!-- 共通JS -->
+  <!-- 共通UI -->
   <script src="JS/include.js"></script>
 
   <script>
@@ -58,140 +53,39 @@
     ]);
   </script>
 
-  <!-- ===== 山域別 JSONP（③案） ===== -->
+  <!-- ★ 共通ロジック -->
+  <script src="JS/record-common.js"></script>
+
+  <!-- ★ area 固有設定 -->
   <script>
-    const BLOG_URL = "https://hiro-san-163.blogspot.com";
-    const MAX_RESULTS = 150;
+    const RECORD_CONFIG = {
+      pageType: "area",
+      labelContainerId: "area-labels",
+      listBoxId: "latest-list",
 
-    /* genre.html と完全に同一のジャンル定義 */
-    const GENRE_LABELS = [
-      "ハイキング",
-      "トレッキング",
-      "ピークハント",
-      "縦走",
-      "沢登り",
-      "トレーニング",
-      "ラン",
-      "雪山"
-    ];
+      /* 除外条件 */
+      excludeLabel: (label) => {
+        if (/^\d{4}$/.test(label)) return true;
 
-    const areaSet = new Set();
-
-    /* --- 全件走査（ラベル収集専用） --- */
-    function fetchAllLabels(startIndex = 1) {
-      const script = document.createElement("script");
-      script.src =
-        `${BLOG_URL}/feeds/posts/default` +
-        `?alt=json-in-script&callback=handleFeed` +
-        `&max-results=${MAX_RESULTS}` +
-        `&start-index=${startIndex}`;
-      document.body.appendChild(script);
-    }
-
-    function handleFeed(data) {
-      const entries = data.feed.entry || [];
-
-      entries.forEach(entry => {
-        if (!entry.category) return;
-
-        entry.category.forEach(cat => {
-          const label = cat.term;
-
-          /* 年除外 */
-          if (/^\d{4}$/.test(label)) return;
-
-          /* ジャンル除外 */
-          if (GENRE_LABELS.includes(label)) return;
-
-          areaSet.add(label);
-        });
-      });
-
-      /* 次ページがあれば継続 */
-      if (entries.length === MAX_RESULTS) {
-        const nextIndex =
-          Number(data.feed.openSearch$startIndex.$t) + MAX_RESULTS;
-        fetchAllLabels(nextIndex);
-        return;
+        const GENRE_LABELS = [
+          "ハイキング",
+          "トレッキング",
+          "ピークハント",
+          "縦走",
+          "沢登り",
+          "トレーニング",
+          "ラン",
+          "雪山"
+        ];
+        return GENRE_LABELS.includes(label);
       }
+    };
 
-      renderAreaLabels();
-      handleQueryIfExists();
-    }
-
-    /* --- 山域ラベル描画 --- */
-    function renderAreaLabels() {
-      const container = document.getElementById("area-labels");
-      container.innerHTML = "";
-
-      const areas = Array.from(areaSet).sort();
-
-      if (areas.length === 0) {
-        container.innerHTML =
-          "<span class='label-placeholder'>山域データがありません</span>";
-        return;
-      }
-
-      areas.forEach(area => {
-        const a = document.createElement("a");
-        a.href = `records/area.html?label=${encodeURIComponent(area)}`;
-        a.textContent = area;
-        container.appendChild(a);
-      });
-    }
-
-    /* --- クエリあり時のみ記事表示 --- */
-    function handleQueryIfExists() {
-      const params = new URLSearchParams(location.search);
-      const area = params.get("label");
-      if (!area) return;
-
-      document.getElementById("latest-list").style.display = "block";
-      showLatestPosts(area);
-    }
-
-    /* --- 最新5件表示（year / genre と同一） --- */
-    function showLatestPosts(area) {
-      document.getElementById("list-title").textContent =
-        `${area} の最新5件`;
-
-      document.getElementById("more-link").href =
-        `${BLOG_URL}/search/label/${encodeURIComponent(area)}`;
-
-      const script = document.createElement("script");
-      script.src =
-        `${BLOG_URL}/feeds/posts/default/-/${encodeURIComponent(area)}` +
-        `?alt=json-in-script&callback=handlePosts&max-results=5`;
-      document.body.appendChild(script);
-    }
-
-    function handlePosts(data) {
-      const list = document.querySelector("#latest-list ul");
-      list.innerHTML = "";
-
-      const entries = data.feed.entry || [];
-      if (entries.length === 0) {
-        list.innerHTML = "<li>記事が見つかりません</li>";
-        return;
-      }
-
-      entries.forEach(entry => {
-        const title = entry.title.$t;
-        const link = entry.link.find(l => l.rel === "alternate").href;
-        const date = new Date(entry.published.$t).toLocaleDateString();
-
-        const li = document.createElement("li");
-        li.innerHTML =
-          `<small>${date}</small> <a href="${link}" target="_blank">${title}</a>`;
-        list.appendChild(li);
-      });
-    }
-
-    /* 初期起動 */
-    fetchAllLabels();
+    initRecordPage(RECORD_CONFIG);
   </script>
 
 </body>
 </html>
+
 
 
