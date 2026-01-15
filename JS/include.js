@@ -13,7 +13,7 @@ function loadPart(id, url) {
 }
 
 // キャッシュ対策
-const v = "20250210";
+const v = "20250215";
 
 // header / footer 読み込み
 loadPart("header", `parts/header.html?v=${v}`).then(() => {
