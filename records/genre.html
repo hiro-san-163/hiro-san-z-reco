@@ -3,56 +3,51 @@
 <head>
   <meta charset="UTF-8">
   <base href="/hiro-san-z-reco/">
+
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>山行記録 - ジャンル別</title>
+
   <link rel="stylesheet" href="CSS/style.css">
 </head>
 
 <body>
-<div id="header"></div>
+  <div id="header"></div>
 
-<main class="container main-content">
-  <nav id="breadcrumb" class="breadcrumb"></nav>
+  <main class="container main-content">
+    <nav class="breadcrumb"></nav>
 
-  <h1>山行記録 - ジャンル別</h1>
+    <h1>山行記録 - ジャンル別</h1>
 
-  <div class="label-buttons" id="genre-labels"></div>
+    <div class="label-buttons" id="genre-labels">
+      <span class="label-placeholder">ジャンルデータ取得中…</span>
+    </div>
 
-  <div class="list-box" id="latest-list">
-    <h3 id="list-title"></h3>
-    <ul></ul>
-    <p><a id="more-link" href="#" target="_blank">▶ もっと見る</a></p>
-  </div>
-</main>
+    <div class="list-box" id="latest-list" style="display:none;">
+      <h3 id="list-title"></h3>
+      <ul></ul>
+      <p><a id="more-link" href="#" target="_blank">▶ もっと見る</a></p>
+    </div>
+  </main>
 
-<div id="footer"></div>
+  <div id="footer"></div>
 
-<script src="JS/include.js"></script>
-<script src="JS/record_common.js"></script>
+  <script src="JS/include.js"></script>
+  <script src="JS/record_common.js"></script>
 
-<script>
-loadHeaderFooter();
-initNavToggle();
+  <script>
+    loadHeaderFooter();
+    initNavToggle();
 
-const GENRE_LABELS = [
-  "ハイキング",
-  "トレッキング",
-  "ピークハント",
-  "縦走",
-  "沢登り",
-  "トレーニング",
-  "ラン",
-  "雪山"
-];
+    /* ブレッドクラム（共通定義） */
+    setBreadcrumb("records-genre");
 
-const RECORD_CONFIG = {
-  pageType: "genre",
-  labelContainerId: "genre-labels",
-  listBoxId: "latest-list",
-  excludeLabel: label => !GENRE_LABELS.includes(label)
-};
+    const RECORD_CONFIG = {
+      pageType: "genre",
+      labelContainerId: "genre-labels",
+      listBoxId: "latest-list"
+    };
 
-initRecordPage(RECORD_CONFIG);
-</script>
+    initRecordPage(RECORD_CONFIG);
+  </script>
 </body>
 </html>
