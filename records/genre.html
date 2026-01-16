@@ -11,43 +11,73 @@
 </head>
 
 <body>
+  <!-- 共通ヘッダー -->
   <div id="header"></div>
 
   <main class="container main-content">
+    <!-- ブレッドクラム -->
     <nav class="breadcrumb"></nav>
 
     <h1>山行記録 - ジャンル別</h1>
+    <p>
+      山行をジャンル別に分類しています。
+      ラベルをクリックすると該当ジャンルの最新記録が表示されます。
+    </p>
 
+    <!-- ジャンルラベル -->
     <div class="label-buttons" id="genre-labels">
       <span class="label-placeholder">ジャンルデータ取得中…</span>
     </div>
 
+    <!-- 記事リスト（クエリあり時のみ） -->
     <div class="list-box" id="latest-list" style="display:none;">
       <h3 id="list-title"></h3>
       <ul></ul>
-      <p><a id="more-link" href="#" target="_blank">▶ もっと見る</a></p>
+      <p>
+        <a id="more-link" href="#" target="_blank">▶ もっと見る</a>
+      </p>
     </div>
   </main>
 
+  <!-- 共通フッター -->
   <div id="footer"></div>
 
+  <!-- 共通JS -->
   <script src="JS/include.js"></script>
   <script src="JS/record_common.js"></script>
 
   <script>
+    /* header / footer / nav */
     loadHeaderFooter();
     initNavToggle();
 
-    /* ブレッドクラム（共通定義） */
+    /* ブレッドクラム */
     setBreadcrumb("records-genre");
 
+    /* ===== ジャンル定義（明示） ===== */
+    const GENRE_LABELS = [
+      "ハイキング",
+      "トレッキング",
+      "ピークハント",
+      "縦走",
+      "沢登り",
+      "トレーニング",
+      "ラン",
+      "雪山"
+    ];
+
+    /* genre ページ設定 */
     const RECORD_CONFIG = {
       pageType: "genre",
       labelContainerId: "genre-labels",
-      listBoxId: "latest-list"
+      listBoxId: "latest-list",
+
+      // 明示したジャンル以外は除外
+      excludeLabel: label => !GENRE_LABELS.includes(label)
     };
 
     initRecordPage(RECORD_CONFIG);
   </script>
 </body>
 </html>
+
