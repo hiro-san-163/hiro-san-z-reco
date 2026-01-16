@@ -1,13 +1,13 @@
 /* =========================================================
    山行記録 共通ロジック
    year / genre / area 共通利用（JSONP・全件対応）
-   ========================================================= */
+========================================================= */
 
 const BLOG_URL = "https://hiro-san-163.blogspot.com";
 const MAX_RESULTS = 150;
 
 /* =========================================================
-   エントリーポイント（HTML から必ず呼ぶ）
+   エントリーポイント
 ========================================================= */
 function initRecordPage(config) {
   if (!config || !config.pageType || !config.labelContainerId) {
@@ -15,19 +15,13 @@ function initRecordPage(config) {
     return;
   }
 
-  // JSONP callback 参照用にグローバル保持
   window.RECORD_CONFIG = config;
-
-  // ページタイプ別 callback 登録
   createFeedHandler(config.pageType);
-
-  // 初期化
   config._labelSet = new Set();
 
-  // ★ ブレッドクラム描画
+  // ★ ブレッドクラム描画（修正済）
   renderBreadcrumb(config);
 
-  // データ取得開始
   fetchAllEntries(config, 1);
 }
 
@@ -47,7 +41,7 @@ function fetchAllEntries(config, startIndex) {
 }
 
 /* =========================================================
-   JSONP コールバック（pageType 別に生成）
+   JSONP コールバック生成
 ========================================================= */
 function createFeedHandler(pageType) {
   window[`handleFeed_${pageType}`] = function (data) {
@@ -56,17 +50,13 @@ function createFeedHandler(pageType) {
 
     entries.forEach(entry => {
       if (!entry.category) return;
-
       entry.category.forEach(cat => {
         const label = cat.term;
-
         if (config.excludeLabel && config.excludeLabel(label)) return;
-
         config._labelSet.add(label);
       });
     });
 
-    // 次ページ判定
     if (entries.length === MAX_RESULTS) {
       const nextIndex =
         Number(data.feed.openSearch$startIndex.$t) + MAX_RESULTS;
@@ -74,7 +64,6 @@ function createFeedHandler(pageType) {
       return;
     }
 
-    // 全件取得完了
     renderLabels(config);
     handleQueryIfExists(config);
   };
@@ -85,8 +74,9 @@ function createFeedHandler(pageType) {
 ========================================================= */
 function renderLabels(config) {
   const container = document.getElementById(config.labelContainerId);
-  container.innerHTML = "";
+  if (!container) return;
 
+  container.innerHTML = "";
   const labels = Array.from(config._labelSet).sort();
 
   if (labels.length === 0) {
@@ -105,7 +95,7 @@ function renderLabels(config) {
 }
 
 /* =========================================================
-   クエリあり時のみ記事表示
+   クエリ処理
 ========================================================= */
 function handleQueryIfExists(config) {
   const params = new URLSearchParams(location.search);
@@ -119,7 +109,7 @@ function handleQueryIfExists(config) {
 }
 
 /* =========================================================
-   最新5件表示（共通）
+   最新5件表示
 ========================================================= */
 function showLatestPosts(label) {
   document.getElementById("list-title").textContent =
@@ -132,14 +122,17 @@ function showLatestPosts(label) {
   script.src =
     `${BLOG_URL}/feeds/posts/default/-/${encodeURIComponent(label)}` +
     `?alt=json-in-script&callback=handlePosts&max-results=5`;
+
   document.body.appendChild(script);
 }
 
 function handlePosts(data) {
   const list = document.querySelector("#latest-list ul");
-  list.innerHTML = "";
+  if (!list) return;
 
+  list.innerHTML = "";
   const entries = data.feed.entry || [];
+
   if (entries.length === 0) {
     list.innerHTML = "<li>記事が見つかりません</li>";
     return;
@@ -158,10 +151,10 @@ function handlePosts(data) {
 }
 
 /* =========================================================
-   ブレッドクラム描画
+   ブレッドクラム描画（★ 修正ポイント）
 ========================================================= */
 function renderBreadcrumb(config) {
-  const bc = document.getElementById("breadcrumb");
+  const bc = document.querySelector("nav.breadcrumb");
   if (!bc) return;
 
   let labelText = "";
@@ -176,14 +169,12 @@ function renderBreadcrumb(config) {
     case "area":
       labelText = "山域別";
       break;
-    default:
-      labelText = "";
   }
 
   bc.innerHTML = `
-    <a href="/index.html">ホーム</a>
+    <a href="index.html">ホーム</a>
     <span> &gt; </span>
-    <a href="/record/index.html">山行記録</a>
+    <a href="records/index.html">山行記録</a>
     <span> &gt; </span>
     <span>${labelText}</span>
   `;
