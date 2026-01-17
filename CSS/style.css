@@ -314,3 +314,42 @@ a:hover {
   margin-left: 8px;
   color: #666;
 }
+/* ===================================
+   records ページ：年・ジャンル・山域ラベル
+   =================================== */
+
+/* ラベル未選択時（プレースホルダ） */
+.label-placeholder {
+  color: #555;
+  font-size: 0.9rem;
+}
+
+/* ラベルボタン群 */
+.label-buttons {
+  margin: 0.5em 0 1em;
+}
+
+/* 各ラベル */
+.label-buttons a {
+  display: inline-block;
+  margin: 0 6px 6px 0;
+  padding: 6px 12px;
+
+  background: #f2f6f4;
+  color: #0a4a2a;
+
+  border: 1px solid #cfded6;
+  border-radius: 4px;
+
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+/* ホバー時 */
+.label-buttons a:hover {
+  background: #e2f0e8;
+  border-color: #8fb7a3;
+  opacity: 1;
+}
