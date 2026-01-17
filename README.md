@@ -451,3 +451,153 @@ alt=json-in-script + callback
 
 以上が、今回の改修内容のまとめ。
 この README を基点として、次フェーズ（全件対応・area / genre 展開）へ進む。
+
+-## メンテナンス履歴
+- 2026-01-17--
+了解しました。
+以下は **今回のスタート（genreページの確定）から、ブレッドクラム仕様が確定するまで**の経緯を、
+**そのまま `README.md` に貼り付け可能な形**で整理したまとめです。
+
+---
+
+# ブレッドクラム実装修正の経緯（genre → year / area 共通化）
+
+## 概要
+
+本リポジトリでは、`<base href="/hiro-san-z-reco/">` を前提とした
+**相対パス設計**でサイト全体を構築している。
+
+今回、`records/genre.html` を起点として、
+`year / area / genre` 各ページの **ブレッドクラム表示およびリンク不整合**が顕在化したため、
+原因の切り分けと修正方針の確定を行った。
+
+---
+
+## 発端（genre ページの確定作業）
+
+* `records/genre.html` にて以下の現象を確認
+
+  * ブレッドクラムが表示されない、または
+  * 「山行記録」リンクが `/record/index.html` を指し 404 になる
+* HTML 側では以下を正しく記述していた
+
+  * `<base href="/hiro-san-z-reco/">`
+  * `<nav class="breadcrumb"></nav>`
+  * `initRecordPage({ pageType: "genre", ... })`
+
+→ **HTML の記述ミスではない**ことが判明。
+
+---
+
+## 調査で判明した事実
+
+### 1. `<base>` は正常に機能している
+
+* CSS / JS / 内部リンクは正しく解決されている
+* 以前は同構成で最新記事表示も動作していた
+
+→ `<base>` が原因ではない。
+
+---
+
+### 2. 問題は「ブレッドクラム生成ロジック」に限定されていた
+
+`record_common.js` 内の `renderBreadcrumb()` に以下の問題が存在：
+
+```js
+<a href="/index.html">ホーム</a>
+<a href="/record/index.html">山行記録</a>
+```
+
+* `/record/`（単数）という **誤パス**
+* `/index.html` のような **ルート絶対パス**
+* `<base>` を完全に無視する書き方
+
+→ Chrome では `/record/index.html` に解決され、404 が発生。
+
+---
+
+## 設計判断（重要）
+
+### ❌ 採用しなかった案
+
+* HTML 側で `<base>` をやめる
+* ページごとに breadcrumb JS を分ける
+* year / area / genre の HTML を大幅に書き換える
+
+これらは **これまで積み上げた設計方針を破壊するため不採用**。
+
+---
+
+### ✅ 採用した最終方針
+
+* **HTML は一切変更しない**
+* `<base>` 前提設計は維持
+* 修正対象は **`record_common.js` のみ**
+* ブレッドクラムのリンクを **相対パスに統一**
+
+---
+
+## 最終的に確定したブレッドクラム仕様
+
+### 修正後の `renderBreadcrumb()`
+
+```js
+function renderBreadcrumb(config) {
+  const bc = document.querySelector("nav.breadcrumb");
+  if (!bc) return;
+
+  let labelText = "";
+
+  switch (config.pageType) {
+    case "year":
+      labelText = "年別";
+      break;
+    case "genre":
+      labelText = "ジャンル別";
+      break;
+    case "area":
+      labelText = "山域別";
+      break;
+  }
+
+  bc.innerHTML = `
+    <a href="index.html">ホーム</a>
+    <span> &gt; </span>
+    <a href="records/index.html">山行記録</a>
+    <span> &gt; </span>
+    <span>${labelText}</span>
+  `;
+}
+```
+
+### この仕様で保証されること
+
+* `/records/year.html`
+* `/records/genre.html`
+* `/records/area.html`
+
+すべてで：
+
+* ブレッドクラムが必ず表示される
+* `records/index.html` への遷移が正しい
+* `<base>` と完全に整合
+* Chrome / Safari 差異なし
+
+---
+
+## 結論
+
+今回の問題は、
+
+* **設計方針の誤りではなく**
+* **1 箇所の JS 実装ミス**
+
+によるものだった。
+
+既存の `<base>` 前提構造は正しく、
+今後も **同じ思想で安全に拡張可能**であることが確認できた。
+
+---
+
+
