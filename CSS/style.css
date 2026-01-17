@@ -413,7 +413,7 @@ a:hover {
 
 /* 補足テキスト */
 .label-placeholder {
-  font-size: 1.1rem;
+  font-size: 1.05m;
   font-weight: 600;
   color: #1f3f32;
   margin: 1em 0 0.6em;
@@ -432,7 +432,7 @@ a:hover {
   margin: 0 16px 16px 0;        /* ← 間隔を大胆に */
   padding: 12px 22px;          /* ← 明確にボタン */
 
-  font-size: 1.15rem;          /* ← ここ重要：大きく */
+  font-size: 1.08m;          /* ← ここ重要：大きく */
   font-weight: 700;
 
   color: #ffffff;
