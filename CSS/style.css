@@ -265,3 +265,52 @@ a:hover {
     padding: 14px;
   }
 }
+/* ===================================
+   フッターナビ（横並び固定）
+   =================================== */
+
+.footer-nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  padding: 0;
+  margin: 0 0 0.75rem;
+}
+
+.footer-nav li {
+  margin: 0;
+}
+
+.footer-nav a {
+  color: #dfeee7;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.footer-nav a:hover {
+  color: #ffffff;
+}
+/* ===================================
+   パンくずリスト（横並び保証）
+   =================================== */
+
+.breadcrumb ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+}
+
+.breadcrumb li {
+  display: inline-flex;
+  align-items: center;
+}
+
+.breadcrumb li:not(:last-child)::after {
+  content: '>';
+  margin-left: 8px;
+  color: #666;
+}
