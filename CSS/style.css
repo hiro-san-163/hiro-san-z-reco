@@ -520,3 +520,71 @@ a:hover {
   border-radius: 4px;
   text-decoration: none;
 }
+/* ================================
+   アクセスカウンター
+   ================================ */
+
+/* ヘッダー全体（安全弁：未定義でも崩れない） */
+.site-header {
+  width: 100%;
+}
+
+/* 左側：ロゴ＋カウンター */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+/* ロゴ（テキスト／画像どちらでも対応） */
+.site-logo {
+  display: flex;
+  align-items: center;
+}
+
+.site-logo a,
+.site-logo img {
+  display: block;
+}
+
+/* カウンター本体 */
+.access-counter {
+  display: flex;
+  align-items: baseline;
+  gap: 0.3rem;
+
+  font-size: 0.85rem;
+  color: #555;
+  white-space: nowrap;
+}
+
+/* ラベル */
+.access-counter .label {
+  font-size: 0.75rem;
+  color: #777;
+}
+
+/* 数値部分 */
+.access-counter #count {
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+/* ================================
+   スマホ微調整
+   ================================ */
+
+@media (max-width: 480px) {
+  .header-left {
+    gap: 0.5rem;
+  }
+
+  .access-counter {
+    font-size: 0.8rem;
+  }
+
+  .access-counter .label {
+    display: none; /* スマホでは「累計アクセス」を省略 */
+  }
+}
+
