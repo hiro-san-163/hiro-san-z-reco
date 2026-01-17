@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
 
-    <!-- ★ 追加：base（GitHub Pages のリポジトリ名） -->
+  <!-- ★ base（GitHub Pages のリポジトリ名） -->
   <base href="/hiro-san-z-reco/">
-  
+
   <title>トップページ - hiro-sanの山歩き</title>
 
-  <!-- CSS（相対パスで確実に読める形に修正） -->
+  <!-- CSS -->
   <link rel="stylesheet" href="CSS/style.css">
   <link rel="icon" href="favicon.ico">
 
-   <!-- スマホ対応 -->
+  <!-- スマホ対応 -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
@@ -21,7 +21,6 @@
   <div id="header"></div>
 
   <!-- ▼ ページの内容ここから ▼ -->
-
   <div class="container">
 
     <!-- Welcome セクション -->
@@ -57,23 +56,21 @@
           <p>自己紹介</p>
         </a>
 
-	      <a href="other.html" class="nav-card">
+        <a href="other.html" class="nav-card">
           <h3>👣 その他諸々</h3>
           <p>よくお世話になるリンクなど</p>
         </a>
-
       </div>
     </section>
-    
-    <section class="home-records">
-  <h2>山行記録</h2>
-  <p>
-    これまでの山行を記録としてまとめています。
-    記事として読むことも、データから探すこともできます。
-  </p>
-  <a class="button" href="records.html">山行記録を見る</a>
-</section>
 
+    <section class="home-records">
+      <h2>山行記録</h2>
+      <p>
+        これまでの山行を記録としてまとめています。
+        記事として読むことも、データから探すこともできます。
+      </p>
+      <a class="button" href="records.html">山行記録を見る</a>
+    </section>
 
     <!-- 最新の山行記録 -->
     <section class="latest">
@@ -86,18 +83,19 @@
 
   <!-- Blogger から最新5件取得 -->
   <script src="JS/blogfeed.js"></script>
-<script>
-  // Bloggerから最新の山行記録記事5件を取得して表示
-  renderLatestBlogPosts({
-    target: '#latest-cards',
-    max: 5
-  });
-</script>
+  <script>
+    renderLatestBlogPosts({
+      target: '#latest-cards',
+      max: 5
+    });
+  </script>
 
   <!-- ▼ 共通フッター／JS 読み込み ▼ -->
   <div id="footer"></div>
   <script src="JS/include.js"></script>
 
+  <!-- ★ 追加：トップページ専用アクセスカウンター -->
+  <script src="JS/access-counter.js"></script>
+
 </body>
 </html>
-
