@@ -406,3 +406,61 @@ a:hover {
     margin: 0 10px 10px 0;
   }
 }
+/* ===================================
+   records：年・ジャンル・山域ラベル
+   超強調・最終決定版
+   =================================== */
+
+/* 補足テキスト */
+.label-placeholder {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1f3f32;
+  margin: 1em 0 0.6em;
+  display: block;
+}
+
+/* ラベル群 */
+.label-buttons {
+  margin: 1em 0 2em;
+}
+
+/* ラベルボタン本体 */
+.label-buttons a {
+  display: inline-block;
+
+  margin: 0 16px 16px 0;        /* ← 間隔を大胆に */
+  padding: 12px 22px;          /* ← 明確にボタン */
+
+  font-size: 1.15rem;          /* ← ここ重要：大きく */
+  font-weight: 700;
+
+  color: #ffffff;
+  background: #2c7b5f;         /* ← はっきりした緑 */
+
+  border: 3px solid #1f5e47;   /* ← 太い境界線 */
+  border-radius: 12px;         /* ← ボタン形状 */
+
+  line-height: 1.4;
+  white-space: nowrap;
+
+  box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* ホバー時：浮かせる */
+.label-buttons a:hover {
+  background: #1f5e47;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.28);
+  opacity: 1;
+}
+
+/* モバイル：さらに押しやすく */
+@media (max-width: 600px) {
+  .label-buttons a {
+    font-size: 1.2rem;
+    padding: 14px 24px;
+    margin: 0 14px 14px 0;
+  }
+}
