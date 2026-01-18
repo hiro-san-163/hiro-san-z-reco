@@ -11,13 +11,14 @@ document.addEventListener('DOMContentLoaded', () => {
     path === '/hiro-san-z-reco' ||
     path.endsWith('/index.html');
 
+  // トップページ以外は非表示
   if (!isTopPage) {
     counter.style.display = 'none';
     return;
   }
 
-  // CountAPI でアクセスカウント取得
-  const apiUrl = 'https://api.countapi.xyz/hit/hiro-san-z-reco/pages/top';
+  // CountAPI で PV カウント（毎回カウントアップ）
+  const apiUrl = 'https://api.countapi.xyz/hit/hiro-san-z-reco.main/top-page-pv';
 
   fetch(apiUrl)
     .then(res => res.json())

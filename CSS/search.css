@@ -69,7 +69,8 @@
 /* 疑似ラベル */
 
 .filters select,
-.filters input[type="number"] {
+.filters input[type="number"],
+#count {
   position: relative;
 }
 
@@ -98,18 +99,20 @@
   font-size: .9rem;
 }
 
+/* 該当件数表示 */
+#count {
+  display: flex;
+  align-items: center;
+  padding: .5rem .65rem;
+  font-size: .95rem;
+  color: var(--brand);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
 #pageSize {
   max-width: 100px;
   text-align: right;
-}
-
-/* ===============================
-   ツールバー
-================================ */
-
-.toolbar {
-  margin: .5rem 0 1rem;
-  color: var(--muted);
 }
 
 /* ===============================
