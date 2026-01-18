@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
-
   const counter = document.getElementById('access-counter');
   const countEl = document.getElementById('count');
+  
   if (!counter || !countEl) return;
 
-  // トップページ判定（GitHub Pages完全対応）
+  // トップページ判定（GitHub Pages対応）
   const path = location.pathname;
   const isTopPage =
     path === '/hiro-san-z-reco/' ||
@@ -16,9 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  // CountAPI
-  const apiUrl =
-    'https://api.countapi.xyz/hit/hiro-san-z-reco/index-pv';
+  // CountAPI でアクセスカウント取得
+  const apiUrl = 'https://api.countapi.xyz/hit/hiro-san-z-reco/pages/top';
 
   fetch(apiUrl)
     .then(res => res.json())
@@ -29,9 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
         countEl.textContent = '—';
       }
     })
-    .catch(() => {
+    .catch(error => {
+      console.error('アクセスカウント取得エラー:', error);
       countEl.textContent = '—';
     });
-
 });
 

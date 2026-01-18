@@ -1,14 +1,15 @@
-/* =========================================================
+/* ===================================================
    山行記録 共通ロジック
-   year / genre / area 共通利用（JSONP・全件対応）
-========================================================= */
+   year / genre / area 共通利用
+   Blogger API（JSONP）で全ラベルを取得・表示
+================================================= */
 
 const BLOG_URL = "https://hiro-san-163.blogspot.com";
 const MAX_RESULTS = 150;
 
-/* =========================================================
-   エントリーポイント
-========================================================= */
+/* ===================================================
+   メイン初期化関数
+================================================= */
 function initRecordPage(config) {
   if (!config || !config.pageType || !config.labelContainerId) {
     console.error("RECORD_CONFIG が不正です");
@@ -18,16 +19,13 @@ function initRecordPage(config) {
   window.RECORD_CONFIG = config;
   createFeedHandler(config.pageType);
   config._labelSet = new Set();
-
-  // ★ ブレッドクラム描画（修正済）
   renderBreadcrumb(config);
-
   fetchAllEntries(config, 1);
 }
 
-/* =========================================================
-   全件走査（JSONP ページング）
-========================================================= */
+/* ===================================================
+   全エントリー取得（JSONP ページング対応）
+================================================= */
 function fetchAllEntries(config, startIndex) {
   const script = document.createElement("script");
   script.src =
@@ -40,14 +38,16 @@ function fetchAllEntries(config, startIndex) {
   document.body.appendChild(script);
 }
 
-/* =========================================================
+/* ===================================================
    JSONP コールバック生成
-========================================================= */
+   取得データからラベルを抽出
+================================================= */
 function createFeedHandler(pageType) {
   window[`handleFeed_${pageType}`] = function (data) {
     const config = window.RECORD_CONFIG;
     const entries = data.feed.entry || [];
 
+    // ラベルを抽出
     entries.forEach(entry => {
       if (!entry.category) return;
       entry.category.forEach(cat => {
@@ -57,6 +57,7 @@ function createFeedHandler(pageType) {
       });
     });
 
+    // ページング継続判定
     if (entries.length === MAX_RESULTS) {
       const nextIndex =
         Number(data.feed.openSearch$startIndex.$t) + MAX_RESULTS;
@@ -64,14 +65,15 @@ function createFeedHandler(pageType) {
       return;
     }
 
+    // ラベル描画とクエリ処理
     renderLabels(config);
     handleQueryIfExists(config);
   };
 }
 
-/* =========================================================
-   ラベル描画
-========================================================= */
+/* ===================================================
+   ラベルボタン描画
+================================================= */
 function renderLabels(config) {
   const container = document.getElementById(config.labelContainerId);
   if (!container) return;
@@ -80,23 +82,22 @@ function renderLabels(config) {
   const labels = Array.from(config._labelSet).sort();
 
   if (labels.length === 0) {
-    container.innerHTML =
-      "<span class='label-placeholder'>データがありません</span>";
+    container.innerHTML = "<span class='label-placeholder'>データがありません</span>";
     return;
   }
 
   labels.forEach(label => {
     const a = document.createElement("a");
-    a.href =
-      `records/${config.pageType}.html?label=${encodeURIComponent(label)}`;
+    a.href = `records/${config.pageType}.html?label=${encodeURIComponent(label)}`;
     a.textContent = label;
     container.appendChild(a);
   });
 }
 
-/* =========================================================
-   クエリ処理
-========================================================= */
+/* ===================================================
+   クエリパラメータ処理
+   ?label=xxx がある場合は記事リスト表示
+================================================= */
 function handleQueryIfExists(config) {
   const params = new URLSearchParams(location.search);
   const label = params.get("label");
@@ -108,13 +109,11 @@ function handleQueryIfExists(config) {
   showLatestPosts(label);
 }
 
-/* =========================================================
-   最新5件表示
-========================================================= */
+/* ===================================================
+   ラベル別最新記事5件表示
+================================================= */
 function showLatestPosts(label) {
-  document.getElementById("list-title").textContent =
-    `${label} の最新5件`;
-
+  document.getElementById("list-title").textContent = `${label} の最新5件`;
   document.getElementById("more-link").href =
     `${BLOG_URL}/search/label/${encodeURIComponent(label)}`;
 
@@ -126,6 +125,9 @@ function showLatestPosts(label) {
   document.body.appendChild(script);
 }
 
+/* ===================================================
+   記事一覧描画
+================================================= */
 function handlePosts(data) {
   const list = document.querySelector("#latest-list ul");
   if (!list) return;
@@ -144,32 +146,25 @@ function handlePosts(data) {
     const date = new Date(entry.published.$t).toLocaleDateString();
 
     const li = document.createElement("li");
-    li.innerHTML =
-      `<small>${date}</small> <a href="${link}" target="_blank">${title}</a>`;
+    li.innerHTML = `<small>${date}</small> <a href="${link}" target="_blank">${title}</a>`;
     list.appendChild(li);
   });
 }
 
-/* =========================================================
-   ブレッドクラム描画（★ 修正ポイント）
-========================================================= */
+/* ===================================================
+   パンくずナビゲーション描画
+================================================= */
 function renderBreadcrumb(config) {
   const bc = document.querySelector("nav.breadcrumb");
   if (!bc) return;
 
-  let labelText = "";
+  const pageTypeMap = {
+    year: "年別",
+    genre: "ジャンル別",
+    area: "山域別"
+  };
 
-  switch (config.pageType) {
-    case "year":
-      labelText = "年別";
-      break;
-    case "genre":
-      labelText = "ジャンル別";
-      break;
-    case "area":
-      labelText = "山域別";
-      break;
-  }
+  const labelText = pageTypeMap[config.pageType] || "";
 
   bc.innerHTML = `
     <a href="index.html">ホーム</a>
