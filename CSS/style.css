@@ -46,7 +46,7 @@ a:hover {
 .header-inner {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 14px 24px;
+  padding: 10px 24px;
 
   display: flex;
   justify-content: space-between;
@@ -93,7 +93,7 @@ a:hover {
   color: #ffffff;
   font-size: 1.5rem;
   cursor: pointer;
-  padding: 0;
+  padding: 2px 4px;
 }
 
 /* スマホ */
@@ -105,10 +105,13 @@ a:hover {
 
   .header-inner {
     position: relative;
+    padding: 8px 16px;
   }
 
   .nav-toggle {
     display: block;
+    font-size: 1.3rem;
+    padding: 2px 4px;
   }
 
   .global-nav {
@@ -118,7 +121,7 @@ a:hover {
     right: 0;
     background: #2c7b5f;
     display: none;
-    padding: 10px 0;
+    padding: 8px 0;
   }
 
   .global-nav.nav-active {
@@ -133,12 +136,13 @@ a:hover {
 
   .global-nav li {
     text-align: center;
-    padding: 10px 0;
+    padding: 8px 0;
   }
 
   .global-nav a {
     display: block;
-    padding: 10px 20px;
+    padding: 8px 16px;
+    font-size: 0.95rem;
   }
 }
 
@@ -189,14 +193,8 @@ a:hover {
 }
 
 /* ===================================
-   ヘッダー左側（サイトタイトル＋アクセスカウンター）
+   ヘッダー左側（サイトタイトル）
    =================================== */
-
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
 
 .site-logo {
   font-size: 1.15rem;
@@ -205,33 +203,6 @@ a:hover {
 
 .site-logo a {
   color: #ffffff;
-}
-
-/* アクセスカウンター */
-.access-counter {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.85rem;
-  color: #e8f3ee;
-  white-space: nowrap;
-}
-
-.access-counter .label {
-  font-size: 0.75rem;
-  opacity: 0.85;
-}
-
-.access-counter #count {
-  font-weight: bold;
-  font-size: 1.2rem;
-  color: #ffffff;
-}
-
-@media (max-width: 480px) {
-  .access-counter .label {
-    display: none;
-  }
 }
 /* ===================================
    トップページ：ナビカード（横並び復活）

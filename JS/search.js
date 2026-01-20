@@ -116,7 +116,9 @@
     const total = items.length;
     const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
-    countEl.textContent = `該当件数：${total}件`;
+    // 該当件数を「ヒット件数/全件」形式で表示
+    const totalRecords = norm.length;
+    countEl.textContent = `該当件数：${total}件 / 全${totalRecords}件`;
 
     const start = (currentPage - 1) * pageSize;
     const pageItems = items.slice(start, start + pageSize);
