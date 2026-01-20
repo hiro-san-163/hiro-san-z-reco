@@ -104,15 +104,14 @@
   </div>
 
   <!-- ▼ アクセスカウンターJS（トップページのみ） ▼ -->
-  <script>
-fetch('https://api.countapi.xyz/hit/hiro-san-z-reco/top-v1', {
-  cache: 'no-store'
-})
+ <script>
+fetch('https://counterapi.dev/increment/hiro-san-z-reco/top')
   .then(res => res.json())
   .then(data => {
-    document.getElementById('access-count').textContent = data.value;
+    document.getElementById('access-count').textContent = data.count;
   });
 </script>
+
 
 
   <!-- Blogger から最新5件取得 -->
