@@ -14,6 +14,23 @@
 
   <!-- スマホ対応 -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- ▼ アクセスカウンター用CSS（右下固定） ▼ -->
+  <style>
+    #access-counter {
+      position: fixed;
+      right: 10px;
+      bottom: 10px;
+      font-size: 12px;
+      color: #666;
+      background: rgba(255, 255, 255, 0.85);
+      padding: 4px 8px;
+      border-radius: 6px;
+      box-shadow: 0 0 4px rgba(0,0,0,0.1);
+      z-index: 9999;
+      user-select: none;
+    }
+  </style>
 </head>
 <body>
 
@@ -81,6 +98,20 @@
   </div>
   <!-- ▲ ページの内容ここまで ▲ -->
 
+  <!-- ▼ アクセスカウンター表示 ▼ -->
+  <div id="access-counter">
+    access: <span id="access-count">--</span>
+  </div>
+
+  <!-- ▼ アクセスカウンターJS（トップページのみ） ▼ -->
+  <script>
+    fetch('https://api.countapi.xyz/hit/hiro-san-z-reco/top')
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('access-count').textContent = data.value;
+      });
+  </script>
+
   <!-- Blogger から最新5件取得 -->
   <script src="JS/blogfeed.js"></script>
   <script>
@@ -93,6 +124,6 @@
   <!-- ▼ 共通フッター／JS 読み込み ▼ -->
   <div id="footer"></div>
   <script src="JS/include.js"></script>
-  
+
 </body>
 </html>
