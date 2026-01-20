@@ -15,23 +15,23 @@
   <!-- スマホ対応 -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- ▼ アクセスカウンター用CSS（右下固定） ▼ -->
+  <!-- ▼ アクセスカウンター用CSS（右下固定・小さく表示） ▼ -->
   <style>
     #access-counter {
       position: fixed;
       right: 10px;
       bottom: 10px;
-      font-size: 12px;
-      color: #666;
-      background: rgba(255, 255, 255, 0.85);
-      padding: 4px 8px;
-      border-radius: 6px;
-      box-shadow: 0 0 4px rgba(0,0,0,0.1);
+      opacity: 0.75;
       z-index: 9999;
       user-select: none;
     }
+
+    #access-counter img {
+      height: 20px;
+    }
   </style>
 </head>
+
 <body>
 
   <!-- ▼ 共通ヘッダー読み込み位置 ▼ -->
@@ -65,7 +65,7 @@
 
         <a href="blog.html" class="nav-card">
           <h3>📖 ひびのこと</h3>
-          <p>ときどき気なったことや思いついたこと</p>
+          <p>ときどき気になったことや思いついたこと</p>
         </a>
 
         <a href="about.html" class="nav-card">
@@ -98,21 +98,12 @@
   </div>
   <!-- ▲ ページの内容ここまで ▲ -->
 
-  <!-- ▼ アクセスカウンター表示 ▼ -->
+  <!-- ▼ アクセスカウンター（画像型・確実に動作） ▼ -->
   <div id="access-counter">
-    access: <span id="access-count">--</span>
+    <img
+      src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://hiro-san-z-reco.github.io/&count_bg=%23FFFFFF&title_bg=%23FFFFFF&title=access&edge_flat=true"
+      alt="access counter">
   </div>
-
-  <!-- ▼ アクセスカウンターJS（トップページのみ） ▼ -->
- <script>
-fetch('https://counterapi.dev/increment/hiro-san-z-reco/top')
-  .then(res => res.json())
-  .then(data => {
-    document.getElementById('access-count').textContent = data.count;
-  });
-</script>
-
-
 
   <!-- Blogger から最新5件取得 -->
   <script src="JS/blogfeed.js"></script>
@@ -129,3 +120,4 @@ fetch('https://counterapi.dev/increment/hiro-san-z-reco/top')
 
 </body>
 </html>
+
