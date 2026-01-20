@@ -105,12 +105,15 @@
 
   <!-- ▼ アクセスカウンターJS（トップページのみ） ▼ -->
   <script>
-    fetch('https://api.countapi.xyz/hit/hiro-san-z-reco/top')
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('access-count').textContent = data.value;
-      });
-  </script>
+fetch('https://api.countapi.xyz/hit/hiro-san-z-reco/top', {
+  cache: 'no-store'
+})
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById('access-count').textContent = data.value;
+  });
+</script>
+
 
   <!-- Blogger から最新5件取得 -->
   <script src="JS/blogfeed.js"></script>
