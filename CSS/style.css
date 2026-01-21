@@ -366,3 +366,11 @@ a:hover {
     margin: 0 8px 8px 0;
   }
 }
+
+/*最新5件*/
+.loading {
+  padding: 1.5em;
+  text-align: center;
+  color: #666;
+  font-size: 0.95em;
+}
