@@ -6,14 +6,12 @@ const PROXY_URL = 'https://api.allorigins.win/get?url=';
 const BLOG_FEED_URL =
   PROXY_URL + encodeURIComponent(BLOG_BASE + '/feeds/posts/default?alt=json');
 
-const RECORDS_JSON = 'data/records.json';
 const CACHE_DURATION = 5 * 60 * 1000; // 5分
 
 // ========================================
 // キャッシュ
 // ========================================
 let blogCache = { data: null, timestamp: 0 };
-let recordsCache = { data: null, timestamp: 0 };
 
 // ========================================
 // Blogger フィード取得
@@ -45,19 +43,17 @@ async function fetchBlogJson(forceRefresh = false) {
 }
 
 // ========================================
-// Blogger エントリ解析（テキスト専用）
+// Blogger エントリ解析（実施日・summary対応）
 // ========================================
 function parseBlogEntry(entry) {
   let title = entry.title?.$t || '無題';
-  let date = entry.published?.$t
-    ? new Date(entry.published.$t).toLocaleDateString('ja-JP')
-    : '';
+  let date = '';
+  let region = '';
+  let genre = '';
+  let summary = '';
 
   const link =
     entry.link?.find(l => l.rel === 'alternate')?.href || '#';
-
-  let region = '';
-  let genre = '';
 
   if (entry.content?.$t) {
     const doc = new DOMParser().parseFromString(
@@ -65,17 +61,32 @@ function parseBlogEntry(entry) {
       'text/html'
     );
 
+    // 記事内タイトル優先
     const titleEl = doc.querySelector('.mountain-title');
     if (titleEl) title = titleEl.textContent.trim();
 
+    // 山行実施日
+    const dateEl = doc.querySelector('.date');
+    if (dateEl) date = dateEl.textContent.trim();
+
+    // 山域
     const areaEl = doc.querySelector('.area');
     if (areaEl) region = areaEl.textContent.trim();
 
+    // ジャンル
     const genreEl = doc.querySelector('.genre');
     if (genreEl) genre = genreEl.textContent.trim();
+
+    // summary（冒頭100字）
+    const summaryEl = doc.querySelector('.mountain-summary p');
+    if (summaryEl) {
+      const text = summaryEl.textContent.trim();
+      summary =
+        text.length > 100 ? text.slice(0, 100) + '…' : text;
+    }
   }
 
-  return { title, date, region, genre, link };
+  return { title, date, region, genre, summary, link };
 }
 
 // ========================================
@@ -88,7 +99,7 @@ async function renderLatestBlogPosts({
   const container = document.querySelector(target);
   if (!container) return;
 
-  /* ★ ここで必ず読み込み中表示を消す */
+  // 読み込み中表示を確実に消す
   container.innerHTML = '';
 
   try {
@@ -105,12 +116,14 @@ async function renderLatestBlogPosts({
       const item = document.createElement('div');
       item.className = 'latest-text-item';
 
+      // メタ情報
       const meta = document.createElement('div');
       meta.className = 'latest-meta';
       meta.textContent = [post.date, post.region, post.genre]
         .filter(Boolean)
         .join('　');
 
+      // タイトル
       const a = document.createElement('a');
       a.href = post.link;
       a.textContent = post.title;
@@ -120,6 +133,15 @@ async function renderLatestBlogPosts({
 
       item.appendChild(meta);
       item.appendChild(a);
+
+      // summary
+      if (post.summary) {
+        const summaryDiv = document.createElement('div');
+        summaryDiv.className = 'latest-summary';
+        summaryDiv.textContent = post.summary;
+        item.appendChild(summaryDiv);
+      }
+
       container.appendChild(item);
     });
   } catch (e) {
