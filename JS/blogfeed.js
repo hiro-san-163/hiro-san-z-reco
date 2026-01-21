@@ -10,17 +10,10 @@ const RECORDS_JSON = 'data/records.json';
 const CACHE_DURATION = 5 * 60 * 1000; // 5分
 
 // ========================================
-// キャッシュ（用途別）
+// キャッシュ
 // ========================================
-let blogCache = {
-  data: null,
-  timestamp: 0
-};
-
-let recordsCache = {
-  data: null,
-  timestamp: 0
-};
+let blogCache = { data: null, timestamp: 0 };
+let recordsCache = { data: null, timestamp: 0 };
 
 // ========================================
 // Blogger フィード取得
@@ -47,33 +40,6 @@ async function fetchBlogJson(forceRefresh = false) {
     return blogCache.data;
   } catch (e) {
     console.error('ブログフィード取得失敗:', e);
-    return [];
-  }
-}
-
-// ========================================
-// records.json 取得
-// ========================================
-async function fetchRecordsJson(forceRefresh = false) {
-  const now = Date.now();
-  if (
-    recordsCache.data &&
-    !forceRefresh &&
-    now - recordsCache.timestamp < CACHE_DURATION
-  ) {
-    return recordsCache.data;
-  }
-
-  try {
-    const res = await fetch(RECORDS_JSON);
-    if (!res.ok) throw new Error(res.status);
-
-    const data = await res.json();
-    recordsCache.data = Array.isArray(data) ? data : [];
-    recordsCache.timestamp = now;
-    return recordsCache.data;
-  } catch (e) {
-    console.error('山行記録取得失敗:', e);
     return [];
   }
 }
@@ -113,38 +79,29 @@ function parseBlogEntry(entry) {
 }
 
 // ========================================
-// records.json 解析
-// ========================================
-function parseRecord(record) {
-  return {
-    title: record.title || '無題',
-    date: record.date
-      ? new Date(record.date).toLocaleDateString('ja-JP')
-      : '',
-    year: record.date ? record.date.slice(0, 4) : '',
-    region: record.area || '',
-    genre: record.genre || '',
-    link: record.yamareco_url || '#'
-  };
-}
-
-// ========================================
-// トップページ：最新5件（テキストのみ）
+// 最新5件（トップ／records 共通）
 // ========================================
 async function renderLatestBlogPosts({
   max = 5,
   target = '#latest-cards'
 } = {}) {
+  const container = document.querySelector(target);
+  if (!container) return;
+
+  /* ★ ここで必ず読み込み中表示を消す */
+  container.innerHTML = '';
+
   try {
     const entries = await fetchBlogJson();
-    const parsed = entries.map(parseBlogEntry);
+    const parsed = entries.map(parseBlogEntry).slice(0, max);
 
-    const container = document.querySelector(target);
-    if (!container) return;
+    if (parsed.length === 0) {
+      container.innerHTML =
+        '<p class="loading-note">表示できる山行記録がありません。</p>';
+      return;
+    }
 
-    container.innerHTML = '';
-
-    parsed.slice(0, max).forEach(post => {
+    parsed.forEach(post => {
       const item = document.createElement('div');
       item.className = 'latest-text-item';
 
@@ -167,11 +124,13 @@ async function renderLatestBlogPosts({
     });
   } catch (e) {
     console.error('最新記事表示失敗:', e);
+    container.innerHTML =
+      '<p class="loading-note">最新の山行記録を取得できませんでした。</p>';
   }
 }
 
 // ========================================
-// 以下：既存機能（絞り込み）
+// 以下：既存の絞り込み機能（変更なし）
 // ========================================
 async function renderRecordsByFilter(filterFn, containerId) {
   const entries = await fetchBlogJson();
@@ -204,5 +163,3 @@ async function renderRecordsByArea(area) {
 async function renderRecordsByGenre(genre) {
   await renderRecordsByFilter(p => p.genre === genre, 'genre-results');
 }
-
-
