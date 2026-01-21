@@ -18,13 +18,13 @@
 
   /* ---------- 正規化 ---------- */
   const norm = records.map(r => ({
-    date: r.date || '',
+    date: r.date_s || '',
     area: r.area || '',
     genre: r.genre || '',
     title: r.title || '',
     summary: r.summary || '',
     url: r.yamareco_url || r.url || ''
-  })).filter(r => r.date || r.title);
+  })).filter(r => r.date_s || r.title);
 
   /* ---------- ユーティリティ ---------- */
   const toYear = d => {
@@ -35,7 +35,7 @@
   const safeDate = d => isNaN(Date.parse(d)) ? 0 : Date.parse(d);
 
   /* ---------- セレクト生成 ---------- */
-  const years = [...new Set(norm.map(r => toYear(r.date)).filter(Boolean))].sort((a, b) => b - a);
+  const years = [...new Set(norm.map(r => toYear(r.date_s)).filter(Boolean))].sort((a, b) => b - a);
   const areas = [...new Set(norm.map(r => r.area).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ja'));
   const genres = [...new Set(norm.map(r => r.genre).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ja'));
 
@@ -80,7 +80,7 @@
       .filter(Boolean);
 
     let filtered = norm.filter(r => {
-      if (y && toYear(r.date) !== Number(y)) return false;
+      if (y && toYear(r.date_s) !== Number(y)) return false;
       if (a && r.area !== a) return false;
       if (g && r.genre !== g) return false;
 
@@ -93,7 +93,7 @@
     });
 
     switch (sortSel.value) {
-      case 'date_asc':
+      case 'date_s_asc':
         filtered.sort((a, b) => safeDate(a.date) - safeDate(b.date));
         break;
       case 'title_asc':
@@ -135,7 +135,7 @@
       const card = document.createElement('div');
       card.className = 'card';
       card.innerHTML = `
-        <div class="date">${r.date}</div>
+        <div class="date">${r.date_s}</div>
         <div class="title">${r.title || '(タイトル未設定)'}</div>
         <div class="meta">山域：${r.area || '-'}　ジャンル：${r.genre || '-'}</div>
         ${r.url ? `<div class="actions"><a class="btn" href="${r.url}" target="_blank">記事を開く</a></div>` : ''}
