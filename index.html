@@ -2,29 +2,22 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-
-  <!-- ★ base（GitHub Pages のリポジトリ名） -->
   <base href="/hiro-san-z-reco/">
 
   <title>トップページ - hiro-sanの山歩き</title>
 
-  <!-- CSS -->
   <link rel="stylesheet" href="CSS/style.css">
   <link rel="icon" href="favicon.ico">
 
-  <!-- スマホ対応 -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
 
-  <!-- ▼ 共通ヘッダー読み込み位置 ▼ -->
   <div id="header"></div>
 
-  <!-- ▼ ページの内容ここから ▼ -->
   <div class="container">
 
-    <!-- Welcome セクション -->
     <section class="welcome">
       <h1>hiro-sanの山歩き</h1>
       <p class="lead">
@@ -32,7 +25,6 @@
       </p>
     </section>
 
-    <!-- サイト案内 -->
     <section class="guide">
       <h2>このサイトでできること</h2>
 
@@ -64,38 +56,43 @@
       </div>
     </section>
 
-    <section class="home-records">
-      <h2>山行記録</h2>
-      <p>
-        これまでの山行を記録としてまとめています。
-        記事として読むことも、データから探すこともできます。
-      </p>
-      <a class="button" href="records.html">山行記録を見る</a>
-    </section>
-
-    <!-- 最新の山行記録 -->
     <section class="latest">
       <h2>最新の山行記録</h2>
-      <div class="blog cards" id="latest-cards">
-      <div class="loading">最新の山行記録を読み込み中…</div>
+      <div id="latest-cards">
+        <div class="loading">最新の山行記録を読み込み中…</div>
       </div>
     </section>
 
   </div>
-  <!-- ▲ ページの内容ここまで ▲ -->
 
-  <!-- Blogger から最新5件取得 -->
-  <script src="JS/blogfeed.js"></script>
-  <script>
-    renderLatestBlogPosts({
-      target: '#latest-cards',
-      max: 5
-    });
-  </script>
-
-  <!-- ▼ 共通フッター／JS 読み込み ▼ -->
   <div id="footer"></div>
+
   <script src="JS/include.js"></script>
+  <script src="JS/blogfeed.js"></script>
+
+  <script>
+    (async () => {
+      const container = document.getElementById('latest-cards');
+      const entries = await fetchBlogJson();
+      const posts = entries.slice(0, 5).map(parseEntryForTop);
+
+      container.innerHTML = '';
+
+      posts.forEach(p => {
+        container.insertAdjacentHTML('beforeend', `
+          <article class="latest-record-item">
+            <div class="latest-record-meta">
+              ${p.date}　山域：${p.area}　ジャンル：${p.genre}
+            </div>
+            <a href="${p.link}" class="latest-record-title" target="_blank">
+              ${p.title}
+            </a>
+            <p class="latest-record-summary">${p.summary}</p>
+          </article>
+        `);
+      });
+    })();
+  </script>
 
 </body>
 </html>
