@@ -16,7 +16,7 @@
     ? raw
     : (raw.records || raw.items || Object.values(raw));
 
-  /* ---------- 正規化 ---------- */
+  /* ---------- 正規化（★ date に統一） ---------- */
   const norm = records.map(r => ({
     date: r.date_s || '',
     area: r.area || '',
@@ -24,7 +24,7 @@
     title: r.title || '',
     summary: r.summary || '',
     url: r.yamareco_url || r.url || ''
-  })).filter(r => r.date_s || r.title);
+  })).filter(r => r.date || r.title);
 
   /* ---------- ユーティリティ ---------- */
   const toYear = d => {
@@ -32,12 +32,21 @@
     return m ? Number(m[1]) : null;
   };
 
-  const safeDate = d => isNaN(Date.parse(d)) ? 0 : Date.parse(d);
+  const safeDate = d =>
+    isNaN(Date.parse(d)) ? 0 : Date.parse(d);
 
   /* ---------- セレクト生成 ---------- */
-  const years = [...new Set(norm.map(r => toYear(r.date_s)).filter(Boolean))].sort((a, b) => b - a);
-  const areas = [...new Set(norm.map(r => r.area).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ja'));
-  const genres = [...new Set(norm.map(r => r.genre).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ja'));
+  const years = [...new Set(
+    norm.map(r => toYear(r.date)).filter(Boolean)
+  )].sort((a, b) => b - a);
+
+  const areas = [...new Set(
+    norm.map(r => r.area).filter(Boolean)
+  )].sort((a, b) => a.localeCompare(b, 'ja'));
+
+  const genres = [...new Set(
+    norm.map(r => r.genre).filter(Boolean)
+  )].sort((a, b) => a.localeCompare(b, 'ja'));
 
   const yearSel = document.getElementById('year');
   const areaSel = document.getElementById('area');
@@ -80,7 +89,7 @@
       .filter(Boolean);
 
     let filtered = norm.filter(r => {
-      if (y && toYear(r.date_s) !== Number(y)) return false;
+      if (y && toYear(r.date) !== Number(y)) return false;
       if (a && r.area !== a) return false;
       if (g && r.genre !== g) return false;
 
@@ -88,7 +97,6 @@
         const text = `${r.title} ${r.summary}`.toLowerCase();
         return keywords.every(k => text.includes(k));
       }
-
       return true;
     });
 
@@ -112,39 +120,55 @@
 
   /* ---------- 描画 ---------- */
   function renderList(items) {
-    const pageSize = Math.max(5, Math.min(100, Number(pageSizeInput.value) || 20));
+    const pageSize = Math.max(
+      5,
+      Math.min(100, Number(pageSizeInput.value) || 20)
+    );
+
     const total = items.length;
     const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
-    // 該当件数を「ヒット件数/全件」形式で表示
-    const totalRecords = norm.length;
-    countEl.textContent = `該当件数：${total}件 / 全${totalRecords}件`;
+    countEl.textContent =
+      `該当件数：${total}件 / 全${norm.length}件`;
 
     const start = (currentPage - 1) * pageSize;
     const pageItems = items.slice(start, start + pageSize);
 
     listEl.innerHTML = '';
+    pagerEl.innerHTML = '';
 
     if (!pageItems.length) {
-      listEl.innerHTML = '<div class="empty">該当する記録がありません</div>';
-      pagerEl.innerHTML = '';
+      listEl.innerHTML =
+        '<div class="empty">該当する記録がありません</div>';
       return;
     }
 
     pageItems.forEach(r => {
       const card = document.createElement('div');
       card.className = 'card';
+
+      const summary =
+        r.summary
+          ? r.summary.slice(0, 100) + (r.summary.length > 100 ? '…' : '')
+          : '';
+
       card.innerHTML = `
-        <div class="date">${r.date_s}</div>
+        <div class="date">${r.date}</div>
         <div class="title">${r.title || '(タイトル未設定)'}</div>
-        <div class="meta">山域：${r.area || '-'}　ジャンル：${r.genre || '-'}</div>
-        ${r.url ? `<div class="actions"><a class="btn" href="${r.url}" target="_blank">記事を開く</a></div>` : ''}
+        <div class="meta">
+          山域：${r.area || '-'}　ジャンル：${r.genre || '-'}
+        </div>
+        ${summary ? `<div class="summary">${summary}</div>` : ''}
+        ${r.url
+          ? `<div class="actions">
+               <a class="btn" href="${r.url}" target="_blank" rel="noopener">
+                 記事を開く
+               </a>
+             </div>`
+          : ''}
       `;
       listEl.appendChild(card);
     });
-
-    /* ---------- ページャ ---------- */
-    pagerEl.innerHTML = '';
 
     for (let p = 1; p <= totalPages; p++) {
       const b = document.createElement('button');
@@ -159,11 +183,11 @@
   }
 
   /* ---------- イベント ---------- */
-  [yearSel, areaSel, genreSel, sortSel, pageSizeInput].forEach(el =>
-    el.addEventListener('change', applyFilters)
-  );
+  [yearSel, areaSel, genreSel, sortSel, pageSizeInput]
+    .forEach(el => el.addEventListener('change', applyFilters));
 
   keywordInput.addEventListener('input', applyFilters);
 
+  /* ---------- 初期表示 ---------- */
   applyFilters();
 })();
