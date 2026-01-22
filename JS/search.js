@@ -1,5 +1,5 @@
 // 山行記録 検索・一覧表示用スクリプト
-// title + summary によるキーワード検索対応
+// title + summary によるキーワード検索対応（summaryは検索専用）
 
 (async function () {
   'use strict';
@@ -16,13 +16,13 @@
     ? raw
     : (raw.records || raw.items || Object.values(raw));
 
-  /* ---------- 正規化（★ date に統一） ---------- */
+  /* ---------- 正規化 ---------- */
   const norm = records.map(r => ({
     date: r.date_s || '',
     area: r.area || '',
     genre: r.genre || '',
     title: r.title || '',
-    summary: r.summary || '',
+    summary: r.summary || '', // ★検索用として保持
     url: r.yamareco_url || r.url || ''
   })).filter(r => r.date || r.title);
 
@@ -73,7 +73,6 @@
   fillSelect(areaSel, '山域', areas);
   fillSelect(genreSel, 'ジャンル', genres);
 
-  /* ---------- 状態 ---------- */
   let currentPage = 1;
 
   /* ---------- フィルタ ---------- */
@@ -147,18 +146,12 @@
       const card = document.createElement('div');
       card.className = 'card';
 
-      const summary =
-        r.summary
-          ? r.summary.slice(0, 100) + (r.summary.length > 100 ? '…' : '')
-          : '';
-
       card.innerHTML = `
         <div class="date">${r.date}</div>
         <div class="title">${r.title || '(タイトル未設定)'}</div>
         <div class="meta">
           山域：${r.area || '-'}　ジャンル：${r.genre || '-'}
         </div>
-        ${summary ? `<div class="summary">${summary}</div>` : ''}
         ${r.url
           ? `<div class="actions">
                <a class="btn" href="${r.url}" target="_blank" rel="noopener">
@@ -182,12 +175,10 @@
     }
   }
 
-  /* ---------- イベント ---------- */
   [yearSel, areaSel, genreSel, sortSel, pageSizeInput]
     .forEach(el => el.addEventListener('change', applyFilters));
 
   keywordInput.addEventListener('input', applyFilters);
 
-  /* ---------- 初期表示 ---------- */
   applyFilters();
 })();

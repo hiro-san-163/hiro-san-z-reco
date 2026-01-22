@@ -1,87 +1,150 @@
-// ========================================
-// 共通設定
-// ========================================
-const BLOG_BASE = 'https://hiro-san-163.blogspot.com';
-const PROXY_URL = 'https://api.allorigins.win/get?url=';
-const BLOG_FEED_URL =
-  PROXY_URL + encodeURIComponent(BLOG_BASE + '/feeds/posts/default?alt=json');
+/* =========================================================
+   blogfeed.js
+   Blogger RSS から最新山行記録を取得・表示する
+   ========================================================= */
 
-const CACHE_DURATION = 5 * 60 * 1000;
+(function () {
+  'use strict';
 
-let blogCache = { data: null, timestamp: 0 };
+  /* =====================================================
+     Layer 1: Data Layer（取得・正規化）
+     ===================================================== */
 
-// ========================================
-// フィード取得（共通）
-// ========================================
-async function fetchBlogJson() {
-  const now = Date.now();
-  if (blogCache.data && now - blogCache.timestamp < CACHE_DURATION) {
-    return blogCache.data;
+  const BLOGGER_FEED_URL =
+    'https://hiro-san-163.blogspot.com/feeds/posts/default?alt=json&max-results=10';
+
+  async function fetchBloggerEntries() {
+    const res = await fetch(BLOGGER_FEED_URL);
+    if (!res.ok) throw new Error('Blogger フィード取得失敗');
+
+    const data = await res.json();
+    return (data.feed?.entry || []).map(normalizeEntry);
   }
 
-  const res = await fetch(BLOG_FEED_URL);
-  const proxyData = await res.json();
-  const data = JSON.parse(proxyData.contents);
-
-  blogCache.data = data.feed?.entry || [];
-  blogCache.timestamp = now;
-  return blogCache.data;
-}
-
-// ========================================
-// トップページ用解析
-// ========================================
-function parseEntryForTop(entry) {
-  const link =
-    entry.link?.find(l => l.rel === 'alternate')?.href || '#';
-
-  const date = entry.published?.$t
-    ? new Date(entry.published.$t).toLocaleDateString('ja-JP')
-    : '';
-
-  let title = entry.title?.$t || '';
-  let area = '';
-  let genre = '';
-  let summary = '';
-
-  if (entry.content?.$t) {
-    const doc = new DOMParser().parseFromString(entry.content.$t, 'text/html');
-
-    title = doc.querySelector('.mountain-title')?.textContent.trim() || title;
-    area  = doc.querySelector('.area')?.textContent.trim() || '';
-    genre = doc.querySelector('.genre')?.textContent.trim() || '';
-
-    const text = doc.body.textContent.replace(/\s+/g, ' ').trim();
-    summary = text.slice(0, 100) + (text.length > 100 ? '…' : '');
+  function normalizeEntry(entry) {
+    return {
+      title: entry.title?.$t || '',
+      content: entry.content?.$t || '',
+      published: entry.published?.$t || '',
+      updated: entry.updated?.$t || '',
+      url: entry.link?.find(l => l.rel === 'alternate')?.href || ''
+    };
   }
 
-  return { date, area, genre, title, summary, link };
-}
+  /* =====================================================
+     Layer 2: Domain Layer（山行記録として解釈）
+     ===================================================== */
 
-// ========================================
-// 検索ページ用解析（旧仕様互換）
-// ========================================
-function parseEntryForSearch(entry) {
-  const link =
-    entry.link?.find(l => l.rel === 'alternate')?.href || '#';
+  function buildRecordModel(entry) {
+    const meta = extractMeta(entry.content);
 
-  const date = entry.published?.$t
-    ? new Date(entry.published.$t).toLocaleDateString('ja-JP')
-    : '';
-
-  let title = entry.title?.$t || '';
-  let area = '';
-  let genre = '';
-  let body = '';
-
-  if (entry.content?.$t) {
-    const doc = new DOMParser().parseFromString(entry.content.$t, 'text/html');
-
-    title = doc.querySelector('.mountain-title')?.textContent.trim() || title;
-    area  = doc.querySelector('.area')?.textContent.trim() || '';
-    genre = doc.querySelector('.genre')?.textContent.trim() || '';
-    body  = doc.body.innerText.trim();
+    return {
+      title: entry.title,
+      date: meta.date || formatDate(entry.published),
+      area: meta.area || '',
+      genre: meta.genre || '',
+      summary: extractImpression(entry.content, 100),
+      url: entry.url
+    };
   }
 
-  return { date, area, genre, title, body, link };
-}
+  function extractMeta(html) {
+    const text = stripHTML(html);
+
+    const date =
+      text.match(/実施日[:：]\s*(.+)/)?.[1] || '';
+
+    const area =
+      text.match(/山域[:：]\s*(.+)/)?.[1] || '';
+
+    const genre =
+      text.match(/ジャンル[:：]\s*(.+)/)?.[1] || '';
+
+    return { date, area, genre };
+  }
+
+  function extractImpression(html, maxLength) {
+    const text = stripHTML(html);
+
+    const m =
+      text.match(/感想[:：]\s*([\s\S]+)/);
+
+    if (!m) return '';
+
+    const body = m[1].trim();
+    return body.length > maxLength
+      ? body.slice(0, maxLength) + '…'
+      : body;
+  }
+
+  function stripHTML(html) {
+    return html
+      .replace(/<br\s*\/?>/gi, '\n')
+      .replace(/<\/p>/gi, '\n')
+      .replace(/<[^>]+>/g, '')
+      .replace(/\n+/g, '\n')
+      .trim();
+  }
+
+  function formatDate(iso) {
+    if (!iso) return '';
+    const d = new Date(iso);
+    return isNaN(d)
+      ? ''
+      : d.toISOString().slice(0, 10);
+  }
+
+  /* =====================================================
+     Layer 3: Presentation Layer（描画）
+     ===================================================== */
+
+  function renderLatestRecords(records, options) {
+    const {
+      target,
+      max = 5
+    } = options;
+
+    const container = document.querySelector(target);
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    records.slice(0, max).forEach(r => {
+      const card = document.createElement('article');
+      card.className = 'record-card';
+
+      card.innerHTML = `
+        <div class="record-date">${r.date}</div>
+        <h3 class="record-title">
+          <a href="${r.url}" target="_blank" rel="noopener">
+            ${r.title}
+          </a>
+        </h3>
+        <div class="record-meta">
+          ${r.area ? `山域：${r.area}` : ''}
+          ${r.genre ? `　ジャンル：${r.genre}` : ''}
+        </div>
+        ${r.summary
+          ? `<p class="record-summary">${r.summary}</p>`
+          : ''}
+      `;
+
+      container.appendChild(card);
+    });
+  }
+
+  /* =====================================================
+     Public API
+     ===================================================== */
+
+  window.renderLatestBlogPosts = async function (options = {}) {
+    try {
+      const entries = await fetchBloggerEntries();
+      const records = entries.map(buildRecordModel);
+      renderLatestRecords(records, options);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+})();
