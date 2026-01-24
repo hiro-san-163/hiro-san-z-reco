@@ -425,6 +425,21 @@ a:hover {
   margin: 0;
 }
 
+/* 詳細情報 */
+.record-detail {
+  font-size: 0.85em;
+  color: #666;
+  margin: 0.4em 0;
+  padding: 0.3em 0;
+  border-left: 3px solid #d4a574;
+  padding-left: 0.6em;
+}
+
+.record-detail strong {
+  color: #245d44;
+  font-weight: 600;
+}
+
 /* ===================================
    ページ別微調整
    =================================== */
