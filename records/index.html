@@ -6,6 +6,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="hiro-sanの山行記録。ヤマレコの山行をもとにブログ用にまとめた記録です。">
+
   <title>山行記録 - hiro-sanの山歩き</title>
 
   <link rel="stylesheet" href="CSS/style.css">
@@ -18,8 +19,25 @@
 
   <main class="container main-content">
 
-    <!-- 省略（既存部分は一切変更なし） -->
+    <nav class="breadcrumb"></nav>
 
+    <h1>山行記録</h1>
+
+    <p class="records-note">
+      ヤマレコに投稿した山行をもとに、行程や印象を整理し、
+      ブログ用にまとめた山行記録を掲載しています。
+    </p>
+
+    <section class="records-entry">
+      <h2>山行記録を読む</h2>
+      <nav class="sub-nav">
+        <a href="records/year.html">年別</a>
+        <a href="records/area.html">山域別</a>
+        <a href="records/genre.html">ジャンル別</a>
+      </nav>
+    </section>
+
+    <!-- 最新の山行記録 -->
     <section class="records-latest">
       <h2>最新の山行記録</h2>
 
@@ -30,16 +48,30 @@
       <div id="latest-records"></div>
     </section>
 
+    <section class="records-sub">
+      <h2>別の探し方</h2>
+      <ul class="records-sub-nav">
+        <li>
+          <a href="logs/">
+            山行ログ（ヤマレコ）で探す
+            <span class="note">行動データ・条件指定検索</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
   </main>
 
   <div id="footer"></div>
 
   <script src="JS/include.js"></script>
-  <script src="JS/blogfeed.js"></script>
 
-  <!-- ★ 修正点：index.html と完全統一 -->
+  <script src="JS/blogfeed.js"></script>
   <script>
-    initLatest('latest-records', 5);
+    renderLatestBlogPosts({
+      target: '#latest-records',
+      max: 5
+    });
   </script>
 
 </body>
