@@ -313,3 +313,21 @@ a:hover {
 .footer-nav a:hover {
   color: #ffffff;
 }
+/* ===================================
+   フッターナビ：モバイルでも横並びを強制
+   （global-nav の影響を遮断）
+   =================================== */
+
+@media (max-width: 768px) {
+  .footer-nav ul {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center;
+    align-items: center;
+    gap: 1.2rem;
+  }
+
+  .footer-nav li {
+    padding: 0;
+  }
+}
