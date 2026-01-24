@@ -283,3 +283,33 @@ a:hover {
 .records-latest .record-card {
   padding: 1.4em 1.6em;
 }
+/* ===================================
+   フッター：グローバルナビ 横並び強制
+   =================================== */
+
+.footer-nav ul {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 0;
+  margin: 0 0 0.75rem;
+  list-style: none;
+}
+
+.footer-nav li {
+  margin: 0;
+  padding: 0;
+}
+
+.footer-nav a {
+  display: inline-block;
+  color: #dfeee7;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.footer-nav a:hover {
+  color: #ffffff;
+}
