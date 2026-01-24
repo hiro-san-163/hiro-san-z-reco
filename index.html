@@ -68,7 +68,14 @@
   <div id="footer"></div>
 
   <script src="JS/include.js"></script>
-  <script src="JS/blogfeed.js"></script>
+ 
+  <script src="js/blogfeed.js"></script>
+<script>
+  renderLatestBlogPosts({
+    target: '#latest-cards',
+    max: 5
+  });
+</script>
 
   <script>
     (async () => {
