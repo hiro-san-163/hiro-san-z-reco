@@ -1,49 +1,60 @@
 /* =========================================================
-   blogfeed.js  Step1+Step2 安全版
-   ・fetch → 成功確認
-   ・最新1件のみ返す
-   ・項目名は変更しない
+   blogfeed.js
+   - Blogger JSONP 専用
+   - index.html / records/index.html 共通
+   - Blogger 以外のデータは一切使わない
 ========================================================= */
 
-const BLOG_JSON_URL =
-  "https://hiro-san-163.github.io/hiro-san-z-reco/data/blogger.json";
+const BLOG_URL = "https://hiro-san-163.blogspot.com";
 
-/* ---- JSON取得 ---- */
-async function fetchBlogJson() {
-  const res = await fetch(BLOG_JSON_URL, { cache: "no-store" });
-  if (!res.ok) {
-    throw new Error("blogger.json fetch failed");
-  }
-  return await res.json();
+/* ---- エントリーポイント ---- */
+function renderLatestBlogPosts(containerId, maxResults = 5) {
+  const script = document.createElement("script");
+
+  script.src =
+    `${BLOG_URL}/feeds/posts/default` +
+    `?alt=json-in-script` +
+    `&max-results=${maxResults}` +
+    `&callback=handleLatestPosts`;
+
+  document.body.appendChild(script);
+
+  window.__latestContainerId = containerId;
 }
 
-/* ---- 最新1件を表示（共通） ---- */
-async function renderLatestBlogPosts(containerId) {
-  const container = document.getElementById(containerId);
+/* ---- JSONP callback ---- */
+function handleLatestPosts(data) {
+  const container = document.getElementById(window.__latestContainerId);
+  const loading = document.getElementById("latest-loading");
+
+  if (loading) loading.remove();
   if (!container) return;
 
-  try {
-    const entries = await fetchBlogJson();
+  const entries = data.feed.entry || [];
 
-    // 念のため配列確認
-    if (!Array.isArray(entries) || entries.length === 0) {
-      container.innerHTML = "<p>表示できる記録がありません</p>";
-      return;
-    }
-
-    const e = entries[0]; // 最新1件のみ
-
-    container.innerHTML = `
-      <article class="latest-record-item">
-        <div class="latest-record-meta">${e.date}</div>
-        <a href="${e.link}" class="latest-record-title" target="_blank">
-          ${e.title}
-        </a>
-      </article>
-    `;
-  } catch (err) {
-    console.error(err);
-    container.innerHTML = "<p>山行記録の読み込みに失敗しました</p>";
+  if (entries.length === 0) {
+    container.innerHTML = "<p>表示できる山行記録がありません。</p>";
+    return;
   }
+
+  container.innerHTML = "";
+
+  entries.forEach(entry => {
+    const title = entry.title.$t;
+    const link = entry.link.find(l => l.rel === "alternate").href;
+    const published = new Date(entry.published.$t).toLocaleDateString();
+
+    const article = document.createElement("article");
+    article.className = "record-card";
+
+    article.innerHTML = `
+      <div class="record-meta">${published}</div>
+      <h3 class="record-title">
+        <a href="${link}" target="_blank">${title}</a>
+      </h3>
+    `;
+
+    container.appendChild(article);
+  });
 }
 
