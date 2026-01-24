@@ -331,3 +331,22 @@ a:hover {
     padding: 0;
   }
 }
+/* ===================================
+   フッターナビ：常時 横並び（PC / SP）
+   global-nav の影響を完全に遮断
+   =================================== */
+
+.footer-nav ul {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center;
+  align-items: center;
+  gap: 1.2rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-nav li {
+  margin: 0;
+}
