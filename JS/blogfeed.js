@@ -68,3 +68,4 @@ function handleLatestPosts(data) {
     container.appendChild(article);
   });
 }
+window.handleLatestPosts = handleLatestPosts;
