@@ -76,8 +76,15 @@
 
   <!-- 山行記録フィード -->
   <script src="JS/blogfeed.js"></script>
+
+  <!-- DOM構築完了後に実行 -->
   <script>
-  renderLatestBlogPosts("latest-records",5); 
+    document.addEventListener("DOMContentLoaded", () => {
+      renderLatestBlogPosts({
+        target: "#latest-records",
+        max: 5
+      });
+    });
   </script>
 
 </body>
