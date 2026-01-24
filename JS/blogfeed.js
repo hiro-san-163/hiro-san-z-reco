@@ -3,6 +3,7 @@
    - Blogger JSONP 専用
    - index.html / records/index.html 共通
    - Blogger 以外のデータは一切使わない
+   - 登録日（published）を表示
 ========================================================= */
 
 const BLOG_URL = "https://hiro-san-163.blogspot.com";
@@ -42,17 +43,26 @@ function handleLatestPosts(data) {
   entries.forEach(entry => {
     const title = entry.title.$t;
     const link = entry.link.find(l => l.rel === "alternate").href;
-    const published = new Date(entry.published.$t).toLocaleDateString();
+
+    /* 登録日（published） */
+    const published = new Date(entry.published.$t).toLocaleDateString("ja-JP");
+
+    /* ラベル（存在する場合のみ） */
+    const labels = entry.category
+      ? entry.category.map(c => c.term).join(" / ")
+      : "";
 
     const article = document.createElement("article");
     article.className = "record-card";
 
     article.innerHTML = `
-      <div class="record-meta">${published}
-       ${labels ? `｜${labels}` : ""}
-       </div>
+      <div class="record-meta">
+        ${published}${labels ? `｜${labels}` : ""}
+      </div>
       <h3 class="record-title">
-        <a href="${link}" target="_blank">${title}</a>
+        <a href="${link}" target="_blank" rel="noopener">
+          ${title}
+        </a>
       </h3>
     `;
 
