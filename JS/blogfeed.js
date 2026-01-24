@@ -48,7 +48,9 @@ function handleLatestPosts(data) {
     article.className = "record-card";
 
     article.innerHTML = `
-      <div class="record-meta">${published}</div>
+      <div class="record-meta">${published}
+       ${labels ? `｜${labels}` : ""}
+       </div>
       <h3 class="record-title">
         <a href="${link}" target="_blank">${title}</a>
       </h3>
