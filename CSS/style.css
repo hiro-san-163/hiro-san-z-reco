@@ -350,3 +350,65 @@ a:hover {
 .footer-nav li {
   margin: 0;
 }
+/* ================================
+   ブログ記事（ひびのこと）表示調整
+   ================================ */
+
+/* 記事カード全体 */
+.blog-card {
+  padding: 0.6em 0;
+  border-bottom: 1px solid #ddd;
+}
+
+/* タイトル */
+.blog-title {
+  font-size: 1rem;
+  margin: 0 0 0.2em;
+  line-height: 1.4;
+}
+
+/* 日付 */
+.blog-date {
+  font-size: 0.8rem;
+  color: #666;
+  margin: 0;
+}
+
+/* スマホ専用調整 */
+@media screen and (max-width: 600px) {
+  .blog-card {
+    padding: 0.5em 0;
+  }
+
+  .blog-title {
+    font-size: 0.95rem;
+  }
+
+  .blog-date {
+    font-size: 0.75rem;
+  }
+}
+/* ================================
+   トップページ タイトル調整（スマホ）
+   ================================ */
+
+@media screen and (max-width: 600px) {
+  .site-title,
+  h1 {
+    font-size: 1.6rem;
+  }
+}
+/* ================================
+   ナビカード 高さ調整（スマホ）
+   ================================ */
+
+@media screen and (max-width: 600px) {
+  .nav-card {
+    padding: 0.6em 0.8em;
+  }
+
+  .nav-card h2,
+  .nav-card h3 {
+    margin: 0.2em 0;
+  }
+}
