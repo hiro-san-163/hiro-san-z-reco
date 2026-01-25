@@ -1,4 +1,4 @@
-// 日常ブログ用 Blogger Feed（JSONP）
+// blogfeed-daily.js（JSONP専用）
 
 const DAILY_FEED_URL =
   "https://hiro-san-163-daily.blogspot.com/feeds/posts/default" +
@@ -43,3 +43,4 @@ function handleDailyFeed(data) {
   html += "</ul>";
   target.innerHTML = html;
 }
+
