@@ -412,3 +412,17 @@ a:hover {
     margin: 0.2em 0;
   }
 }
+/* ================================
+   最新の山行記録カード 半透明化
+   ================================ */
+
+.latest-records .record-card,
+.latest-records .mountain-card {
+  background-color: rgba(255, 255, 255, 0.85);
+}
+@media screen and (max-width: 600px) {
+  .latest-records .record-card,
+  .latest-records .mountain-card {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+}
