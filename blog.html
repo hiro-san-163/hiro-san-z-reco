@@ -43,15 +43,11 @@
   <script src="JS/include.js"></script>
 
   <!-- Bloggerフィード取得 -->
-  <script src="JS/blogfeed.js"></script>
+  <script src="JS/blogfeed-daily.js"></script>
   <script>
     // ひびのことブログから最新5件を取得
-    renderLatestBlogPosts({
-      target: '#blog-cards',
-      max: 5,
-      blogUrl: 'https://hiro-san-163-daily.blogspot.com'
-    });
-  </script>
+     loadDailyBlogFeed("daily-blog");
+</script>
 
 </body>
 </html>
