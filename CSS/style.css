@@ -369,7 +369,7 @@ a:hover {
 
 /* 日付 */
 .blog-date {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: #666;
   margin: 0;
 }
@@ -395,7 +395,7 @@ a:hover {
 @media screen and (max-width: 600px) {
   .site-title,
   h1 {
-    font-size: 1.6rem;
+    font-size: 1.3rem;
   }
 }
 /* ================================
@@ -404,12 +404,12 @@ a:hover {
 
 @media screen and (max-width: 600px) {
   .nav-card {
-    padding: 0.6em 0.8em;
+    padding: 0.4em 0.7em;
   }
 
   .nav-card h2,
   .nav-card h3 {
-    margin: 0.2em 0;
+    margin: 0.15em 0;
   }
 }
 /* ================================
@@ -418,11 +418,11 @@ a:hover {
 
 .latest-records .record-card,
 .latest-records .mountain-card {
-  background-color: rgba(255, 255, 255, 0.85);
+  background-color: rgba(255, 255, 255, 0.9);
 }
 @media screen and (max-width: 600px) {
   .latest-records .record-card,
   .latest-records .mountain-card {
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.9);
   }
 }
