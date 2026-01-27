@@ -395,7 +395,7 @@ a:hover {
 @media screen and (max-width: 600px) {
   .site-title,
   h1 {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 }
 /* ================================
@@ -418,7 +418,7 @@ a:hover {
 
 .latest-records .record-card,
 .latest-records .mountain-card {
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(241, 237, 237, 0.9);
 }
 @media screen and (max-width: 600px) {
   .latest-records .record-card,
