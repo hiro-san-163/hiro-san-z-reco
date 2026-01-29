@@ -394,8 +394,11 @@ a:hover {
 
 @media screen and (max-width: 600px) {
   .site-title,
+  h1.site-title,
   h1 {
-    font-size: 0.7;
+    font-size: 1.5rem;
+    line-height: 1.2; 
+    white-space: nowrap;
   }
 }
 /* ================================
