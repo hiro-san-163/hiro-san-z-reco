@@ -89,17 +89,11 @@ a:hover {
 /* スマホヘッダー */
 
 @media (max-width: 768px) {
-  body {
-    background-size: contain;
-  }
+  body { background-size: contain; }
 
-  .header-inner {
-    padding: 8px 16px;
-  }
+  .header-inner { padding: 8px 16px; }
 
-  .nav-toggle {
-    display: block;
-  }
+  .nav-toggle { display: block; }
 
   .global-nav {
     position: absolute;
@@ -110,13 +104,9 @@ a:hover {
     display: none;
   }
 
-  .global-nav.nav-active {
-    display: block;
-  }
+  .global-nav.nav-active { display: block; }
 
-  .global-nav ul {
-    flex-direction: column;
-  }
+  .global-nav ul { flex-direction: column; }
 }
 
 /* ===================================
@@ -147,6 +137,7 @@ a:hover {
   font-size: 0.9rem;
 }
 
+/* PCでは常に横一列 */
 .footer-nav ul {
   display: flex;
   justify-content: center;
@@ -155,6 +146,7 @@ a:hover {
   list-style: none;
   padding: 0;
   margin: 0 0 0.75rem;
+  flex-wrap: nowrap;
 }
 
 .footer-nav a {
@@ -165,6 +157,15 @@ a:hover {
 
 .footer-nav a:hover {
   color: #ffffff;
+}
+
+/* 現在地表示 */
+.footer-nav a.active {
+  background: #ffffff;
+  color: #245a4b;
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-weight: 700;
 }
 
 /* ===================================
@@ -193,10 +194,10 @@ a:hover {
 .nav-card {
   padding: 18px;
   border-radius: 12px;
-  background: rgba(32, 114, 78, 0.85);
-  color: #ffffff;
+  background: rgba(32,114,78,0.85);
+  color: #fff;
   text-align: center;
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  transition: transform .18s ease, box-shadow .18s ease;
 }
 
 .nav-card:hover {
@@ -205,15 +206,11 @@ a:hover {
 }
 
 @media (max-width: 960px) {
-  .nav-cards {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .nav-cards { grid-template-columns: repeat(2,1fr); }
 }
 
 @media (max-width: 600px) {
-  .nav-cards {
-    grid-template-columns: 1fr;
-  }
+  .nav-cards { grid-template-columns: 1fr; }
 }
 
 /* ===================================
@@ -228,7 +225,7 @@ a:hover {
 }
 
 /* ===================================
-   records ラベル
+   ラベル
 =================================== */
 
 .label-buttons a {
@@ -236,27 +233,26 @@ a:hover {
   margin: 0 10px 10px 0;
   padding: 8px 14px;
   background: #2c7b5f;
-  color: #ffffff;
+  color: #fff;
   border-radius: 8px;
   font-weight: 600;
 }
 
 /* ===================================
-   山行記録カード
+   記録カード
 =================================== */
 
 .record-card {
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255,255,255,0.92);
   border-radius: 10px;
   padding: 1.2em 1.4em;
   margin-bottom: 1.2em;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 .record-meta {
-  font-size: 0.85em;
+  font-size: .85em;
   color: #666;
-  margin-bottom: 0.4em;
 }
 
 .record-title {
@@ -265,154 +261,76 @@ a:hover {
   font-weight: 600;
 }
 
-.record-title a {
-  color: #245d44;
-}
+.record-title a { color:#245d44; }
 
 /* ===================================
    ブログ表示
 =================================== */
 
 .blog-card {
-  padding: 0.6em 0;
-  border-bottom: 1px solid #ddd;
+  padding: .6em 0;
+  border-bottom:1px solid #ddd;
 }
 
-.blog-title {
-  font-size: 1rem;
-  margin: 0 0 0.2em;
-}
+.blog-title { font-size:1rem; margin:0 0 .2em; }
+.blog-date { font-size:.9rem; color:#666; }
 
-.blog-date {
-  font-size: 0.9rem;
-  color: #666;
-}
-
-@media screen and (max-width: 600px) {
-  .blog-title { font-size: 0.95rem; }
-  .blog-date { font-size: 0.75rem; }
+@media (max-width:600px){
+  .blog-title{font-size:.95rem;}
+  .blog-date{font-size:.75rem;}
 }
 
 /* ===================================
-   スマホ：タイトル・カード調整
+   スマホ調整
 =================================== */
 
-@media screen and (max-width: 600px) {
+@media (max-width:600px){
 
-  .site-title,
-  h1 {
-    font-size: 1.5rem;
-    line-height: 1.2;
-    white-space: nowrap;
+  .site-title,h1{
+    font-size:1.5rem;
+    line-height:1.2;
+    white-space:nowrap;
   }
 
-  .nav-card {
-    padding: 0.4em 0.7em;
+  .nav-card{padding:.4em .7em;}
+
+  /* ヘッダー固定 */
+  .site-header{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
   }
 
-  .nav-card h2,
-  .nav-card h3 {
-    margin: 0.15em 0;
-  }
-}
+  main{padding-top:60px;}
 
-/* ===================================
-   最新カード半透明
-=================================== */
-
-.latest-records .record-card {
-  background-color: rgba(255,255,255,0.9);
-}
-
-@media screen and (max-width: 600px) {
-
-  .footer-nav ul {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    padding: 0.3em 0.2em;
-    margin: 0;
-    gap: 0.2em 0.6em;
+  /* フッター固定 */
+  .site-footer{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    z-index:1000;
   }
 
-  .footer-nav li {
-    flex: 1 1 30%;
-    text-align: center;
-  }
+  main{padding-bottom:120px;}
 
-  .footer-nav a {
-    font-size: 0.78rem;
-  }
-}
-
-
-
-  .footer-nav ul {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    padding: 0.3em 0.2em;
-    margin: 0;
-    gap: 0.2em 0.6em;
-  }
-
-  .footer-nav li {
-    flex: 1 1 30%;
-    text-align: center;
-  }
-
-  .footer-nav a {
-    font-size: 0.78rem;
-  }
-
-
-
-
-/* ===================================
-   スマホ：ヘッダー固定
-=================================== */
-@media screen and (max-width: 600px) {
-
-  .site-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-  }
-
-  /* ヘッダーに隠れないよう本文を下げる */
-  main {
-    padding-top: 60px;
-  }
-}
-/* ===================================
-   スマホ：フッター固定
-=================================== */
-@media screen and (max-width: 600px) {
-
-  .site-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-  }
-
-  /* フッターに本文が隠れないよう余白 */
-  main {
-    padding-bottom: 120px;
-  }
-
-  /* スマホでは説明文を隠す */
   .footer-note,
-  .copyright {
-    display: none;
+  .copyright{display:none;}
+
+  /* スマホナビ2段 */
+  .footer-nav ul{
+    flex-wrap:wrap;
+    justify-content:space-around;
+    padding:.3em .2em;
+    margin:0;
+    gap:.2em .6em;
   }
-}
-.footer-nav a.active {
-  background: #ffffff;
-  color: #245a4b;
-  border-radius: 6px;
-  padding: 2px 6px;
-  font-weight: 700;
+
+  .footer-nav li{
+    flex:1 1 30%;
+    text-align:center;
+  }
+
+  .footer-nav a{font-size:.78rem;}
 }
