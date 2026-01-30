@@ -324,36 +324,64 @@ a:hover {
   background-color: rgba(255,255,255,0.9);
 }
 
-/* ===================================
-   スマホのみ固定フッター
-=================================== */
-
 @media screen and (max-width: 600px) {
 
-  .site-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-  }
-
-  main {
-    padding-bottom: 120px;
-  }
-
-  .footer-note,
-  .copyright {
-    display: none;
-  }
-
   .footer-nav ul {
+    display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
-    padding: 0.4em 0;
+    padding: 0.3em 0.2em;
     margin: 0;
+    gap: 0.2em 0.6em;
+  }
+
+  .footer-nav li {
+    flex: 1 1 30%;
+    text-align: center;
   }
 
   .footer-nav a {
-    font-size: 0.9rem;
+    font-size: 0.78rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+
+  .footer-nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 0.3em 0.2em;
+    margin: 0;
+    gap: 0.2em 0.6em;
+  }
+
+  .footer-nav li {
+    flex: 1 1 30%;
+    text-align: center;
+  }
+
+  .footer-nav a {
+    font-size: 0.78rem;
+  }
+}
+
+
+/
+/* ===================================
+   スマホ：ヘッダー固定
+=================================== */
+@media screen and (max-width: 600px) {
+
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  /* ヘッダーに隠れないよう本文を下げる */
+  main {
+    padding-top: 60px;
   }
 }
