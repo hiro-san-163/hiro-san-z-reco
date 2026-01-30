@@ -15,16 +15,22 @@ function loadPart(id, url) {
 // キャッシュ対策
 const v = "20250215";
 
-// header / footer 読み込み
+// header 読み込み
 loadPart("header", `parts/header.html?v=${v}`).then(() => {
   initNavToggle();
 });
-loadPart("footer", `parts/footer.html?v=${v}`);
+
+// footer 読み込み + active自動設定
+loadPart("footer", `parts/footer.html?v=${v}`).then(() => {
+  setFooterActive();
+});
 
 // ダミー（既存HTMLとの互換用）
 function loadHeaderFooter() {}
 
+// ================================
 // ナビゲーション トグル初期化
+// ================================
 function initNavToggle() {
   const toggleBtn = document.getElementById('nav-toggle');
   const mainNav = document.getElementById('main-nav');
@@ -44,9 +50,28 @@ function initNavToggle() {
 }
 
 // ================================
+// フッター active 自動設定
+// ================================
+function setFooterActive() {
+  const links = document.querySelectorAll(".footer-nav a");
+  if (!links.length) return;
+
+  const path = location.pathname;
+  const current = path.split("/").pop();
+
+  links.forEach(link => {
+    const href = link.getAttribute("href");
+
+    // index.html 判定
+    if (href === current || (href === "index.html" && current === "")) {
+      link.classList.add("active");
+    }
+  });
+}
+
+// ================================
 // breadcrumb 共通処理
 // ================================
-
 function renderBreadcrumb(items) {
   const nav = document.querySelector(".breadcrumb");
   if (!nav) return;
@@ -66,9 +91,8 @@ function renderBreadcrumb(items) {
 }
 
 // ================================
-// breadcrumb 最終定義（確定版）
+// breadcrumb 定義
 // ================================
-
 const BREADCRUMB_MAP = {
   "home": [
     { label: "ホーム" }
