@@ -345,7 +345,7 @@ a:hover {
   }
 }
 
-@media screen and (max-width: 600px) {
+
 
   .footer-nav ul {
     display: flex;
@@ -364,7 +364,7 @@ a:hover {
   .footer-nav a {
     font-size: 0.78rem;
   }
-}
+
 
 
 
@@ -408,4 +408,11 @@ a:hover {
   .copyright {
     display: none;
   }
+}
+.footer-nav a.active {
+  background: #ffffff;
+  color: #245a4b;
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-weight: 700;
 }
