@@ -429,3 +429,18 @@ a:hover {
     background-color: rgba(255, 255, 255, 0.9);
   }
 }
+/* ===============================
+   フッター固定表示
+================================ */
+.site-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+/* フッターに本文が隠れないよう余白を追加 */
+main {
+  padding-bottom: 160px;
+}
