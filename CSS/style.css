@@ -1,6 +1,6 @@
 /* ===================================
    共通レイアウト（全ページ）
-   =================================== */
+=================================== */
 
 body {
   margin: 0;
@@ -33,7 +33,7 @@ a:hover {
 
 /* ===================================
    共通ヘッダー
-   =================================== */
+=================================== */
 
 .site-header {
   background: #2c7b5f;
@@ -62,8 +62,6 @@ a:hover {
   color: #ffffff;
 }
 
-/* ヘッダーナビ */
-
 .global-nav ul {
   list-style: none;
   display: flex;
@@ -79,8 +77,6 @@ a:hover {
   font-size: 1rem;
 }
 
-/* ナビトグル */
-
 .nav-toggle {
   display: none;
   background: none;
@@ -90,7 +86,7 @@ a:hover {
   cursor: pointer;
 }
 
-/* スマホ */
+/* スマホヘッダー */
 
 @media (max-width: 768px) {
   body {
@@ -125,7 +121,7 @@ a:hover {
 
 /* ===================================
    コンテナ
-   =================================== */
+=================================== */
 
 .container {
   max-width: 1200px;
@@ -134,8 +130,8 @@ a:hover {
 }
 
 /* ===================================
-   共通フッター
-   =================================== */
+   フッター（共通）
+=================================== */
 
 .site-footer {
   background: #245a4b;
@@ -151,9 +147,29 @@ a:hover {
   font-size: 0.9rem;
 }
 
+.footer-nav ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.2rem;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.75rem;
+}
+
+.footer-nav a {
+  color: #dfeee7;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.footer-nav a:hover {
+  color: #ffffff;
+}
+
 /* ===================================
    トップページ
-   =================================== */
+=================================== */
 
 .welcome h1 {
   margin-top: 24px;
@@ -166,8 +182,6 @@ a:hover {
   font-size: 1.1rem;
   color: #295a3c;
 }
-
-/* ナビカード */
 
 .nav-cards {
   display: grid;
@@ -204,7 +218,7 @@ a:hover {
 
 /* ===================================
    パンくず
-   =================================== */
+=================================== */
 
 .breadcrumb ul {
   list-style: none;
@@ -215,7 +229,7 @@ a:hover {
 
 /* ===================================
    records ラベル
-   =================================== */
+=================================== */
 
 .label-buttons a {
   display: inline-block;
@@ -228,19 +242,8 @@ a:hover {
 }
 
 /* ===================================
-   最新5件 読み込み中
-   =================================== */
-
-.loading {
-  padding: 1.5em;
-  text-align: center;
-  color: #666;
-  font-size: 0.95em;
-}
-
-/* ===================================
-   山行記録カード（正式採用）
-   =================================== */
+   山行記録カード
+=================================== */
 
 .record-card {
   background: rgba(255, 255, 255, 0.92);
@@ -250,14 +253,12 @@ a:hover {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-/* 登録日（published） */
 .record-meta {
   font-size: 0.85em;
   color: #666;
   margin-bottom: 0.4em;
 }
 
-/* タイトル */
 .record-title {
   font-size: 1.05em;
   margin: 0;
@@ -268,144 +269,43 @@ a:hover {
   color: #245d44;
 }
 
-.record-title a:hover {
-  text-decoration: underline;
-}
-
 /* ===================================
-   ページ別微調整
-   =================================== */
+   ブログ表示
+=================================== */
 
-.latest .record-card {
-  padding: 1em 1.2em;
-}
-
-.records-latest .record-card {
-  padding: 1.4em 1.6em;
-}
-/* ===================================
-   フッター：グローバルナビ 横並び強制
-   =================================== */
-
-.footer-nav ul {
-  display: flex !important;
-  flex-direction: row !important;
-  justify-content: center;
-  align-items: center;
-  gap: 1.2rem;
-  padding: 0;
-  margin: 0 0 0.75rem;
-  list-style: none;
-}
-
-.footer-nav li {
-  margin: 0;
-  padding: 0;
-}
-
-.footer-nav a {
-  display: inline-block;
-  color: #dfeee7;
-  font-size: 0.8rem;
-  white-space: nowrap;
-}
-
-.footer-nav a:hover {
-  color: #ffffff;
-}
-/* ===================================
-   フッターナビ：モバイルでも横並びを強制
-   （global-nav の影響を遮断）
-   =================================== */
-
-@media (max-width: 768px) {
-  .footer-nav ul {
-    display: flex !important;
-    flex-direction: row !important;
-    justify-content: center;
-    align-items: center;
-    gap: 1.2rem;
-  }
-
-  .footer-nav li {
-    padding: 0;
-  }
-}
-/* ===================================
-   フッターナビ：常時 横並び（PC / SP）
-   global-nav の影響を完全に遮断
-   =================================== */
-
-.footer-nav ul {
-  display: flex !important;
-  flex-direction: row !important;
-  justify-content: center;
-  align-items: center;
-  gap: 1.2rem;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.footer-nav li {
-  margin: 0;
-}
-/* ================================
-   ブログ記事（ひびのこと）表示調整
-   ================================ */
-
-/* 記事カード全体 */
 .blog-card {
   padding: 0.6em 0;
   border-bottom: 1px solid #ddd;
 }
 
-/* タイトル */
 .blog-title {
   font-size: 1rem;
   margin: 0 0 0.2em;
-  line-height: 1.4;
 }
 
-/* 日付 */
 .blog-date {
   font-size: 0.9rem;
   color: #666;
-  margin: 0;
 }
 
-/* スマホ専用調整 */
 @media screen and (max-width: 600px) {
-  .blog-card {
-    padding: 0.5em 0;
-  }
-
-  .blog-title {
-    font-size: 0.95rem;
-  }
-
-  .blog-date {
-    font-size: 0.75rem;
-  }
+  .blog-title { font-size: 0.95rem; }
+  .blog-date { font-size: 0.75rem; }
 }
-/* ================================
-   トップページ タイトル調整（スマホ）
-   ================================ */
+
+/* ===================================
+   スマホ：タイトル・カード調整
+=================================== */
 
 @media screen and (max-width: 600px) {
+
   .site-title,
-  h1.site-title,
   h1 {
     font-size: 1.5rem;
-    line-height: 1.2; 
+    line-height: 1.2;
     white-space: nowrap;
   }
-}
-/* ================================
-   ナビカード 高さ調整（スマホ）
-   ================================ */
 
-@media screen and (max-width: 600px) {
   .nav-card {
     padding: 0.4em 0.7em;
   }
@@ -415,64 +315,19 @@ a:hover {
     margin: 0.15em 0;
   }
 }
-/* ================================
-   最新の山行記録カード 半透明化
-   ================================ */
 
-.latest-records .record-card,
-.latest-records .mountain-card {
-  background-color: rgba(241, 237, 237, 0.9);
-}
-@media screen and (max-width: 600px) {
-  .latest-records .record-card,
-  .latest-records .mountain-card {
-    background-color: rgba(255, 255, 255, 0.9);
-  }
+/* ===================================
+   最新カード半透明
+=================================== */
+
+.latest-records .record-card {
+  background-color: rgba(255,255,255,0.9);
 }
 
-/* ===============================
-   フッター固定（共通）
-================================ */
-.site-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-}
+/* ===================================
+   スマホのみ固定フッター
+=================================== */
 
-main {
-  padding-bottom: 80px;
-}
-
-/* ===============================
-   スマホではフッター簡略化
-================================ */
-@media screen and (max-width: 600px) {
-
-  .footer-note,
-  .copyright {
-    display: none;
-  }
-
-  .footer-nav ul {
-    display: flex;
-    justify-content: space-around;
-    padding: 0.4em 0;
-    margin: 0;
-  }
-
-  .footer-nav li {
-    list-style: none;
-  }
-
-  .footer-nav a {
-    font-size: 0.9rem;
-  }
-}
-/* ===============================
-   スマホのみフッター固定
-================================ */
 @media screen and (max-width: 600px) {
 
   .site-footer {
@@ -483,26 +338,19 @@ main {
     z-index: 1000;
   }
 
-  /* フッターに本文が隠れないよう余白 */
   main {
     padding-bottom: 120px;
   }
 
-  /* スマホではフッター簡略化 */
   .footer-note,
   .copyright {
     display: none;
   }
 
   .footer-nav ul {
-    display: flex;
     justify-content: space-around;
     padding: 0.4em 0;
     margin: 0;
-  }
-
-  .footer-nav li {
-    list-style: none;
   }
 
   .footer-nav a {
