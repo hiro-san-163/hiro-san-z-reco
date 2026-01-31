@@ -57,13 +57,29 @@ function setFooterActive() {
   if (!links.length) return;
 
   const path = location.pathname;
-  const current = path.split("/").pop();
 
   links.forEach(link => {
     const href = link.getAttribute("href");
 
-    // index.html 判定
-    if (href === current || (href === "index.html" && current === "")) {
+    if (!href) return;
+
+    // records 配下
+    if (href.includes("records") && path.includes("/records/")) {
+      link.classList.add("active");
+    }
+
+    // logs 配下
+    else if (href.includes("logs") && path.includes("/logs/")) {
+      link.classList.add("active");
+    }
+
+    // 通常ページ
+    else if (path.endsWith(href)) {
+      link.classList.add("active");
+    }
+
+    // トップページ
+    else if ((path === "/" || path.endsWith("/index.html")) && href === "index.html") {
       link.classList.add("active");
     }
   });
