@@ -56,7 +56,7 @@ function initNavToggle() {
 
 
 // =======================================
-// フッターナビ active 自動判定（最終版）
+// フッターナビ active 自動判定（修正版）
 // =======================================
 function setFooterActive() {
   const links = document.querySelectorAll(".footer-nav a");
@@ -71,9 +71,9 @@ function setFooterActive() {
     const href = link.getAttribute("href");
     if (!href) return;
 
-    // ===== Home =====
+    // ===== Home（ルートのみ）=====
     if (
-      (path === "" || path === "/" || path.endsWith("/index.html")) &&
+      (path === "" || path === "/" || path === "/index.html") &&
       href === "index.html"
     ) {
       link.classList.add("active");
@@ -95,12 +95,13 @@ function setFooterActive() {
       link.classList.add("active");
     }
 
-    // ===== 単独ページ =====
-    else if (path.endsWith("/" + href)) {
+    // ===== 単独ページ（blog / about / other）=====
+    else if (path === "/" + href) {
       link.classList.add("active");
     }
   });
 }
+
 
 
 // =======================================
