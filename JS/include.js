@@ -1,3 +1,6 @@
+// =======================================
+// parts loader（header / footer 共通）
+// =======================================
 function loadPart(id, url) {
   return fetch(url)
     .then(res => {
@@ -20,74 +23,89 @@ loadPart("header", `parts/header.html?v=${v}`).then(() => {
   initNavToggle();
 });
 
-// footer 読み込み + active自動設定
+// footer 読み込み
 loadPart("footer", `parts/footer.html?v=${v}`).then(() => {
   setFooterActive();
 });
 
-// ダミー（既存HTMLとの互換用）
+// 既存HTML互換用（削除禁止）
 function loadHeaderFooter() {}
 
-// ================================
-// ナビゲーション トグル初期化
-// ================================
+
+// =======================================
+// グローバルナビ（スマホ）トグル
+// =======================================
 function initNavToggle() {
-  const toggleBtn = document.getElementById('nav-toggle');
-  const mainNav = document.getElementById('main-nav');
+  const toggleBtn = document.getElementById("nav-toggle");
+  const mainNav   = document.getElementById("main-nav");
 
   if (!toggleBtn || !mainNav) return;
 
-  toggleBtn.addEventListener('click', (ev) => {
+  toggleBtn.addEventListener("click", ev => {
     ev.preventDefault();
-    mainNav.classList.toggle('nav-active');
+    mainNav.classList.toggle("nav-active");
   });
 
-  document.addEventListener('click', (ev) => {
-    if (!ev.target.closest('#nav-toggle') && !ev.target.closest('#main-nav')) {
-      mainNav.classList.remove('nav-active');
+  document.addEventListener("click", ev => {
+    if (!ev.target.closest("#nav-toggle") &&
+        !ev.target.closest("#main-nav")) {
+      mainNav.classList.remove("nav-active");
     }
   });
 }
 
-// ================================
-// フッター active 自動設定
-// ================================
+
+// =======================================
+// フッターナビ active 自動判定（最終版）
+// =======================================
 function setFooterActive() {
   const links = document.querySelectorAll(".footer-nav a");
   if (!links.length) return;
 
-  const path = location.pathname;
+  // 末尾スラッシュ除去
+  const path = location.pathname.replace(/\/+$/, "");
 
   links.forEach(link => {
-    const href = link.getAttribute("href");
+    link.classList.remove("active");
 
+    const href = link.getAttribute("href");
     if (!href) return;
 
-    // records 配下
-    if (href.includes("records") && path.includes("/records/")) {
+    // ===== Home =====
+    if (
+      (path === "" || path === "/" || path.endsWith("/index.html")) &&
+      href === "index.html"
+    ) {
       link.classList.add("active");
     }
 
-    // logs 配下
-    else if (href.includes("logs") && path.includes("/logs/")) {
+    // ===== records 配下 =====
+    else if (
+      path.startsWith("/records") &&
+      href.startsWith("records/")
+    ) {
       link.classList.add("active");
     }
 
-    // 通常ページ
-    else if (path.endsWith(href)) {
+    // ===== logs 配下 =====
+    else if (
+      path.startsWith("/logs") &&
+      href.startsWith("logs/")
+    ) {
       link.classList.add("active");
     }
 
-    // トップページ
-    else if ((path === "/" || path.endsWith("/index.html")) && href === "index.html") {
+    // ===== 単独ページ =====
+    else if (path.endsWith("/" + href)) {
       link.classList.add("active");
     }
   });
 }
 
-// ================================
-// breadcrumb 共通処理
-// ================================
+
+// =======================================
+// breadcrumb 共通描画
+// =======================================
 function renderBreadcrumb(items) {
   const nav = document.querySelector(".breadcrumb");
   if (!nav) return;
@@ -106,11 +124,13 @@ function renderBreadcrumb(items) {
   nav.innerHTML = html;
 }
 
-// ================================
+
+// =======================================
 // breadcrumb 定義
-// ================================
+// =======================================
 const BREADCRUMB_MAP = {
-  "home": [
+
+  home: [
     { label: "ホーム" }
   ],
 
@@ -143,6 +163,10 @@ const BREADCRUMB_MAP = {
   ]
 };
 
+
+// =======================================
+// breadcrumb セット
+// =======================================
 function setBreadcrumb(key) {
   const items = BREADCRUMB_MAP[key];
   if (!items) {
