@@ -16,7 +16,7 @@ function loadPart(id, url) {
 }
 
 // キャッシュ対策
-const v = "20250215";
+const v = "20250216";
 
 // header 読み込み
 loadPart("header", `parts/header.html?v=${v}`).then(() => {
@@ -56,55 +56,47 @@ function initNavToggle() {
 
 
 // =======================================
-// フッターナビ active 自動判定【GitHub Pages対応・確定版】
+// フッターナビ active 判定（完成版）
 // =======================================
 function setFooterActive() {
   const links = document.querySelectorAll(".footer-nav a");
   if (!links.length) return;
 
-  // pathname（repo名を含むが、末尾だけ見る）
   const path = location.pathname.replace(/\/+$/, "");
 
+  // ---- 現在ページのカテゴリ判定 ----
+  let current = "";
+
+  if (path === "" || path === "/" || path === "/index.html") {
+    current = "home";
+  } else if (path.startsWith("/records/")) {
+    current = "records";
+  } else if (path.startsWith("/logs/")) {
+    current = "logs";
+  } else {
+    current = "single";
+  }
+
+  // ---- active 制御 ----
   links.forEach(link => {
     link.classList.remove("active");
 
     const href = link.getAttribute("href");
     if (!href) return;
 
-    // ===== Home =====
-    if (
-      (path === "" || path.endsWith("/")) &&
-      href === "index.html"
-    ) {
+    if (current === "home" && href === "index.html") {
       link.classList.add("active");
     }
 
-    else if (
-      path.endsWith("/index.html") &&
-      !path.match(/\/(records|logs)\//) &&
-      href === "index.html"
-    ) {
+    if (current === "records" && href.startsWith("records/")) {
       link.classList.add("active");
     }
 
-    // ===== records 配下 =====
-    else if (
-      path.match(/\/records(\/|$)/) &&
-      href.startsWith("records/")
-    ) {
+    if (current === "logs" && href.startsWith("logs/")) {
       link.classList.add("active");
     }
 
-    // ===== logs 配下 =====
-    else if (
-      path.match(/\/logs(\/|$)/) &&
-      href.startsWith("logs/")
-    ) {
-      link.classList.add("active");
-    }
-
-    // ===== 単独ページ =====
-    else if (path.endsWith("/" + href)) {
+    if (current === "single" && path === "/" + href) {
       link.classList.add("active");
     }
   });
@@ -137,10 +129,7 @@ function renderBreadcrumb(items) {
 // breadcrumb 定義
 // =======================================
 const BREADCRUMB_MAP = {
-
-  home: [
-    { label: "ホーム" }
-  ],
+  home: [{ label: "ホーム" }],
 
   "records-index": [
     { label: "ホーム", url: "index.html" },
