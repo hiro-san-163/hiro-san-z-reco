@@ -58,33 +58,27 @@ function initNavToggle() {
 
 
 // =======================================
-// フッターナビ active 判定（base 対応・確定版）
+// フッターナビ active 判定【最終確定版】
 // =======================================
 function setFooterActive() {
   const links = document.querySelectorAll(".footer-nav a");
   if (!links.length) return;
 
-  const basePath =
-    document.querySelector("base")?.getAttribute("href") || "/";
-
   let path = location.pathname;
 
-  // basePath 除去
-  if (path.startsWith(basePath)) {
-    path = path.slice(basePath.length - 1);
-  }
+  // GitHub Pages のリポジトリ名を除去
+  path = path.replace(/^\/hiro-san-z-reco/, "");
 
   // 末尾スラッシュ除去
   path = path.replace(/\/+$/, "");
 
-  // 現在ページ分類
   let current = "";
 
   if (path === "" || path === "/" || path === "/index.html") {
     current = "home";
-  } else if (path.startsWith("/records/")) {
+  } else if (path.startsWith("/records")) {
     current = "records";
-  } else if (path.startsWith("/logs/")) {
+  } else if (path.startsWith("/logs")) {
     current = "logs";
   } else {
     current = "single";
