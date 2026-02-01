@@ -47,8 +47,10 @@ function initNavToggle() {
   });
 
   document.addEventListener("click", ev => {
-    if (!ev.target.closest("#nav-toggle") &&
-        !ev.target.closest("#main-nav")) {
+    if (
+      !ev.target.closest("#nav-toggle") &&
+      !ev.target.closest("#main-nav")
+    ) {
       mainNav.classList.remove("nav-active");
     }
   });
@@ -56,15 +58,26 @@ function initNavToggle() {
 
 
 // =======================================
-// フッターナビ active 判定（完成版）
+// フッターナビ active 判定（base 対応・確定版）
 // =======================================
 function setFooterActive() {
   const links = document.querySelectorAll(".footer-nav a");
   if (!links.length) return;
 
-  const path = location.pathname.replace(/\/+$/, "");
+  const basePath =
+    document.querySelector("base")?.getAttribute("href") || "/";
 
-  // ---- 現在ページのカテゴリ判定 ----
+  let path = location.pathname;
+
+  // basePath 除去
+  if (path.startsWith(basePath)) {
+    path = path.slice(basePath.length - 1);
+  }
+
+  // 末尾スラッシュ除去
+  path = path.replace(/\/+$/, "");
+
+  // 現在ページ分類
   let current = "";
 
   if (path === "" || path === "/" || path === "/index.html") {
@@ -77,7 +90,6 @@ function setFooterActive() {
     current = "single";
   }
 
-  // ---- active 制御 ----
   links.forEach(link => {
     link.classList.remove("active");
 
@@ -129,7 +141,10 @@ function renderBreadcrumb(items) {
 // breadcrumb 定義
 // =======================================
 const BREADCRUMB_MAP = {
-  home: [{ label: "ホーム" }],
+
+  home: [
+    { label: "ホーム" }
+  ],
 
   "records-index": [
     { label: "ホーム", url: "index.html" },
