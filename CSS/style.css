@@ -138,6 +138,7 @@ a:hover {
 }
 
 /* PCでは常に横一列 */
+
 .footer-nav ul {
   display: flex;
   justify-content: center;
@@ -160,6 +161,7 @@ a:hover {
 }
 
 /* 現在地表示 */
+
 .footer-nav a.active {
   background: #ffffff;
   color: #245a4b;
@@ -281,7 +283,7 @@ a:hover {
 }
 
 /* ===================================
-   スマホ調整
+   スマホ調整（既存）
 =================================== */
 
 @media (max-width:600px){
@@ -333,4 +335,47 @@ a:hover {
   }
 
   .footer-nav a{font-size:.78rem;}
+}
+
+/* ===================================
+   ★ 追加：スマホ用ヘッダー／フッター高さ調整
+   （既存CSSを壊さず上書き）
+=================================== */
+
+@media (max-width:600px){
+
+  /* ヘッダーを低く */
+  .header-inner{
+    padding: 4px 12px;
+  }
+
+  .site-title{
+    font-size: 0.95rem;
+    line-height: 1.1;
+  }
+
+  .nav-toggle{
+    font-size: 1.3rem;
+  }
+
+  /* フッターを低く */
+  .footer-inner{
+    padding: 6px 8px 4px;
+  }
+
+  .footer-nav ul{
+    padding: 0.2em 0;
+    gap: 0.2em 0.4em;
+  }
+
+  .footer-nav a{
+    font-size: 0.72rem;
+    padding: 2px 4px;
+  }
+
+  /* 本文の上下を実寸に合わせて再調整 */
+  main{
+    padding-top: 48px;
+    padding-bottom: 88px;
+  }
 }
