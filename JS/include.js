@@ -56,13 +56,13 @@ function initNavToggle() {
 
 
 // =======================================
-// フッターナビ active 自動判定（修正版）
+// フッターナビ active 自動判定【GitHub Pages対応・確定版】
 // =======================================
 function setFooterActive() {
   const links = document.querySelectorAll(".footer-nav a");
   if (!links.length) return;
 
-  // 末尾スラッシュ除去
+  // pathname（repo名を含むが、末尾だけ見る）
   const path = location.pathname.replace(/\/+$/, "");
 
   links.forEach(link => {
@@ -71,9 +71,17 @@ function setFooterActive() {
     const href = link.getAttribute("href");
     if (!href) return;
 
-    // ===== Home（ルートのみ）=====
+    // ===== Home =====
     if (
-      (path === "" || path === "/" || path === "/index.html") &&
+      (path === "" || path.endsWith("/")) &&
+      href === "index.html"
+    ) {
+      link.classList.add("active");
+    }
+
+    else if (
+      path.endsWith("/index.html") &&
+      !path.match(/\/(records|logs)\//) &&
       href === "index.html"
     ) {
       link.classList.add("active");
@@ -81,7 +89,7 @@ function setFooterActive() {
 
     // ===== records 配下 =====
     else if (
-      path.startsWith("/records") &&
+      path.match(/\/records(\/|$)/) &&
       href.startsWith("records/")
     ) {
       link.classList.add("active");
@@ -89,19 +97,18 @@ function setFooterActive() {
 
     // ===== logs 配下 =====
     else if (
-      path.startsWith("/logs") &&
+      path.match(/\/logs(\/|$)/) &&
       href.startsWith("logs/")
     ) {
       link.classList.add("active");
     }
 
-    // ===== 単独ページ（blog / about / other）=====
-    else if (path === "/" + href) {
+    // ===== 単独ページ =====
+    else if (path.endsWith("/" + href)) {
       link.classList.add("active");
     }
   });
 }
-
 
 
 // =======================================
