@@ -255,4 +255,49 @@
     text-align: center;
   }
 }
+/* ==============================
+   検索条件 確定表示（スマホUI改善）
+   ============================== */
+
+.search-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8em;
+
+  padding: 0.8em 1em;
+  margin: 0.8em 0;
+
+  background: #f5f7f8;
+  border-left: 4px solid #4a6c4f;
+  border-radius: 6px;
+
+  font-size: 0.9rem;
+}
+
+.search-summary button {
+  font-size: 0.85rem;
+  padding: 0.3em 0.7em;
+  border: 1px solid #4a6c4f;
+  background: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.search-summary button:hover {
+  background: #e9f0ea;
+}
+
+/* 検索条件エリアを隠す */
+.search-cond-hidden {
+  display: none !important;
+}
+
+/* スマホではよりコンパクトに */
+@media (max-width: 768px) {
+  .search-summary {
+    font-size: 0.85rem;
+    flex-wrap: wrap;
+  }
+}
 

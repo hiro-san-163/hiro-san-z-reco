@@ -182,3 +182,68 @@
 
   applyFilters();
 })();
+// =======================================
+// 検索条件確定表示 & 条件エリア折りたたみ
+// =======================================
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const header = document.querySelector(".search-header");
+  const summaryBox = document.getElementById("search-summary");
+  const summaryText = document.getElementById("search-summary-text");
+  const editBtn = document.getElementById("search-edit-btn");
+
+  if (!header || !summaryBox) return;
+
+  // 検索条件を1行テキストにまとめる
+  function buildSearchSummary() {
+    const parts = [];
+
+    const year = document.getElementById("year")?.value;
+    const area = document.getElementById("area")?.value;
+    const genre = document.getElementById("genre")?.value;
+    const keyword = document.getElementById("keyword")?.value.trim();
+
+    if (year) parts.push(`年:${year}`);
+    if (area) parts.push(`山域:${area}`);
+    if (genre) parts.push(`ジャンル:${genre}`);
+    if (keyword) parts.push(`キーワード:${keyword}`);
+
+    return parts.length ? parts.join(" / ") : "すべての山行記録";
+  }
+
+  // 検索確定後のUI切り替え
+  function applySearchUI() {
+    summaryText.textContent = buildSearchSummary();
+    summaryBox.hidden = false;
+    header.classList.add("search-cond-hidden");
+  }
+
+  // 条件変更ボタン
+  editBtn.addEventListener("click", () => {
+    header.classList.remove("search-cond-hidden");
+    summaryBox.hidden = true;
+  });
+
+  // ---- 検索実行をフック（既存処理は壊さない） ----
+  const searchTriggers = document.querySelectorAll(
+    "#year, #area, #genre, #sort, #pageSize, #keyword"
+  );
+
+  searchTriggers.forEach(el => {
+    el.addEventListener("change", () => {
+      applySearchUI();
+    });
+  });
+
+  // キーワードは Enter でも確定
+  const keywordInput = document.getElementById("keyword");
+  if (keywordInput) {
+    keywordInput.addEventListener("keydown", e => {
+      if (e.key === "Enter") {
+        applySearchUI();
+      }
+    });
+  }
+
+});
