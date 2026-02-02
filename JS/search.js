@@ -53,20 +53,27 @@
     });
   }
 
-  fillSelect(yearSel, '年', [...new Set(norm.map(r => toYear(r.date)).filter(Boolean))].sort((a,b)=>b-a));
+  fillSelect(
+    yearSel,
+    '年',
+    [...new Set(norm.map(r => toYear(r.date)).filter(Boolean))].sort((a, b) => b - a)
+  );
   fillSelect(areaSel, '山域', [...new Set(norm.map(r => r.area).filter(Boolean))]);
   fillSelect(genreSel, 'ジャンル', [...new Set(norm.map(r => r.genre).filter(Boolean))]);
 
   let currentPage = 1;
   let lastFiltered = [];
 
-  /* ---------- フィルタ ---------- */
+  /* ---------- フィルタ処理（検索実体） ---------- */
   function applyFilters() {
     const y = yearSel.value;
     const a = areaSel.value;
     const g = genreSel.value;
-
-    const keywords = keywordInput.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    const keywords = keywordInput.value
+      .trim()
+      .toLowerCase()
+      .split(/\s+/)
+      .filter(Boolean);
 
     let filtered = norm.filter(r => {
       if (y && toYear(r.date) !== Number(y)) return false;
@@ -99,6 +106,7 @@
   /* ---------- 描画 ---------- */
   function renderList(items) {
     const pageSize = Number(pageSizeInput.value) || 10;
+
     countEl.textContent = `該当件数：${items.length}件 / 全${norm.length}件`;
 
     listEl.innerHTML = '';
@@ -122,16 +130,18 @@
     });
   }
 
-  /* ---------- スマホUI ---------- */
+  /* ---------- スマホUI制御 ---------- */
   if (isMobile) {
     const header = document.querySelector('.search-header');
+    const filters = document.querySelector('.filters');
 
+    // 検索実行ボタン
     const searchBtn = document.createElement('button');
     searchBtn.className = 'search-apply-btn';
     searchBtn.textContent = '検索する';
+    filters.appendChild(searchBtn);
 
-    document.querySelector('.filters').appendChild(searchBtn);
-
+    // 条件サマリー
     const summary = document.createElement('div');
     summary.className = 'search-summary';
     summary.hidden = true;
@@ -141,21 +151,29 @@
     `;
     header.after(summary);
 
-    searchBtn.onclick = () => {
+    // 検索実行（唯一のトリガー）
+    searchBtn.addEventListener('click', () => {
       applyFilters();
+
       header.classList.add('cond-hidden');
       summary.hidden = false;
-      summary.querySelector('.summary-text').textContent =
-        `検索条件：${yearSel.value || 'すべて'} / ${areaSel.value || 'すべて'} / ${genreSel.value || 'すべて'} / ${keywordInput.value || 'なし'}`;
-    };
 
-    summary.querySelector('.summary-edit').onclick = () => {
+      summary.querySelector('.summary-text').textContent =
+        `検索条件：` +
+        `年=${yearSel.value || 'すべて'} / ` +
+        `山域=${areaSel.value || 'すべて'} / ` +
+        `ジャンル=${genreSel.value || 'すべて'} / ` +
+        `キーワード=${keywordInput.value || 'なし'}`;
+    });
+
+    // 条件変更
+    summary.querySelector('.summary-edit').addEventListener('click', () => {
       header.classList.remove('cond-hidden');
       summary.hidden = true;
-    };
+    });
 
   } else {
-    // PCは今まで通り即時検索
+    /* ---------- PC：従来通り即時検索 ---------- */
     [yearSel, areaSel, genreSel, sortSel, pageSizeInput]
       .forEach(el => el.addEventListener('change', applyFilters));
     keywordInput.addEventListener('input', applyFilters);
