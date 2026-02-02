@@ -182,68 +182,70 @@
 
   applyFilters();
 })();
-// =======================================
-// 検索条件確定表示 & 条件エリア折りたたみ
-// =======================================
 
-document.addEventListener("DOMContentLoaded", () => {
+/* ==================================================
+   スマホ用：検索確定制御 & 条件サマリー表示
+================================================== */
 
-  const header = document.querySelector(".search-header");
-  const summaryBox = document.getElementById("search-summary");
-  const summaryText = document.getElementById("search-summary-text");
-  const editBtn = document.getElementById("search-edit-btn");
+const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
-  if (!header || !summaryBox) return;
+if (isMobile) {
 
-  // 検索条件を1行テキストにまとめる
-  function buildSearchSummary() {
+  // 検索トリガーを一旦無効化
+  [yearSel, areaSel, genreSel, sortSel, pageSizeInput]
+    .forEach(el => el.replaceWith(el.cloneNode(true)));
+
+  keywordInput.replaceWith(keywordInput.cloneNode(true));
+
+  // 再取得
+  const year = document.getElementById('year');
+  const area = document.getElementById('area');
+  const genre = document.getElementById('genre');
+  const keyword = document.getElementById('keyword');
+
+  // 検索ボタン生成
+  const searchBtn = document.createElement('button');
+  searchBtn.className = 'search-apply-btn';
+  searchBtn.textContent = '検索する';
+
+  document.querySelector('.filters').appendChild(searchBtn);
+
+  // サマリー表示エリア生成
+  const summary = document.createElement('div');
+  summary.className = 'search-summary';
+  summary.hidden = true;
+
+  summary.innerHTML = `
+    <div class="summary-text"></div>
+    <button class="summary-edit">条件を変更</button>
+  `;
+
+  document.querySelector('.search-header')
+    .after(summary);
+
+  const summaryText = summary.querySelector('.summary-text');
+  const editBtn = summary.querySelector('.summary-edit');
+  const header = document.querySelector('.search-header');
+
+  function buildSummary() {
     const parts = [];
-
-    const year = document.getElementById("year")?.value;
-    const area = document.getElementById("area")?.value;
-    const genre = document.getElementById("genre")?.value;
-    const keyword = document.getElementById("keyword")?.value.trim();
-
-    if (year) parts.push(`年:${year}`);
-    if (area) parts.push(`山域:${area}`);
-    if (genre) parts.push(`ジャンル:${genre}`);
-    if (keyword) parts.push(`キーワード:${keyword}`);
-
-    return parts.length ? parts.join(" / ") : "すべての山行記録";
+    if (year.value) parts.push(`年:${year.value}`);
+    if (area.value) parts.push(`山域:${area.value}`);
+    if (genre.value) parts.push(`ジャンル:${genre.value}`);
+    if (keyword.value.trim()) parts.push(`KW:${keyword.value.trim()}`);
+    return parts.length ? parts.join(' / ') : 'すべての山行記録';
   }
 
-  // 検索確定後のUI切り替え
-  function applySearchUI() {
-    summaryText.textContent = buildSearchSummary();
-    summaryBox.hidden = false;
-    header.classList.add("search-cond-hidden");
-  }
-
-  // 条件変更ボタン
-  editBtn.addEventListener("click", () => {
-    header.classList.remove("search-cond-hidden");
-    summaryBox.hidden = true;
+  searchBtn.addEventListener('click', () => {
+    applyFilters();
+    summaryText.textContent = buildSummary();
+    header.classList.add('cond-hidden');
+    summary.hidden = false;
   });
 
-  // ---- 検索実行をフック（既存処理は壊さない） ----
-  const searchTriggers = document.querySelectorAll(
-    "#year, #area, #genre, #sort, #pageSize, #keyword"
-  );
-
-  searchTriggers.forEach(el => {
-    el.addEventListener("change", () => {
-      applySearchUI();
-    });
+  editBtn.addEventListener('click', () => {
+    header.classList.remove('cond-hidden');
+    summary.hidden = true;
   });
+}
 
-  // キーワードは Enter でも確定
-  const keywordInput = document.getElementById("keyword");
-  if (keywordInput) {
-    keywordInput.addEventListener("keydown", e => {
-      if (e.key === "Enter") {
-        applySearchUI();
-      }
-    });
-  }
-
-});

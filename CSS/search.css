@@ -300,4 +300,48 @@
     flex-wrap: wrap;
   }
 }
+/* ==============================
+   検索確定サマリー
+   ============================== */
+
+.search-summary {
+  margin: 0.8em 0;
+  padding: 0.8em 1em;
+  background: #f5f7f8;
+  border-left: 4px solid #4a6c4f;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.search-summary-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.4em;
+  gap: 0.6em;
+}
+
+#search-count {
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.search-summary button,
+#search-exec-btn {
+  padding: 0.4em 0.8em;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  border: 1px solid #4a6c4f;
+  background: #fff;
+  cursor: pointer;
+}
+
+.search-summary button:hover,
+#search-exec-btn:hover {
+  background: #e9f0ea;
+}
+
+.search-cond-hidden {
+  display: none !important;
+}
 
