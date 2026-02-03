@@ -345,3 +345,37 @@
   display: none !important;
 }
 
+/* ===== スマホ検索UI調整 ===== */
+@media (max-width: 768px) {
+
+  .search-header.cond-hidden {
+    display: none;
+  }
+
+  .search-apply-btn {
+    width: 100%;
+    margin: 1em 0;
+    padding: 0.9em;
+    font-size: 1rem;
+    border-radius: 6px;
+    background: #2f6f5e;
+    color: #fff;
+    border: none;
+  }
+
+  .search-summary {
+    background: #f4faf8;
+    padding: 1em;
+    border-radius: 6px;
+    margin-bottom: 1em;
+  }
+
+  .search-summary .summary-edit {
+    margin-top: 0.5em;
+    background: #fff;
+    border: 1px solid #2f6f5e;
+    color: #2f6f5e;
+    padding: 0.4em 0.8em;
+    border-radius: 4px;
+  }
+}
