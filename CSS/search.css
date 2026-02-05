@@ -1,62 +1,15 @@
 /* =====================================
-   検索ページ共通変数
+   検索ページ専用（安定版）
+   ※ 表示崩れ防止・PC優先
 ===================================== */
 
 :root {
-  --bg: #f0f7f3;
-  --card: #ffffff;
   --brand: #1c6b4f;
-  --brand-soft: #e4f2ec;
   --muted: #567;
 }
 
 /* =====================================
-   ページ全体
-===================================== */
-
-body {
-  background: var(--bg);
-}
-
-/* =====================================
-   検索ヘッダー（PC基準）
-===================================== */
-
-.search-header {
-  background: #fff;
-  padding: 1rem;
-  border-bottom: 1px solid #ddebe4;
-}
-
-.search-header h1 {
-  margin: 0 0 0.4rem;
-  font-size: 1.3rem;
-  color: var(--brand);
-}
-
-.page-desc {
-  font-size: 0.9rem;
-  color: var(--muted);
-}
-
-/* =====================================
-   キーワード検索
-===================================== */
-
-.keyword-search {
-  margin-bottom: 0.8rem;
-}
-
-.keyword-search input {
-  width: 100%;
-  padding: 0.55rem 0.65rem;
-  font-size: 0.95rem;
-  border-radius: 0.5rem;
-  border: 1px solid #cfe2d8;
-}
-
-/* =====================================
-   検索条件（PC）
+   検索条件エリア（現状維持）
 ===================================== */
 
 .filters {
@@ -64,78 +17,122 @@ body {
   grid-template-columns: repeat(5, minmax(140px, 1fr));
   gap: 0.75rem;
   align-items: end;
-
-  background: var(--brand-soft);
-  padding: 0.9rem;
-  border-radius: 0.75rem;
-  border: 1px solid #cfe2d8;
 }
 
 .filters select,
 .filters input[type="number"] {
-  height: 2.4rem;
-  padding: 0.45rem 0.65rem;
-  border-radius: 0.5rem;
-  border: 1px solid #cfe2d8;
-  background: #fff;
+  height: 2.3rem;
+  padding: 0.4rem 0.6rem;
   font-size: 0.9rem;
 }
 
-#pageSize {
-  max-width: 100px;
+/* =====================================
+   山行ログ一覧（★表示を元に戻す）
+===================================== */
+
+.list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+/* カード構造は変更しない */
+.card {
+  background: #fff;
+  border: 1px solid #e0eee8;
+  border-radius: 6px;
+  padding: 0.7rem 0.9rem;
+
+  display: grid;
+  grid-template-columns: 130px 1fr 90px;
+  grid-template-areas:
+    "date title actions"
+    "meta meta actions";
+  gap: 0.3rem 0.8rem;
+}
+
+.card .date {
+  grid-area: date;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.card .title {
+  grid-area: title;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/* ▼ タイトルをリンクとして自然に */
+.card .title a {
+  color: var(--brand);
+  text-decoration: none;
+}
+
+.card .title a:hover {
+  text-decoration: underline;
+}
+
+.card .meta {
+  grid-area: meta;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.card .actions {
+  grid-area: actions;
   text-align: right;
 }
 
 /* =====================================
-   検索実行ボタン（PC）
+   記事を読むボタン（控えめに）
 ===================================== */
 
-.search-apply-btn {
-  height: 2.4rem;
-  padding: 0 1.2rem;
-  border-radius: 0.5rem;
-  border: none;
-  background: var(--brand);
-  color: #fff;
-  font-size: 0.95rem;
-  cursor: pointer;
+.card .btn {
+  padding: 0.3rem 0.5rem;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  background: #eef5f2;
+  color: var(--brand);
+  border: 1px solid #cfe2d8;
+  text-decoration: none;
 }
 
-.search-apply-btn:hover {
-  opacity: 0.9;
+.card .btn:hover {
+  background: #e0efe8;
 }
 
 /* =====================================
-   検索条件サマリー（結果表示後）
+   ページング（PCで必ず表示）
 ===================================== */
 
-.search-summary {
-  margin: 1rem 0;
-  padding: 0.8rem 1rem;
-  background: #f5f7f8;
-  border-left: 4px solid var(--brand);
-  border-radius: 6px;
-  font-size: 0.9rem;
-}
-
-.search-summary-actions {
+.pagination {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 0.5rem;
+  justify-content: center;
+  gap: 0.4rem;
+  margin: 1.8rem 0;
 }
 
-.search-summary button {
-  padding: 0.35rem 0.8rem;
+.pagination button {
+  padding: 0.4rem 0.7rem;
   font-size: 0.85rem;
   border-radius: 4px;
-  border: 1px solid var(--brand);
+  border: 1px solid #cfe2d8;
   background: #fff;
   cursor: pointer;
 }
 
-.search-summary button:hover {
-  background: #e9f0ea;
+.pagination button.active {
+  background: var(--brand);
+  color: #fff;
+  border-color: var(--brand);
 }
 
-/* 検索条件を隠す（※ search-header のみ対象）*
+/* =====================================
+   空表示
+===================================== */
+
+.empty {
+  text-align: center;
+  padding: 2rem;
+  color: var(--muted);
+}
