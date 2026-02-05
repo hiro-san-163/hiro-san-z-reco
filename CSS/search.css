@@ -379,3 +379,42 @@
     border-radius: 4px;
   }
 }
+@media (max-width: 768px) {
+
+  .search-header.cond-hidden {
+    display: none;
+  }
+
+  .filters {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6em;
+  }
+
+  .search-apply-btn {
+    grid-column: 2 / 3;
+    align-self: end;
+    padding: 0.8em;
+    border-radius: 6px;
+    background: #2f6f5e;
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+  }
+
+  .search-summary {
+    background: #f4faf8;
+    padding: 1em;
+    margin-bottom: 1em;
+    border-radius: 6px;
+  }
+
+  .summary-edit {
+    margin-top: 0.5em;
+    border: 1px solid #2f6f5e;
+    background: #fff;
+    color: #2f6f5e;
+    padding: 0.4em 0.8em;
+    border-radius: 4px;
+  }
+}

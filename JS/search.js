@@ -31,6 +31,9 @@
     isNaN(Date.parse(d)) ? 0 : Date.parse(d);
 
   /* ---------- DOM ---------- */
+  const header = document.querySelector('.search-header');
+  const filters = document.querySelector('.filters');
+
   const yearSel = document.getElementById('year');
   const areaSel = document.getElementById('area');
   const genreSel = document.getElementById('genre');
@@ -40,8 +43,6 @@
 
   const countEl = document.getElementById('count');
   const listEl = document.getElementById('list');
-  const pagerEl = document.getElementById('pagination');
-  const header = document.querySelector('.search-header');
 
   /* ---------- セレクト生成 ---------- */
   function fillSelect(sel, label, values) {
@@ -60,9 +61,6 @@
   fillSelect(areaSel, '山域', [...new Set(norm.map(r => r.area).filter(Boolean))]);
   fillSelect(genreSel, 'ジャンル', [...new Set(norm.map(r => r.genre).filter(Boolean))]);
 
-  let currentPage = 1;
-  let lastFiltered = [];
-
   /* ---------- フィルタ ---------- */
   function applyFilters() {
     const y = yearSel.value;
@@ -74,7 +72,6 @@
       if (y && toYear(r.date) !== Number(y)) return false;
       if (a && r.area !== a) return false;
       if (g && r.genre !== g) return false;
-
       if (keywords.length) {
         const text = `${r.title} ${r.summary}`.toLowerCase();
         return keywords.every(k => text.includes(k));
@@ -82,38 +79,13 @@
       return true;
     });
 
-    switch (sortSel.value) {
-      case 'title_asc':
-        filtered.sort((a, b) => a.title.localeCompare(b.title, 'ja'));
-        break;
-      case 'title_desc':
-        filtered.sort((a, b) => b.title.localeCompare(a.title, 'ja'));
-        break;
-      default:
-        filtered.sort((a, b) => safeDate(b.date) - safeDate(a.date));
-    }
-
-    currentPage = 1;
-    lastFiltered = filtered;
-    renderList(filtered);
-  }
-
-  /* ---------- 描画 ---------- */
-  function renderList(items) {
-    const pageSize = Number(pageSizeInput.value) || 10;
+    filtered.sort((a, b) => safeDate(b.date) - safeDate(a.date));
 
     countEl.textContent =
-      `該当件数：${items.length}件 / 全${norm.length}件`;
+      `該当件数：${filtered.length}件 / 全${norm.length}件`;
 
     listEl.innerHTML = '';
-    pagerEl.innerHTML = '';
-
-    if (!items.length) {
-      listEl.innerHTML = '<div class="empty">該当する記録がありません</div>';
-      return;
-    }
-
-    items.slice(0, pageSize).forEach(r => {
+    filtered.slice(0, Number(pageSizeInput.value) || 10).forEach(r => {
       const card = document.createElement('div');
       card.className = 'card';
       card.innerHTML = `
@@ -126,9 +98,17 @@
     });
   }
 
-  /* ---------- スマホUI専用 ---------- */
+  /* ---------- スマホUI ---------- */
   if (isMobile) {
-    // 検索条件サマリー
+
+    // 検索ボタン（filters 内・固定）
+    const searchBtn = document.createElement('button');
+    searchBtn.type = 'button';
+    searchBtn.className = 'search-apply-btn';
+    searchBtn.textContent = '検索する';
+    filters.appendChild(searchBtn);
+
+    // サマリー（再検索はここだけ）
     const summary = document.createElement('div');
     summary.className = 'search-summary';
     summary.hidden = true;
@@ -138,19 +118,13 @@
     `;
     header.after(summary);
 
-    // ページング横に検索ボタン
-    const searchBtn = document.createElement('button');
-    searchBtn.className = 'search-apply-btn';
-    searchBtn.textContent = '検索する';
-    pagerEl.before(searchBtn);
-
     function buildSummary() {
-      const parts = [];
-      if (yearSel.value) parts.push(`年=${yearSel.value}`);
-      if (areaSel.value) parts.push(`山域=${areaSel.value}`);
-      if (genreSel.value) parts.push(`ジャンル=${genreSel.value}`);
-      if (keywordInput.value.trim()) parts.push(`KW=${keywordInput.value.trim()}`);
-      return parts.length ? parts.join(' / ') : 'すべて';
+      const p = [];
+      if (yearSel.value) p.push(`年=${yearSel.value}`);
+      if (areaSel.value) p.push(`山域=${areaSel.value}`);
+      if (genreSel.value) p.push(`ジャンル=${genreSel.value}`);
+      if (keywordInput.value.trim()) p.push(`KW=${keywordInput.value.trim()}`);
+      return p.join(' / ') || 'すべて';
     }
 
     searchBtn.onclick = () => {
@@ -167,7 +141,7 @@
     };
 
   } else {
-    /* ---------- PC（従来通り） ---------- */
+    // PC：従来通り即時検索
     [yearSel, areaSel, genreSel, sortSel, pageSizeInput]
       .forEach(el => el.addEventListener('change', applyFilters));
     keywordInput.addEventListener('input', applyFilters);
