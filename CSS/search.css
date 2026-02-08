@@ -8,6 +8,86 @@
 }
 
 /* =====================================
+   検索ヘッダー（幅制限・他ページに統一）
+===================================== */
+
+.search-header {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 15px;
+}
+
+.search-header h1 {
+  margin: 20px 0 0.5rem;
+  font-size: 1.8rem;
+}
+
+.search-header .breadcrumb {
+  margin: 0;
+  padding: 0;
+}
+
+.search-header .breadcrumb ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.search-header .breadcrumb li {
+  display: inline;
+}
+
+.search-header .breadcrumb li:not(:last-child)::after {
+  content: ' > ';
+}
+
+.page-desc {
+  margin: 0 0 1rem;
+  color: #567;
+}
+
+/* =====================================
+   スマホ版：条件選択エリアの表示・非表示
+===================================== */
+
+@media (max-width: 768px) {
+  .search-header.cond-hidden {
+    display: none;
+  }
+  
+  .search-summary {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 15px;
+    background: #eef5f2;
+    border-radius: 6px;
+    padding: 1rem 15px;
+  }
+  
+  .search-summary .summary-text {
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    color: #567;
+  }
+  
+  .search-summary .summary-edit {
+    width: 100%;
+    padding: 0.6rem;
+    background: #dfe9e3;
+    color: var(--brand);
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  
+  .search-summary .summary-edit:hover {
+    opacity: 0.9;
+  }
+}
+
+/* =====================================
    キーワード検索エリア
 ===================================== */
 
@@ -189,14 +269,16 @@
 }
 
 /* =====================================
-   ページング（PC表示保証）
+   ページング（レスポンシブ対応）
 ===================================== */
 
 .pagination {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 0.4rem;
   margin: 1.8rem 0;
+  max-width: 100%;
 }
 
 .pagination button {
@@ -206,12 +288,25 @@
   border: 1px solid #cfe2d8;
   background: #fff;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .pagination button.active {
   background: var(--brand);
   color: #fff;
   border-color: var(--brand);
+}
+
+@media (max-width: 768px) {
+  .pagination {
+    gap: 0.3rem;
+    margin: 1.5rem 0;
+  }
+  
+  .pagination button {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.8rem;
+  }
 }
 
 /* =====================================
