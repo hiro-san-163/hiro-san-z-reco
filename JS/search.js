@@ -43,6 +43,12 @@
 
   const countEl = document.getElementById('count');
   const listEl = document.getElementById('list');
+  const paginationEl = document.getElementById('pagination');
+
+  /* ---------- ページング状態 ---------- */
+  let currentPage = 1;
+  let totalPages = 1;
+  let filteredData = [];
 
   /* ---------- セレクト生成 ---------- */
   function fillSelect(sel, label, values) {
@@ -61,12 +67,83 @@
   fillSelect(areaSel, '山域', [...new Set(norm.map(r => r.area).filter(Boolean))]);
   fillSelect(genreSel, 'ジャンル', [...new Set(norm.map(r => r.genre).filter(Boolean))]);
 
+  /* ---------- ソート関数 ---------- */
+  function sortData(data, sortType) {
+    const sorted = [...data];
+    switch (sortType) {
+      case 'date_asc':
+        sorted.sort((a, b) => safeDate(a.date) - safeDate(b.date));
+        break;
+      case 'date_desc':
+        sorted.sort((a, b) => safeDate(b.date) - safeDate(a.date));
+        break;
+      case 'title_asc':
+        sorted.sort((a, b) => a.title.localeCompare(b.title, 'ja'));
+        break;
+      case 'title_desc':
+        sorted.sort((a, b) => b.title.localeCompare(a.title, 'ja'));
+        break;
+      default:
+        sorted.sort((a, b) => safeDate(b.date) - safeDate(a.date));
+    }
+    return sorted;
+  }
+
+  /* ---------- ページング描画 ---------- */
+  function renderPagination() {
+    paginationEl.innerHTML = '';
+    if (totalPages <= 1) return;
+
+    for (let i = 1; i <= totalPages; i++) {
+      const btn = document.createElement('button');
+      btn.textContent = i;
+      if (i === currentPage) btn.classList.add('active');
+      btn.onclick = () => {
+        currentPage = i;
+        renderResults();
+      };
+      paginationEl.appendChild(btn);
+    }
+  }
+
+  /* ---------- 結果描画 ---------- */
+  function renderResults() {
+    const pageSize = Number(pageSizeInput.value) || 20;
+    const startIdx = (currentPage - 1) * pageSize;
+    const endIdx = startIdx + pageSize;
+    const pageData = filteredData.slice(startIdx, endIdx);
+
+    listEl.innerHTML = '';
+    pageData.forEach(r => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      
+      if (isMobile) {
+        // スマホ版：メタ情報→タイトル（リンク化）
+        card.innerHTML = `
+          <div class="meta">${r.date} / ${r.area} / ${r.genre}</div>
+          <div class="title"><a href="${r.url}" target="_blank">${r.title}</a></div>
+        `;
+      } else {
+        // PC版：従来通り
+        card.innerHTML = `
+          <div class="date">${r.date}</div>
+          <div class="title"><a href="${r.url}" target="_blank">${r.title}</a></div>
+          <div class="meta">山域：${r.area} / ジャンル：${r.genre}</div>
+          ${r.url ? `<a class="btn" href="${r.url}" target="_blank">記事を開く</a>` : ''}
+        `;
+      }
+      listEl.appendChild(card);
+    });
+  }
+
   /* ---------- フィルタ ---------- */
   function applyFilters() {
     const y = yearSel.value;
     const a = areaSel.value;
     const g = genreSel.value;
     const keywords = keywordInput.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    const sortType = sortSel.value;
 
     let filtered = norm.filter(r => {
       if (y && toYear(r.date) !== Number(y)) return false;
@@ -79,23 +156,17 @@
       return true;
     });
 
-    filtered.sort((a, b) => safeDate(b.date) - safeDate(a.date));
+    // ソート適用
+    filteredData = sortData(filtered, sortType);
+    currentPage = 1;
+    const pageSize = Number(pageSizeInput.value) || 20;
+    totalPages = Math.ceil(filteredData.length / pageSize) || 1;
 
     countEl.textContent =
-      `該当件数：${filtered.length}件 / 全${norm.length}件`;
+      `該当件数：${filteredData.length}件 / 全${norm.length}件`;
 
-    listEl.innerHTML = '';
-    filtered.slice(0, Number(pageSizeInput.value) || 10).forEach(r => {
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.innerHTML = `
-        <div class="date">${r.date}</div>
-        <div class="title">${r.title}</div>
-        <div class="meta">山域：${r.area} / ジャンル：${r.genre}</div>
-        ${r.url ? `<a class="btn" href="${r.url}" target="_blank">記事を開く</a>` : ''}
-      `;
-      listEl.appendChild(card);
-    });
+    renderResults();
+    renderPagination();
   }
 
   /* ---------- スマホUI ---------- */
@@ -139,6 +210,9 @@
       header.classList.remove('cond-hidden');
       summary.hidden = true;
     };
+
+    // 初期表示：新しい順に全件表示
+    applyFilters();
 
   } else {
     // PC：従来通り即時検索

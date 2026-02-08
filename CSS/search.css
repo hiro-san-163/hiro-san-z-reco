@@ -8,12 +8,30 @@
 }
 
 /* =====================================
-   検索条件エリア（現状維持）
+   キーワード検索エリア
+===================================== */
+
+.keyword-search {
+  margin-bottom: 0.75rem;
+}
+
+.keyword-search input {
+  width: 100%;
+  height: 2.3rem;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.9rem;
+  border: 1px solid #cfe2d8;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* =====================================
+   検索条件エリア（レスポンシブ対応）
 ===================================== */
 
 .filters {
   display: grid;
-  grid-template-columns: repeat(5, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 0.75rem;
   align-items: end;
 }
@@ -23,11 +41,42 @@
   height: 2.3rem;
   padding: 0.4rem 0.6rem;
   font-size: 0.9rem;
+  border: 1px solid #cfe2d8;
   border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* スマホ版：フィルター調整 */
+@media (max-width: 768px) {
+  .filters {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .filters select,
+  .filters input[type="number"] {
+    width: 100%;
+  }
+  
+  .search-apply-btn {
+    grid-column: 1 / -1;
+    height: 2.3rem;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.9rem;
+    background: var(--brand);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  
+  .search-apply-btn:hover {
+    opacity: 0.9;
+  }
 }
 
 /* =====================================
-   山行ログ一覧（表示仕様そのまま）
+   山行ログ一覧（レスポンシブ対応）
 ===================================== */
 
 .list {
@@ -35,30 +84,99 @@
   gap: 0.75rem;
 }
 
-.card {
-  background: #fff;
-  border: 1px solid #e0eee8;
-  border-radius: 6px;
-  padding: 0.7rem 0.9rem;
-
-  display: grid;
-  grid-template-columns: 130px 1fr 90px;
-  grid-template-areas:
-    "date title actions"
-    "meta meta actions";
-  gap: 0.3rem 0.8rem;
+/* デスクトップ版：3列グリッド */
+@media (min-width: 769px) {
+  .card {
+    background: #fff;
+    border: 1px solid #e0eee8;
+    border-radius: 6px;
+    padding: 0.7rem 0.9rem;
+    
+    display: grid;
+    grid-template-columns: 130px 1fr 90px;
+    grid-template-areas:
+      "date title actions"
+      "meta meta actions";
+    gap: 0.3rem 0.8rem;
+  }
+  
+  .card .date {
+    grid-area: date;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  
+  .card .title {
+    grid-area: title;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  
+  .card .meta {
+    grid-area: meta;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  
+  .card .actions {
+    grid-area: actions;
+    text-align: right;
+  }
+  
+  .card .btn {
+    display: inline-block;
+    padding: 0.3rem 0.5rem;
+    font-size: 0.8rem;
+    border-radius: 4px;
+    background: #eef5f2;
+    color: var(--brand);
+    border: 1px solid #cfe2d8;
+    text-decoration: none;
+  }
+  
+  .card .btn:hover {
+    background: #e0efe8;
+  }
 }
 
-.card .date {
-  grid-area: date;
-  font-size: 0.85rem;
-  color: var(--muted);
-}
-
-.card .title {
-  grid-area: title;
-  font-size: 1rem;
-  font-weight: 600;
+/* スマホ版：シンプルレイアウト */
+@media (max-width: 768px) {
+  .card {
+    background: #fff;
+    border: 1px solid #e0eee8;
+    border-radius: 6px;
+    padding: 0.7rem 0.9rem;
+    display: block;
+  }
+  
+  .card .meta {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+  
+  .card .title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0;
+  }
+  
+  .card .title a {
+    color: var(--brand);
+    text-decoration: none;
+  }
+  
+  .card .title a:hover {
+    text-decoration: underline;
+  }
+  
+  .card .date {
+    display: none;
+  }
+  
+  .card .btn {
+    display: none;
+  }
 }
 
 .card .title a {
@@ -68,35 +186,6 @@
 
 .card .title a:hover {
   text-decoration: underline;
-}
-
-.card .meta {
-  grid-area: meta;
-  font-size: 0.85rem;
-  color: var(--muted);
-}
-
-.card .actions {
-  grid-area: actions;
-  text-align: right;
-}
-
-/* =====================================
-   記事を読むボタン（サイズ控えめ）
-===================================== */
-
-.card .btn {
-  padding: 0.3rem 0.5rem;
-  font-size: 0.8rem;
-  border-radius: 4px;
-  background: #eef5f2;
-  color: var(--brand);
-  border: 1px solid #cfe2d8;
-  text-decoration: none;
-}
-
-.card .btn:hover {
-  background: #e0efe8;
 }
 
 /* =====================================
