@@ -89,7 +89,10 @@ a:hover {
 /* スマホヘッダー */
 
 @media (max-width: 768px) {
-  body { background-size: contain; }
+  body {
+    background-size: cover;
+    background-attachment: scroll;
+  }
 
   .header-inner { padding: 8px 16px; }
 
