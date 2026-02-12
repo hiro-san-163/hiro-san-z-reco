@@ -649,3 +649,8 @@ body::before{
   }
 
 }
+@media (max-width:768px){
+  body{
+    background-image: url('../data/IMG_4781.JPG') !important;
+  }
+}
