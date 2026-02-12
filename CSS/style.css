@@ -508,3 +508,21 @@ body::before{
 .site-footer a{
   color: rgba(255,255,255,0.9);
 }
+/* ===================================
+   フッター大胆軽量版（主役を邪魔しない）
+=================================== */
+
+.site-footer{
+  background: #5fae95;   /* 明るく、でも山色系統 */
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+
+/* 文字も少し落ち着かせる */
+.site-footer,
+.site-footer a{
+  color: rgba(255,255,255,0.85);
+}
+
+.site-footer a:hover{
+  color: #ffffff;
+}
