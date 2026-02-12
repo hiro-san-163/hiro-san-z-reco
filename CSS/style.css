@@ -473,3 +473,19 @@ body::before{
   transform: translateY(-2px);
   box-shadow: 0 6px 14px rgba(0,0,0,0.18);
 }
+/* ===================================
+   フッターの重さ調整
+=================================== */
+
+.site-footer{
+  background: #2f6f5b; /* ヘッダーより少し深いが重すぎない */
+}
+
+/* フッター内リンク */
+.site-footer a{
+  color: rgba(255,255,255,0.9);
+}
+
+.site-footer a:hover{
+  color: #ffffff;
+}
