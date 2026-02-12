@@ -602,3 +602,50 @@ body::before{
 .home-nav a:hover{
   opacity: 0.7;
 }
+/* ===================================
+   背景画像 スマホ最適化
+=================================== */
+
+/* PCはそのまま（既存body指定を尊重） */
+
+
+/* スマホのみ背景をしっかり見せる */
+@media (max-width: 768px){
+
+  body{
+    background: #f0f7f3 url('../data/IMG_4781.JPG') no-repeat center center;
+    background-size: cover;
+    background-attachment: scroll; /* ← 重要：fixedを解除 */
+  }
+
+  /* 白レイヤーを弱める */
+  body::before{
+    background: rgba(255,255,255,0.25);
+  }
+
+}
+/* ===================================
+   スマホのみ少しカード風
+=================================== */
+
+@media (max-width: 768px){
+
+  .nav-primary a,
+  .nav-secondary a{
+    background: rgba(255,255,255,0.85);
+    padding: 14px 18px;
+    border-radius: 10px;
+    margin: 12px auto;
+    width: 85%;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  }
+
+  .nav-primary a{
+    font-size: 1.5rem;
+  }
+
+  .nav-secondary a{
+    font-size: 1.1rem;
+  }
+
+}
