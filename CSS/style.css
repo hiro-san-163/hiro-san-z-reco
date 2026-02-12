@@ -415,3 +415,19 @@ body::before{
 .nav-card:hover{
   background: rgba(44, 123, 95, 0.95);
 }
+/* ===================================
+   背景透過レイヤー（追加）
+=================================== */
+
+body{
+  position: relative;
+}
+
+body::before{
+  content:"";
+  position: fixed;
+  inset: 0;
+  background: rgba(240, 247, 243, 0.45);
+  pointer-events: none;
+  z-index: -1;
+}
