@@ -566,3 +566,39 @@ body::before{
   border-top: 1px solid rgba(0,0,0,0.05);
   padding: 16px 0;
 }
+/* ===================================
+   ホームナビ（カードなし重心設計）
+=================================== */
+
+.home-nav{
+  text-align: center;
+  margin: 80px 0;
+}
+
+/* 主役 */
+.nav-primary{
+  margin-bottom: 70px;  /* 山と生活の間に余白 */
+}
+
+.nav-primary a{
+  display: block;
+  font-size: 1.8rem;
+  margin: 20px 0;
+  text-decoration: none;
+  color: #1f5c49;
+  font-weight: 600;
+}
+
+/* 周辺 */
+.nav-secondary a{
+  display: block;
+  font-size: 1.2rem;
+  margin: 12px 0;
+  text-decoration: none;
+  color: #4f8f7a;
+}
+
+/* ホバーは控えめ */
+.home-nav a:hover{
+  opacity: 0.7;
+}
