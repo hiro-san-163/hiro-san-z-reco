@@ -489,3 +489,22 @@ body::before{
 .site-footer a:hover{
   color: #ffffff;
 }
+/* ===================================
+   フッター軽量化 改訂版
+=================================== */
+
+.site-footer{
+  background: linear-gradient(
+    to bottom,
+    #3f9278,
+    #327765
+  );
+  border-top: 3px solid rgba(255,255,255,0.25);
+  padding-top: 30px;
+}
+
+/* フッター文字を少し柔らかく */
+.site-footer,
+.site-footer a{
+  color: rgba(255,255,255,0.9);
+}
