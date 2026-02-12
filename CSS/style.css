@@ -379,3 +379,39 @@ a:hover {
     padding-bottom: 88px;
   }
 }
+/* ===================================
+   ★ 今回提案分のみ上書き
+=================================== */
+
+/* ① 背景透過を少し薄く（山を見せる） */
+body::before{
+  background: rgba(240, 247, 243, 0.45);
+}
+
+/* ② ヘッダーを少し軽く */
+.site-header{
+  background: #357f67;
+}
+
+/* ③ ナビカードの質感変更（PC含む） */
+.nav-card{
+  background: rgba(44, 123, 95, 0.88);
+  box-shadow: none;
+  border-radius: 6px;
+  transition: background .25s ease;
+}
+
+/* 上2つを少し強く（山系） */
+.nav-card:nth-child(-n+2){
+  background: rgba(44, 123, 95, 0.93);
+}
+
+/* 3つ目以降を少し軽く（生活系） */
+.nav-card:nth-child(n+3){
+  background: rgba(44, 123, 95, 0.82);
+}
+
+/* ホバーはわずかに強く */
+.nav-card:hover{
+  background: rgba(44, 123, 95, 0.95);
+}
