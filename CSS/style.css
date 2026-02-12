@@ -431,3 +431,45 @@ body::before{
   pointer-events: none;
   z-index: -1;
 }
+/* ===================================
+   山／生活 差別化 強化版
+=================================== */
+
+/* 共通 */
+.nav-card{
+  border-radius: 8px;
+  transition: all .3s ease;
+}
+
+/* ===== 山系（上2つ） ===== */
+.nav-card:nth-of-type(-n+2){
+  background: linear-gradient(
+    145deg,
+    #1f5c49,
+    #2c7b5f
+  );
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+/* ===== 生活系（3つ目以降） ===== */
+.nav-card:nth-of-type(n+3){
+  background: linear-gradient(
+    145deg,
+    #4a9c83,
+    #66b39b
+  );
+  box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+  border: 1px solid rgba(255,255,255,0.35);
+}
+
+/* ホバー差もつける */
+.nav-card:nth-of-type(-n+2):hover{
+  transform: translateY(-4px);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.35);
+}
+
+.nav-card:nth-of-type(n+3):hover{
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.18);
+}
