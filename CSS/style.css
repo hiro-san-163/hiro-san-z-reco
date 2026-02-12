@@ -11,7 +11,7 @@ body {
   line-height: 1.6;
 }
 
-/* 山を少し見せる（以前0.6 → 0.45） */
+/* ★ 背景透過を少し薄く（山を見せる） */
 body::before {
   content: '';
   position: fixed;
@@ -33,11 +33,11 @@ a:hover {
 }
 
 /* ===================================
-   共通ヘッダー（少し軽く）
+   共通ヘッダー
 =================================== */
 
 .site-header {
-  background: #357f67; /* 少し明るく */
+  background: #357f67; /* ★ 少し軽く */
   color: #ffffff;
   position: sticky;
   top: 0;
@@ -76,49 +76,53 @@ a:hover {
   color: #ffffff;
 }
 
+.record-title a { 
+  color:#245d44; 
+}
+
 /* ===================================
-   ナビカード調整（静かな札に）
+   ナビカード調整（PC含む）
 =================================== */
 
-.nav-card {
+.nav-card{
   background: rgba(44, 123, 95, 0.88);
-  box-shadow: none;          /* 影を削除 */
-  border-radius: 6px;        /* 控えめ */
+  box-shadow: none;
+  border-radius: 6px;
   transition: background .25s ease;
 }
 
-/* 上2つ（山系）を少し濃く */
-.nav-card:nth-child(-n+2) {
+/* 上2つ（山系）を少し強く */
+.nav-card:nth-child(-n+2){
   background: rgba(44, 123, 95, 0.93);
 }
 
 /* 3つ目以降（生活系）を少し軽く */
-.nav-card:nth-child(n+3) {
+.nav-card:nth-child(n+3){
   background: rgba(44, 123, 95, 0.82);
 }
 
-/* ホバーはほんの少し強く */
-.nav-card:hover {
+/* ホバー */
+.nav-card:hover{
   background: rgba(44, 123, 95, 0.95);
 }
 
 /* ===================================
-   ブログ表示（変更なし）
+   ブログ表示
 =================================== */
 
 .blog-card {
   padding: .6em 0;
-  border-bottom: 1px solid #ddd;
+  border-bottom:1px solid #ddd;
 }
 
-.blog-title {
-  font-size: 1rem;
-  margin: 0 0 .2em;
+.blog-title { 
+  font-size:1rem; 
+  margin:0 0 .2em; 
 }
 
-.blog-date {
-  font-size: .9rem;
-  color: #666;
+.blog-date { 
+  font-size:.9rem; 
+  color:#666; 
 }
 
 @media (max-width:600px){
@@ -127,7 +131,7 @@ a:hover {
 }
 
 /* ===================================
-   スマホ調整
+   スマホ調整（既存）
 =================================== */
 
 @media (max-width:600px){
@@ -139,7 +143,7 @@ a:hover {
   }
 
   .nav-card{
-    padding:.5em .9em;
+    padding:.4em .7em;
   }
 
   /* ヘッダー固定 */
@@ -151,8 +155,7 @@ a:hover {
   }
 
   main{
-    padding-top:48px;
-    padding-bottom:88px;
+    padding-top:60px;
   }
 
   /* フッター固定 */
@@ -162,7 +165,10 @@ a:hover {
     left:0;
     width:100%;
     z-index:1000;
-    background:#3f8a72; /* ヘッダーより少し軽い */
+  }
+
+  main{
+    padding-bottom:120px;
   }
 
   .footer-note,
@@ -174,7 +180,7 @@ a:hover {
   .footer-nav ul{
     flex-wrap:wrap;
     justify-content:space-around;
-    padding:.2em 0;
+    padding:.3em .2em;
     margin:0;
     gap:.2em .6em;
   }
@@ -185,7 +191,45 @@ a:hover {
   }
 
   .footer-nav a{
-    font-size:.72rem;
-    padding:2px 4px;
+    font-size:.78rem;
+  }
+}
+
+/* ===================================
+   ★ スマホ用ヘッダー／フッター高さ調整
+=================================== */
+
+@media (max-width:600px){
+
+  .header-inner{
+    padding: 4px 12px;
+  }
+
+  .site-title{
+    font-size: 0.95rem;
+    line-height: 1.1;
+  }
+
+  .nav-toggle{
+    font-size: 1.3rem;
+  }
+
+  .footer-inner{
+    padding: 6px 8px 4px;
+  }
+
+  .footer-nav ul{
+    padding: 0.2em 0;
+    gap: 0.2em 0.4em;
+  }
+
+  .footer-nav a{
+    font-size: 0.72rem;
+    padding: 2px 4px;
+  }
+
+  main{
+    padding-top: 48px;
+    padding-bottom: 88px;
   }
 }
