@@ -562,7 +562,7 @@ body::before{
 =================================== */
 
 .site-footer{
-  background: #5f8f83;  /* 彩度を落とした緑 */
+  background: #567e74;  /* 彩度を落とした緑 */
   border-top: 1px solid rgba(0,0,0,0.05);
-  padding: 18px 0;
+  padding: 16px 0;
 }
