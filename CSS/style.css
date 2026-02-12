@@ -545,3 +545,15 @@ body::before{
   }
 
 }
+.site-footer{
+  background: #6ea997;   /* 少し落ち着かせる */
+  border-top: 1px solid rgba(0,0,0,0.06);
+  padding: 20px 0;       /* 高さも少し減らす */
+}
+@media (max-width: 768px){
+
+  .site-footer{
+    background: #3f8f75;  /* ヘッダーより弱く、生活より強く */
+  }
+
+}
