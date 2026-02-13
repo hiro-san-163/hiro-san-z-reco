@@ -356,11 +356,11 @@ a:hover {
 
   /* ヘッダーを低く */
   .header-inner{
-    padding: 4px 12px;
+    padding: 3px 12px;
   }
 
   .site-title{
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     line-height: 1.1;
   }
 
@@ -370,7 +370,7 @@ a:hover {
 
   /* フッターを低く */
   .footer-inner{
-    padding: 6px 8px 4px;
+    padding: 4px 8px 3px;
   }
 
   .footer-nav ul{
@@ -379,7 +379,7 @@ a:hover {
   }
 
   .footer-nav a{
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     padding: 2px 4px;
   }
 
@@ -630,7 +630,7 @@ body::before{
 
   /* 白レイヤーを弱める */
   body::before{
-    background: rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.38);
   }
 
 }
