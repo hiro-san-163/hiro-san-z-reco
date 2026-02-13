@@ -664,3 +664,71 @@ body::before{
     background-image: url('../data/IMG_4781.JPG') !important;
   }
 }
+/* ===================================
+   PCトップ 2カラムレイアウト
+=================================== */
+
+@media (min-width: 961px){
+
+  .top-layout{
+    display: flex;
+    align-items: flex-start;
+    gap: 80px;
+    margin-top: 40px;
+  }
+
+  /* 左：縦ナビ */
+  .guide{
+    flex: 0 0 280px;
+  }
+
+  .home-nav{
+    text-align: left;
+    margin: 0;
+  }
+
+  /* 山系強調 */
+  .nav-primary a{
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+
+  /* 山と生活の間 */
+  .nav-primary{
+    margin-bottom: 55px;
+  }
+
+  /* 生活系は現状維持 */
+  .nav-secondary a{
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+
+  /* うっすらカード感 */
+  .nav-primary a,
+  .nav-secondary a{
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.6);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  }
+
+  .nav-primary a:hover,
+  .nav-secondary a:hover{
+    background: rgba(255,255,255,0.75);
+  }
+
+  /* 右：最新記録 */
+  .latest{
+    flex: 1;
+  }
+
+  /* 白浮き防止 */
+  .latest .record-card{
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-radius: 8px;
+  }
+
+}
