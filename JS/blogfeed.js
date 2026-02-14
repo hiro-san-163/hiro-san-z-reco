@@ -145,5 +145,6 @@ window.handleLatestPosts = function(data) {
   ${postInfo.summary ? `<div class="record-summary">${postInfo.summary}…</div>` : ""}
 `;
 
+container.appendChild(article);
   });
 };
