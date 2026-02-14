@@ -882,29 +882,3 @@ body::before{
   margin-top:4px;
   line-height:1.6;
 }
-/* =========================
-   スマホ用：ヘッダー上余白修正
-========================= */
-@media (max-width: 768px) {
-
-  body {
-    margin: 0;
-    padding: 0;
-  }
-
-  #header,
-  header {
-    margin-top: 0;
-    padding-top: 0;
-  }
-
-  .container {
-    margin-top: 0;
-    padding-top: 0;
-  }
-
-  .welcome {
-    margin-top: 0;
-  }
-
-}
