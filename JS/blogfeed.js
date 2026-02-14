@@ -114,7 +114,8 @@ window.handleLatestPosts = function(data) {
     const published = new Date(entry.published.$t).toLocaleDateString("ja-JP");
 
     // 本文から詳細情報を抽出
-    const content = entry.summary ? entry.summary.$t : "";
+    const content = entry.content ? entry.content.$t : "";
+
     const postInfo = extractPostContent(content);
 
     const article = document.createElement("article");
