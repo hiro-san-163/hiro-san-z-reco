@@ -813,3 +813,28 @@ body::before{
   line-height: 1.5;
   color: #333;
 }
+/* ===== 詳細情報を1行にまとめる ===== */
+
+.record-detail {
+  display: inline-block;
+  font-size: 0.85rem;
+  color: #555;
+  margin-right: 12px;
+}
+
+.record-detail + .record-detail {
+  margin-left: 0;
+}
+
+/* detail群を1行にまとめる */
+.record-title + .record-detail {
+  display: inline-block;
+}
+
+.record-summary {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #333;
+}
