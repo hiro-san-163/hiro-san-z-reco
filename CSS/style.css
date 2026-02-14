@@ -742,7 +742,7 @@ body::before{
     content: "";
     position: fixed;
     inset: 0;
-    background: rgba(255, 255, 255, 0.88); /* かなり控えめに */
+    background: rgba(255, 255, 255, 0.9); /* かなり控えめに */
     backdrop-filter: blur(3px);
     -webkit-backdrop-filter: blur(3px);
     z-index: -1;
