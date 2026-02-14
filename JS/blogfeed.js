@@ -11,7 +11,7 @@ console.log("blogfeed.js loaded");
 function renderLatestBlogPosts(options) {
   const {
     target = "#latest-records",
-    max = 5
+    max = 3
   } = options || {};
 
   window.__latestContainerSelector = target;
