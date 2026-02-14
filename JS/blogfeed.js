@@ -35,43 +35,48 @@ function extractPostContent(htmlContent) {
   const temp = document.createElement("div");
   temp.innerHTML = htmlContent;
 
-  // テキストを取得
-  const text = temp.innerText || temp.textContent;
+  const card = temp.querySelector(".rec-card");
+  if (!card) return {};
 
-  // デバッグ用ログ
-  console.log("抽出する本文:", text);
+  // --- 実施日・山域・ジャンル ---
+  const info = card.querySelector(".rec-info");
+  let date = "", area = "", genre = "";
 
-  // パターンマッチで情報を抽出
-  const patterns = {
-    date: /実施日[：:]\s*([^\n、]+)/,
-    area: /エリア[：:]\s*([^\n、]+)/,
-    genre: /ジャンル[：:]\s*([^\n、]+)/,
-    impression: /感想[：:]\s*([^\n。]+)/
-  };
+  if (info) {
+    const ps = info.querySelectorAll("p");
+    ps.forEach(p => {
+      const text = p.innerText.trim();
 
-  const result = {
-    date: "",
-    area: "",
-    genre: "",
-    impression: ""
-  };
-
-  for (const [key, pattern] of Object.entries(patterns)) {
-    const match = text.match(pattern);
-    if (match) {
-      let value = match[1].trim();
-      // 最大文字数を制限
-      if (key === "impression") {
-        value = value.substring(0, 100);
-      } else {
-        value = value.substring(0, 50);
+      if (text.includes("実施日")) {
+        date = text.replace("実施日：", "").trim();
       }
-      result[key] = value;
-      console.log(`${key}: ${value}`);
-    }
+
+      if (text.includes("山域")) {
+        area = text.replace("山域：", "").trim();
+      }
+
+      if (text.includes("ジャンル")) {
+        genre = text.replace("ジャンル：", "").trim();
+      }
+    });
   }
 
-  return result;
+  // --- 代表写真 ---
+  const img = card.querySelector(".rec-main-photo img");
+  const image = img ? img.src : "";
+
+  // --- summary ---
+  const summaryEl = card.querySelector(".rec-summary");
+  let summary = summaryEl ? summaryEl.innerText.trim() : "";
+  summary = summary.substring(0, 100);
+
+  return {
+    date,
+    area,
+    genre,
+    summary,
+    image
+  };
 }
 
 /* ---------- JSONP callback ---------- */
@@ -122,15 +127,23 @@ window.handleLatestPosts = function(data) {
     if (postInfo.impression) detailsHtml += `<div class="record-detail"><strong>感想:</strong> ${postInfo.impression}…</div>`;
 
     article.innerHTML = `
-      <div class="record-meta">${published}</div>
-      <h3 class="record-title">
-        <a href="${link}" target="_blank" rel="noopener">
-          ${title}
-        </a>
-      </h3>
-      ${detailsHtml}
-    `;
+  ${postInfo.image ? `
+    <img src="${postInfo.image}" class="record-thumb">
+  ` : ""}
 
-    container.appendChild(article);
+  <div class="record-meta">${published}</div>
+
+  <h3 class="record-title">
+    <a href="${link}" target="_blank" rel="noopener">
+      ${title}
+    </a>
+  </h3>
+
+  ${postInfo.date ? `<div class="record-detail">実施日：${postInfo.date}</div>` : ""}
+  ${postInfo.area ? `<div class="record-detail">山域：${postInfo.area}</div>` : ""}
+  ${postInfo.genre ? `<div class="record-detail">ジャンル：${postInfo.genre}</div>` : ""}
+  ${postInfo.summary ? `<div class="record-summary">${postInfo.summary}…</div>` : ""}
+`;
+
   });
 };
