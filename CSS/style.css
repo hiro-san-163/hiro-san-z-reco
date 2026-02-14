@@ -773,3 +773,43 @@ body::before{
   font-size:0.95rem;
   color:#333;
 }
+/* ===== 最新記事カード 横並びレイアウト ===== */
+
+.record-card {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.record-thumb {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.record-meta {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.record-title {
+  margin: 4px 0 8px;
+  font-size: 1rem;
+}
+
+.record-detail {
+  font-size: 0.9rem;
+  margin-bottom: 2px;
+  color: #444;
+}
+
+.record-summary {
+  font-size: 0.9rem;
+  margin-top: 6px;
+  line-height: 1.5;
+  color: #333;
+}
