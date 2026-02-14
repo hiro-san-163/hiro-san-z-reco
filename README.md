@@ -1,10 +1,3 @@
-了解です。
-これは **「作業ログとしては非常に優秀だが、READMEとしては情報量が多い」**状態なので、
-目的を **「思想・全体像・到達点が一読で分かる」**に絞って整理します。
-
-以下は **README.md の冒頭〜全体説明としてそのまま置き換え／要約版として使える文章**です。
-（詳細な改修履歴や技術判断は、今ある長文ログを *履歴セクション* として残す前提）
-
 ---
 
 # hiro-san-z-reco
@@ -123,4 +116,191 @@ README 内の **メンテナンス履歴セクション**に時系列で残し�
 * GitHub に置いたときに「何のリポジトリか」が即分かる
 * 数か月〜数年後に再開しても迷子にならない
 * 「当面一段落したプロジェクト」として綺麗に区切れる
+
+##　履歴　## 2026/02/14
+
+
+```
+現在、静的サイト（GitHub Pages）で山行記録サイトを構築中。
+
+■ 構成
+- index.html（トップページ）
+- records/index.html（山行記録一覧）
+- blog.html ほか
+- CSS/style.css
+- JS/blogfeed.js
+- JS/include.js
+
+■ 仕様
+- 最新山行記録は Blogspot のフィードから取得
+- JSONPで取得（handleLatestPosts）
+- extractPostContent() で .rec-card 内から
+  ・実施日
+  ・山域
+  ・ジャンル
+  ・感想（100字）
+  ・代表写真
+  を抽出
+
+■ 現在の表示構造
+.record-card
+  ├─ img.record-thumb（左）
+  └─ div.record-content
+       ├─ div.record-header（登録日＋タイトル 横1行）
+       ├─ div.record-info（実施日・山域・ジャンル 横1行）
+       └─ div.record-summary（感想）
+
+■ 現在の状態
+- 最新記事は正常表示
+- 3件表示
+- レイアウトは横並び
+- 背景画像はやや抑えた設定済
+
+次の改善点や設計整理を進めたい。
+```
+
+---
+
+# ✅ ② README.md（プロジェクト用）
+
+そのまま `README.md` に保存できます。
+
+```markdown
+# hiro-sanの山歩き
+
+静的サイト（GitHub Pages）で構築した山行記録サイト。
+
+---
+
+## 📁 ディレクトリ構成
+
+```
+
+/
+├─ index.html
+├─ records/
+│   └─ index.html
+├─ blog.html
+├─ about.html
+├─ CSS/
+│   └─ style.css
+├─ JS/
+│   ├─ blogfeed.js
+│   └─ include.js
+└─ favicon.ico
+
+```
+
+---
+
+## 🔄 最新山行記録の仕組み
+
+### データ取得元
+Blogspot フィード
+
+```
+
+[https://hiro-san-163.blogspot.com/feeds/posts/default](https://hiro-san-163.blogspot.com/feeds/posts/default)
+
+```
+
+### 取得方式
+JSONP（callback: handleLatestPosts）
+
+### 表示件数
+index.html 内で指定
+
+```
+
+renderLatestBlogPosts({
+target: "#latest-records",
+max: 3
+});
+
+````
+
+---
+
+## 🧩 blogfeed.js の役割
+
+### extractPostContent()
+
+Blog本文内 `.rec-card` から抽出：
+
+- 実施日
+- 山域
+- ジャンル
+- 感想（100字）
+- 代表写真
+
+---
+
+## 🖼 表示構造
+
+```html
+<article class="record-card">
+
+  <img class="record-thumb">
+
+  <div class="record-content">
+
+    <div class="record-header">
+      <p class="record-meta">登録日</p>
+      <h3 class="record-title">タイトル</h3>
+    </div>
+
+    <div class="record-info">
+      <span>実施日：...</span>
+      <span>山域：...</span>
+      <span>ジャンル：...</span>
+    </div>
+
+    <div class="record-summary">
+      感想...
+    </div>
+
+  </div>
+
+</article>
+````
+
+---
+
+## 🎨 レイアウト方針
+
+* 写真左、本文右
+* 登録日＋タイトル 横1行
+* 実施日・山域・ジャンル 横1行
+* 感想はその下
+* スマホでは折り返し対応
+
+---
+
+## 🚀 今後の改善候補
+
+* ローディングアニメーション改善
+* キャッシュ対策
+* フィルター機能追加
+* ページネーション
+* SEO最適化
+* OGP設定
+* パフォーマンス最適化
+
+---
+
+## 🛠 技術スタック
+
+* HTML5
+* CSS3（Flexbox）
+* Vanilla JavaScript
+* GitHub Pages
+* Blogspot API (JSONP)
+
+---
+
+## 👤 Author
+
+hiro-san
+
+```
 
