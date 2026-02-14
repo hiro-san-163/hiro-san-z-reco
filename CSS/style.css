@@ -732,3 +732,24 @@ body::before{
   }
 
 }
+@media (max-width: 768px) {
+
+  body {
+    background-attachment: scroll;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.88); /* かなり控えめに */
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    z-index: -1;
+  }
+
+  body {
+    filter: brightness(0.85) saturate(0.85);
+  }
+
+}
