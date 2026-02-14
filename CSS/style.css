@@ -838,3 +838,47 @@ body::before{
   line-height: 1.5;
   color: #333;
 }
+/* ===============================
+   記録カード 横1行整形（最終版）
+================================ */
+
+/* タイトル＋登録日を横1行 */
+.record-header{
+  display:flex;
+  align-items:baseline;
+  gap:16px;
+  margin-bottom:4px;
+}
+
+.record-meta{
+  font-size:0.8rem;
+  color:#777;
+  margin:0;
+}
+
+.record-title{
+  margin:0;
+  font-size:1rem;
+}
+
+/* 実施情報を完全横1行 */
+.record-info{
+  display:flex;
+  flex-wrap:wrap;   /* スマホでは折り返す */
+  gap:16px;
+  font-size:0.85rem;
+  color:#555;
+  margin-bottom:6px;
+}
+
+/* 個別detailの余計な指定を無効化 */
+.record-detail{
+  display:inline;
+  margin:0;
+}
+
+/* 感想はその下に通常表示 */
+.record-summary{
+  margin-top:4px;
+  line-height:1.6;
+}
