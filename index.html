@@ -27,22 +27,18 @@
       </p>
     </section>
 
-    <!-- ▼▼▼ ここを追加（ラッパー開始） ▼▼▼ -->
     <div class="top-layout">
-    <!-- ▲▲▲ ここを追加 ▲▲▲ -->
 
-    <!-- ナビゲーション（重心設計版） -->
+    <!-- ナビゲーション -->
     <section class="guide">
 
       <nav class="home-nav">
 
-        <!-- 主役 -->
         <div class="nav-primary">
           <a href="records/index.html">歩いた日</a>
           <a href="search.html">足どりの記録</a>
         </div>
 
-        <!-- 余白で区切る -->
         <div class="nav-secondary">
           <a href="blog.html">ひびのこと</a>
           <a href="about.html">わたしのこと</a>
@@ -61,24 +57,19 @@
         最新の山行記録を読み込み中…
       </div>
 
-      <div id="latest-records"></div>
+      <!-- ★ここだけ変更（クラス追加） -->
+      <div id="latest-records" class="latest-records"></div>
     </section>
 
-    <!-- ▼▼▼ ここを追加（ラッパー終了） ▼▼▼ -->
     </div>
-    <!-- ▲▲▲ ここを追加 ▲▲▲ -->
 
   </div>
 
   <div id="footer"></div>
 
-  <!-- 共通部品 -->
   <script src="JS/include.js"></script>
-
-  <!-- 山行記録フィード -->
   <script src="JS/blogfeed.js"></script>
 
-  <!-- DOM構築完了後に実行 -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       renderLatestBlogPosts({
