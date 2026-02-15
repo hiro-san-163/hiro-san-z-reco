@@ -161,14 +161,57 @@ a:hover{ opacity:.85; }
 .nav-card:nth-of-type(n+3):hover{ transform:translateY(-2px); box-shadow:0 6px 14px rgba(0,0,0,0.18); }
 
 @media (min-width:961px){
-  .top-layout{ display:flex; align-items:flex-start; gap:80px; margin-top:40px; }
-  .guide{ flex:0 0 280px; }
-  .home-nav{ text-align:left; margin:0; }
-  .nav-primary a{ font-size:1.6rem; font-weight:700; }
-  .nav-primary{ margin-bottom:55px; }
-  .nav-secondary a{ font-size:1.2rem; font-weight:500; }
-  .nav-primary a, .nav-secondary a{ padding:6px 10px; border-radius:6px; background:rgba(255,255,255,0.6); box-shadow:0 3px 10px rgba(0,0,0,0.08); }
-  .nav-primary a:hover, .nav-secondary a:hover{ background:rgba(255,255,255,0.75); }
-  .latest{ flex:1; }
-  .latest .record-card{ background:rgba(255,255,255,0.75); backdrop-filter:blur(2px); box-shadow:0 4px 12px rgba(0,0,0,0.08); border-radius:8px; }
+
+  /* トップは縦並びに戻す */
+  .top-layout{
+    display:block;
+    margin-top:40px;
+  }
+
+  .guide{
+    width:100%;
+    margin-bottom:40px;
+  }
+
+  .latest{
+    width:100%;
+  }
+
+  .home-nav{
+    text-align:left;
+    margin:0 0 30px 0;
+  }
+
+  /* 文字装飾は維持 */
+  .nav-primary a{
+    font-size:1.6rem;
+    font-weight:700;
+  }
+
+  .nav-secondary a{
+    font-size:1.2rem;
+    font-weight:500;
+  }
+
+  .nav-primary a,
+  .nav-secondary a{
+    display:block;              /* ← 縦並びにする決定打 */
+    padding:6px 10px;
+    margin-bottom:14px;
+    border-radius:6px;
+    background:rgba(255,255,255,0.6);
+    box-shadow:0 3px 10px rgba(0,0,0,0.08);
+  }
+
+  .nav-primary a:hover,
+  .nav-secondary a:hover{
+    background:rgba(255,255,255,0.75);
+  }
+
+  .latest .record-card{
+    background:rgba(255,255,255,0.75);
+    backdrop-filter:blur(2px);
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    border-radius:8px;
+  }
 }
