@@ -226,3 +226,67 @@ a:hover{ opacity:.85; }
   }
 
 }
+/* ===================================
+   最新の山行記録 強制レイアウト修正
+=================================== */
+
+@media (min-width:961px){
+
+  /* 見出し高さを完全に左タイトルと揃える */
+  .latest h2{
+    margin:0 0 30px 0;
+    font-size:2.8rem;
+    font-weight:700;
+    color:#144b33;
+  }
+
+  /* カード縦並び保証 */
+  .latest{
+    display:block;
+  }
+
+  /* --- カード本体を2段構造にする --- */
+  .latest .record-card{
+    display:flex !important;
+    flex-direction:column;
+  }
+
+  /* 上段：写真＋右情報 */
+  .latest .record-card > *:not(.record-summary){
+    width:100%;
+  }
+
+  /* 写真＋右情報を横並びに再構成 */
+  .latest .record-card{
+    position:relative;
+  }
+
+  .latest .record-thumb{
+    float:left;
+    width:320px !important;
+    height:200px;
+    margin:0 24px 10px 0 !important;
+    object-fit:cover;
+  }
+
+  /* 右側情報 */
+  .latest .record-meta,
+  .latest .record-title,
+  .latest .record-detail{
+    margin-left:0;
+  }
+
+  /* メタ情報横並び（自動2列折返し） */
+  .latest .record-detail{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px 24px;
+  }
+
+  /* 感想は写真下からフル幅 */
+  .latest .record-summary{
+    clear:both;
+    margin-top:8px;
+  }
+
+}
