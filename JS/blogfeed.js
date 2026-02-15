@@ -3,7 +3,8 @@
    Blogspot最新記事表示（登録日、タイトル、詳細情報）
 ========================================================= */
 
-const BLOG_URL = "https://hiro-san-163.blogspot.com";
+// 既存のグローバル設定があればそれを再利用する（重複宣言回避）
+window.BLOG_URL = window.BLOG_URL || "https://hiro-san-163.blogspot.com";
 
 console.log("blogfeed.js loaded");
 

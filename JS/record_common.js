@@ -4,7 +4,8 @@
    Blogger API（JSONP）で全ラベルを取得・表示
 ================================================= */
 
-const BLOG_URL = "https://hiro-san-163.blogspot.com";
+// グローバル名の重複を避ける（既に他ファイルで定義されている場合はそれを利用）
+window.BLOG_URL = window.BLOG_URL || "https://hiro-san-163.blogspot.com";
 const MAX_RESULTS = 150;
 
 /* ===================================================
