@@ -542,3 +542,85 @@ a:hover{ opacity:.85; }
   }
 
 }
+/* =========================================
+   PC版：最新の山行記録 位置・構造修正版
+   既存CSSには影響させない
+========================================= */
+
+@media (min-width:961px){
+
+  /* ---------------------------------
+     1. セクションの縦位置を左側と揃える
+  --------------------------------- */
+
+  .latest{
+    margin-top:24px !important;   /* .welcome と揃える */
+    padding-top:0 !important;
+    display:flex;
+    flex-direction:column;
+    gap:28px;
+  }
+
+  .latest h2{
+    margin:0 0 28px 0 !important;
+    font-size:1rem !important;   /* hiro-sanの山歩き と同サイズ */
+    font-weight:700;
+  }
+
+  /* ---------------------------------
+     2. カード内部レイアウト
+  --------------------------------- */
+
+  .latest .record-card{
+    display:grid !important;
+    grid-template-columns:180px 1fr;
+    grid-template-rows:auto auto;
+    column-gap:20px;
+    row-gap:10px;
+    align-items:start;
+  }
+
+  /* 写真：小さめ正方形 */
+  .latest .record-thumb{
+    grid-column:1;
+    grid-row:1;
+    width:180px !important;
+    height:180px !important;
+    aspect-ratio:1 / 1;
+    object-fit:cover;
+    margin:0 !important;
+  }
+
+  /* タイトル（1行目） */
+  .latest .record-title{
+    grid-column:2;
+    margin:0 0 6px 0;
+    font-size:1rem;
+    font-weight:700;
+  }
+
+  /* ブログ登録日を非表示 */
+  .latest .record-meta{
+    display:none !important;
+  }
+
+  /* 実施日・山域・エリア（2行目） */
+  .latest .record-detail{
+    grid-column:2;
+    display:flex;
+    flex-wrap:wrap;      /* 収まらなければ2行 */
+    gap:6px 20px;
+    font-size:0.9rem;
+  }
+
+  /* ---------------------------------
+     3. 感想：写真下からカード全面
+  --------------------------------- */
+
+  .latest .record-summary{
+    grid-column:1 / 3;
+    margin-top:6px;
+    line-height:1.6;
+  }
+
+}
