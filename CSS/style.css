@@ -542,3 +542,213 @@ a:hover{ opacity:.85; }
   }
 
 }
+
+/* =========================================
+   PC版（961px以上）：トップページ二段レイアウト
+   左：サイト名・説明・ナビ / 右：最新記録
+========================================= */
+
+@media (min-width:961px){
+
+  /* ================================================
+     1. コンテナとレイアウト基本設定
+  ================================================ */
+
+  .container{
+    max-width:1400px;
+    margin:20px auto;
+    padding:0 15px;
+  }
+
+  .top-layout{
+    display:flex;
+    gap:60px;
+    align-items:flex-start;
+    margin-top:0;
+  }
+
+  /* ================================================
+     2. 左側バー：サイト名・説明・ナビ
+  ================================================ */
+
+  .sidebar{
+    flex:0 0 360px;
+    padding-top:24px;
+  }
+
+  /* サイト名：大きめボールド */
+  .sidebar .site-title{
+    margin:0 0 16px 0;
+    font-size:2rem;
+    font-weight:700;
+    color:#144b33;
+  }
+
+  /* ページ説明：3行縦並び */
+  .sidebar .site-description{
+    font-size:1rem;
+    line-height:1.8;
+    color:#555;
+    margin:0 0 32px 0;
+  }
+
+  /* ナビ全体 */
+  .home-nav{
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+    text-align:left;
+    margin:0;
+  }
+
+  /* 大きめカード：歩いた日、足どりの記録 */
+  .nav-primary{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    margin:0;
+  }
+
+  .nav-primary a{
+    display:block;
+    padding:12px 16px;
+    font-size:1.4rem;
+    font-weight:700;
+    color:#245d44;
+    background:rgba(255,255,255,0.6);
+    border-radius:8px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.08);
+    transition:all 0.3s ease;
+    backdrop-filter:blur(2px);
+  }
+
+  .nav-primary a:hover{
+    background:rgba(255,255,255,0.8);
+    text-decoration:none;
+  }
+
+  /* 標準カード：ひびのこと、わたしのこと、そのほか */
+  .nav-secondary{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin:0;
+  }
+
+  .nav-secondary a{
+    display:block;
+    padding:8px 12px;
+    font-size:1rem;
+    font-weight:400;
+    color:#245d44;
+    background:rgba(255,255,255,0.6);
+    border-radius:6px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.06);
+    transition:all 0.3s ease;
+    backdrop-filter:blur(2px);
+  }
+
+  .nav-secondary a:hover{
+    background:rgba(255,255,255,0.8);
+    text-decoration:none;
+  }
+
+  /* ================================================
+     3. 右側メインコンテンツ：最新記録
+  ================================================ */
+
+  .main-content{
+    flex:1;
+    padding-top:24px;
+  }
+
+  /* 最新の山行記録セクション */
+  .latest{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    margin:0;
+  }
+
+  .latest h2{
+    margin:0 0 20px 0;
+    font-size:1.4rem;
+    font-weight:700;
+    color:#144b33;
+  }
+
+  /* ================================================
+     4. 山行記録カード：左写真・右情報
+  ================================================ */
+
+  .latest .record-card{
+    display:grid !important;
+    grid-template-columns:180px 1fr;
+    grid-template-rows:auto auto;
+    column-gap:20px;
+    row-gap:8px;
+    align-items:start;
+    background:rgba(255,255,255,0.9);
+    border-radius:8px;
+    padding:16px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  /* 写真：左列・正方形・小さめ */
+  .latest .record-thumb{
+    grid-column:1;
+    grid-row:1 / 3;
+    width:180px !important;
+    height:180px !important;
+    aspect-ratio:1 / 1;
+    object-fit:cover;
+    border-radius:6px;
+    margin:0 !important;
+  }
+
+  /* タイトル（山行名）：右上 */
+  .latest .record-title{
+    grid-column:2;
+    grid-row:1;
+    margin:0 0 4px 0;
+    font-size:1.05rem;
+    font-weight:700;
+  }
+
+  .latest .record-title a{
+    color:#245d44;
+    text-decoration:none;
+  }
+
+  .latest .record-title a:hover{
+    text-decoration:underline;
+  }
+
+  /* メタ情報：実施日｜山域｜ジャンル（1行または2行で折返し） */
+  .latest .record-detail{
+    grid-column:2;
+    grid-row:2;
+    display:flex;
+    flex-wrap:wrap;
+    gap:0 16px;
+    font-size:0.9rem;
+    color:#666;
+    margin:0;
+  }
+
+  /* ブログ登録日は非表示 */
+  .latest .record-meta{
+    display:none !important;
+  }
+
+  /* 感想：写真下からカード全幅 */
+  .latest .record-summary{
+    grid-column:1 / 3;
+    grid-row:3;
+    margin:8px 0 0 0;
+    font-size:0.95rem;
+    line-height:1.6;
+    color:#333;
+  }
+
+}

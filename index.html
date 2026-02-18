@@ -19,48 +19,55 @@
 
   <div class="container">
 
-    <section class="welcome">
-      <h2>hiro-sanの山歩き</h2>
-      <p class="lead">
-        山の中を歩いた日。<br>
-        目指す場所があり、その道のりがある。<br>
-        そんな足どりの記録です。
-      </p>
-    </section>
-
     <div class="top-layout">
 
-    <!-- ナビゲーション -->
-    <section class="guide">
+      <!-- 左側：サイト名、説明、ナビ -->
+      <aside class="sidebar">
 
-      <nav class="home-nav">
+        <!-- サイト名 -->
+        <h2 class="site-title">hiro-sanの山歩き</h2>
 
-        <div class="nav-primary">
-          <a href="records/index.html">歩いた日</a>
-          <a href="search.html">足どりの記録</a>
-        </div>
+        <!-- ページ説明（3行） -->
+        <p class="site-description">
+          山の中を歩いた日。<br>
+          目指す場所があり、その道のりがある。<br>
+          そんな足どりの記録です。
+        </p>
 
-        <div class="nav-secondary">
-          <a href="blog.html">ひびのこと</a>
-          <a href="about.html">わたしのこと</a>
-          <a href="other.html">そのほか</a>
-        </div>
+        <!-- ナビゲーション -->
+        <nav class="home-nav">
 
-      </nav>
+          <!-- 大きめカード：歩いた日、足どりの記録 -->
+          <div class="nav-primary">
+            <a href="records/index.html">歩いた日</a>
+            <a href="search.html">足どりの記録</a>
+          </div>
 
-    </section>
+          <!-- 標準カード：ひびのこと、わたしのこと、そのほか -->
+          <div class="nav-secondary">
+            <a href="blog.html">ひびのこと</a>
+            <a href="about.html">わたしのこと</a>
+            <a href="other.html">そのほか</a>
+          </div>
 
-    <!-- 最新の山行記録 -->
-    <section class="latest">
-      <h2>最新の山行記録</h2>
+        </nav>
 
-      <div id="latest-loading" class="loading">
-        最新の山行記録を読み込み中…
-      </div>
+      </aside>
 
-      <!-- ★ここだけ変更（クラス追加） -->
-      <div id="latest-records" class="latest-records"></div>
-    </section>
+      <!-- 右側：最新の山行記録 -->
+      <main class="main-content">
+
+        <section class="latest">
+          <h2>最新の山行記録</h2>
+
+          <div id="latest-loading" class="loading">
+            最新の山行記録を読み込み中…
+          </div>
+
+          <div id="latest-records" class="latest-records"></div>
+        </section>
+
+      </main>
 
     </div>
 
