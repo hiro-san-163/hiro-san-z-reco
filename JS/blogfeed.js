@@ -1,6 +1,7 @@
 /* =========================================================
    blogfeed.js
-   最新山行記録表示（指定レイアウト完全対応版）
+   最新の山行記録表示（最終確定版）
+   ※CSSは変更不要
 ========================================================= */
 
 window.BLOG_URL = window.BLOG_URL || "https://hiro-san-163.blogspot.com";
@@ -10,7 +11,6 @@ function renderLatestBlogPosts(options) {
   const { target = "#latest-records", max = 3 } = options || {};
 
   window.__latestContainerSelector = target;
-  window.__latestMaxResults = max;
 
   const script = document.createElement("script");
   script.src =
@@ -21,16 +21,16 @@ function renderLatestBlogPosts(options) {
 
 /* ---------- 本文から情報抽出 ---------- */
 function extractPostContent(htmlContent) {
+
   const temp = document.createElement("div");
   temp.innerHTML = htmlContent;
 
   const card = temp.querySelector(".rec-card");
   if (!card) return {};
 
-  const info = card.querySelector(".rec-info");
-
   let date = "", area = "", genre = "";
 
+  const info = card.querySelector(".rec-info");
   if (info) {
     info.querySelectorAll("p").forEach(p => {
       const text = p.innerText.trim();
@@ -87,29 +87,20 @@ window.handleLatestPosts = function(data) {
     article.className = "record-card";
 
     article.innerHTML = `
+      ${postInfo.image ? `
+        <img src="${postInfo.image}" class="record-thumb" alt="${title}">
+      ` : ""}
 
-      <div class="record-top">
+      <h3 class="record-title">
+        <a href="${link}" target="_blank" rel="noopener">
+          ${title}
+        </a>
+      </h3>
 
-        ${postInfo.image ? `
-          <div class="record-image">
-            <img src="${postInfo.image}" alt="${title}">
-          </div>
-        ` : ""}
-
-        <div class="record-text">
-          <h3 class="record-title">
-            <a href="${link}" target="_blank" rel="noopener">
-              ${title}
-            </a>
-          </h3>
-
-          <div class="record-info">
-            ${postInfo.date ? `実施日：${postInfo.date}` : ""}
-            ${postInfo.area ? ` ｜ 山域：${postInfo.area}` : ""}
-            ${postInfo.genre ? ` ｜ ジャンル：${postInfo.genre}` : ""}
-          </div>
-        </div>
-
+      <div class="record-detail">
+        ${postInfo.date ? `<span>実施日：${postInfo.date}</span>` : ""}
+        ${postInfo.area ? `<span>山域：${postInfo.area}</span>` : ""}
+        ${postInfo.genre ? `<span>ジャンル：${postInfo.genre}</span>` : ""}
       </div>
 
       ${postInfo.summary ? `
@@ -117,7 +108,6 @@ window.handleLatestPosts = function(data) {
           ${postInfo.summary}…
         </div>
       ` : ""}
-
     `;
 
     container.appendChild(article);
