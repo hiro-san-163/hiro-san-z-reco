@@ -86,6 +86,13 @@ window.handleLatestPosts = function(data) {
     const article = document.createElement("article");
     article.className = "record-card";
 
+    // メタは値のみを縦並びではなく『実施日｜山域｜ジャンル』で1行表示
+    const metaParts = [];
+    if (postInfo.date) metaParts.push(postInfo.date);
+    if (postInfo.area) metaParts.push(postInfo.area);
+    if (postInfo.genre) metaParts.push(postInfo.genre);
+    const metaText = metaParts.join('｜');
+
     article.innerHTML = `
       ${postInfo.image ? `
         <img src="${postInfo.image}" class="record-thumb" alt="${title}">
@@ -97,11 +104,7 @@ window.handleLatestPosts = function(data) {
         </a>
       </h3>
 
-      <div class="record-detail">
-        ${postInfo.date ? `<span>実施日：${postInfo.date}</span>` : ""}
-        ${postInfo.area ? `<span>山域：${postInfo.area}</span>` : ""}
-        ${postInfo.genre ? `<span>ジャンル：${postInfo.genre}</span>` : ""}
-      </div>
+      <div class="record-detail">${metaText}</div>
 
       ${postInfo.summary ? `
         <div class="record-summary">
