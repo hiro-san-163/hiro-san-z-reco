@@ -1,29 +1,20 @@
 /* =========================================================
    blogfeed.js
-   Blogspot最新記事表示（登録日、タイトル、詳細情報）
+   最新山行記録表示（指定レイアウト完全対応版）
 ========================================================= */
 
-// 既存のグローバル設定があればそれを再利用する（重複宣言回避）
 window.BLOG_URL = window.BLOG_URL || "https://hiro-san-163.blogspot.com";
-
-console.log("blogfeed.js loaded");
 
 /* ---------- エントリーポイント ---------- */
 function renderLatestBlogPosts(options) {
-  const {
-    target = "#latest-records",
-    max = 3
-  } = options || {};
+  const { target = "#latest-records", max = 3 } = options || {};
 
   window.__latestContainerSelector = target;
   window.__latestMaxResults = max;
 
   const script = document.createElement("script");
   script.src =
-    `${BLOG_URL}/feeds/posts/default` +
-    `?alt=json-in-script` +
-    `&max-results=${max}` +
-    `&callback=handleLatestPosts`;
+    `${BLOG_URL}/feeds/posts/default?alt=json-in-script&max-results=${max}&callback=handleLatestPosts`;
 
   document.body.appendChild(script);
 }
@@ -37,11 +28,11 @@ function extractPostContent(htmlContent) {
   if (!card) return {};
 
   const info = card.querySelector(".rec-info");
+
   let date = "", area = "", genre = "";
 
   if (info) {
-    const ps = info.querySelectorAll("p");
-    ps.forEach(p => {
+    info.querySelectorAll("p").forEach(p => {
       const text = p.innerText.trim();
 
       if (text.includes("実施日")) {
@@ -61,7 +52,7 @@ function extractPostContent(htmlContent) {
 
   const summaryEl = card.querySelector(".rec-summary");
   let summary = summaryEl ? summaryEl.innerText.trim() : "";
-  summary = summary.substring(0, 100);
+  summary = summary.substring(0, 120);
 
   return { date, area, genre, summary, image };
 }
@@ -81,16 +72,13 @@ window.handleLatestPosts = function(data) {
     return;
   }
 
-  const entries = data.feed.entry;
   container.innerHTML = "";
 
-  entries.forEach(entry => {
+  data.feed.entry.forEach(entry => {
 
     const title = entry.title.$t;
     const linkObj = entry.link.find(l => l.rel === "alternate");
     const link = linkObj ? linkObj.href : "#";
-    const published = new Date(entry.published.$t)
-      .toLocaleDateString("ja-JP");
 
     const content = entry.content ? entry.content.$t : "";
     const postInfo = extractPostContent(content);
@@ -99,36 +87,37 @@ window.handleLatestPosts = function(data) {
     article.className = "record-card";
 
     article.innerHTML = `
-      ${postInfo.image ? `
-        <img src="${postInfo.image}" class="record-thumb">
-      ` : ""}
 
-      <div class="record-content">
+      <div class="record-top">
 
-        <div class="record-header">
-          <p class="record-meta">${published}</p>
+        ${postInfo.image ? `
+          <div class="record-image">
+            <img src="${postInfo.image}" alt="${title}">
+          </div>
+        ` : ""}
+
+        <div class="record-text">
           <h3 class="record-title">
             <a href="${link}" target="_blank" rel="noopener">
               ${title}
             </a>
           </h3>
+
+          <div class="record-info">
+            ${postInfo.date ? `実施日：${postInfo.date}` : ""}
+            ${postInfo.area ? ` ｜ 山域：${postInfo.area}` : ""}
+            ${postInfo.genre ? ` ｜ ジャンル：${postInfo.genre}` : ""}
+          </div>
         </div>
 
-        ${(postInfo.date || postInfo.area || postInfo.genre) ? `
-          <div class="record-info">
-            ${postInfo.date ? `<span>実施日：${postInfo.date}</span>` : ""}
-            ${postInfo.area ? `<span>山域：${postInfo.area}</span>` : ""}
-            ${postInfo.genre ? `<span>ジャンル：${postInfo.genre}</span>` : ""}
-          </div>
-        ` : ""}
-
-        ${postInfo.summary ? `
-          <div class="record-summary">
-            ${postInfo.summary}…
-          </div>
-        ` : ""}
-
       </div>
+
+      ${postInfo.summary ? `
+        <div class="record-summary">
+          ${postInfo.summary}…
+        </div>
+      ` : ""}
+
     `;
 
     container.appendChild(article);
