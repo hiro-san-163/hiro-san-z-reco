@@ -1,37 +1,36 @@
 /* ===================================
-   共通レイアウト（全ページ） - 統合版
-   冗長な上書きを排し、モバイルはメディアクエリで調整
+   共通レイアウト（全ページ）
 =================================== */
-
 body{
   margin:0;
-  font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
+  font-family:"Hiragino Sans","Noto Sans JP",sans-serif;
   color:#222;
-  background: #f0f7f3 url('../data/IMG_4781.JPG') no-repeat center center fixed;
-  background-size: cover;
-  background-attachment: scroll;
+  background:#f0f7f3 url('../data/IMG_4781.JPG') no-repeat center center fixed;
+  background-size:cover;
+  background-attachment:scroll;
   line-height:1.6;
   min-height:100vh;
   position:relative;
 }
 
-/* 背景透過レイヤー（ベース）。モバイルで上書きします */
 body::before{
   content:"";
   position:fixed;
   inset:0;
-  background: rgba(240,247,243,0.45);
+  background:rgba(240,247,243,0.45);
   pointer-events:none;
   z-index:-1;
 }
 
-a{ color:#0a4a2a; text-decoration:none; }
-a:hover{ opacity:.85; }
+a{
+  color:#0a4a2a;
+  text-decoration:none;
+}
+a:hover{opacity:.85;}
 
 /* ===================================
-   共通ヘッダー（整理）
+   ヘッダー
 =================================== */
-
 .site-header{
   background:#357f67;
   color:#fff;
@@ -40,525 +39,169 @@ a:hover{ opacity:.85; }
   z-index:20;
 }
 
-.header-inner{ max-width:1100px; margin:0 auto; padding:10px 24px; display:flex; justify-content:space-between; align-items:center; }
-.site-title{ margin:0; font-size:1rem; font-weight:700; }
-.site-title a{ color:#fff; }
-.global-nav ul{ list-style:none; display:flex; gap:28px; margin:0; padding:0; align-items:center; }
-.global-nav a{ color:#fff; font-weight:600; font-size:1rem; }
-.nav-toggle{ display:none; background:none; border:none; color:#fff; font-size:1.5rem; cursor:pointer; }
-
-@media (max-width:768px){
-  .header-inner{ padding:8px 16px; }
-  .nav-toggle{ display:block; font-size:1.4rem; }
-  .global-nav{ position:absolute; top:100%; left:0; right:0; background:#2c7b5f; display:none; }
-  .global-nav.nav-active{ display:block; }
-  .global-nav ul{ flex-direction:column; }
-  body{ background-attachment:scroll; }
-  body::before{ background: rgba(255,255,255,0.38); }
+.header-inner{
+  max-width:1100px;
+  margin:0 auto;
+  padding:10px 24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
-.container{ max-width:1200px; margin:20px auto; padding:0 15px; }
+.site-title{
+  margin:0;
+  font-size:1rem;
+  font-weight:700;
+}
+
+.site-title a{color:#fff;}
+
+.global-nav ul{
+  list-style:none;
+  display:flex;
+  gap:28px;
+  margin:0;
+  padding:0;
+  align-items:center;
+}
+
+.global-nav a{
+  color:#fff;
+  font-weight:600;
+  font-size:1rem;
+}
+
+.nav-toggle{
+  display:none;
+  background:none;
+  border:none;
+  color:#fff;
+  font-size:1.5rem;
+  cursor:pointer;
+}
+
+/* ===================================
+   モバイル
+=================================== */
+@media (max-width:768px){
+
+  .header-inner{padding:8px 16px;}
+
+  .nav-toggle{display:block;}
+
+  .global-nav{
+    position:absolute;
+    top:100%;
+    left:0;
+    right:0;
+    background:#2c7b5f;
+    display:none;
+  }
+
+  .global-nav.nav-active{display:block;}
+
+  .global-nav ul{flex-direction:column;}
+
+  body::before{
+    background:rgba(255,255,255,0.38);
+  }
+
+}
+
+/* ===================================
+   コンテナ
+=================================== */
+.container{
+  max-width:1200px;
+  margin:20px auto;
+  padding:0 15px;
+}
 
 /* ===================================
    フッター
 =================================== */
-
 .site-footer{
   background:#567e74;
-  border-top:1px solid rgba(0,0,0,0.05);
   padding:16px 0;
-  color: rgba(255,255,255,0.85);
+  color:rgba(255,255,255,0.85);
   margin-top:40px;
 }
 
-.footer-inner{ max-width:1100px; margin:0 auto; padding:12px 16px; text-align:center; font-size:.9rem; }
-.footer-nav ul{ display:flex; justify-content:center; align-items:center; gap:1.2rem; list-style:none; padding:0; margin:0 0 .75rem; flex-wrap:nowrap; }
-.footer-nav a{ color: rgba(255,255,255,0.9); font-size:.8rem; white-space:nowrap; }
-.footer-nav a:hover{ color:#fff; }
-.footer-nav a.active{ background:#fff; color:#245a4b; border-radius:6px; padding:2px 6px; font-weight:700; }
-
-@media (max-width:768px){ .site-footer{ background:#3f8f75; } }
-
-/* トップ要素 */
-.welcome h1{ margin-top:24px; font-size:2.8rem; font-weight:700; color:#144b33; }
-.lead{ font-size:1.1rem; color:#295a3c; }
-
-/* ナビカード */
-.nav-cards{ display:grid; grid-template-columns:repeat(5,1fr); gap:18px; margin-top:24px; }
-.nav-card{ padding:18px; border-radius:8px; color:#fff; text-align:center; transition:all .3s ease; }
-.nav-card:hover{ transform:translateY(-4px); }
-
-@media (max-width:960px){ .nav-cards{ grid-template-columns:repeat(2,1fr); } }
-@media (max-width:600px){ .nav-cards{ grid-template-columns:1fr; } }
-
-.breadcrumb ul{ list-style:none; display:flex; gap:6px; padding:0; }
-.label-buttons a{ display:inline-block; margin:0 10px 10px 0; padding:8px 14px; background:#2c7b5f; color:#fff; border-radius:8px; font-weight:600; }
-
-/* 記録カード */
-.record-card{ background: rgba(255,255,255,0.92); border-radius:10px; padding:1.2em 1.4em; margin-bottom:1.2em; box-shadow:0 2px 8px rgba(0,0,0,0.08); }
-.record-thumb{ width:100%; height:200px; object-fit:cover; border-radius:8px; margin-bottom:12px; }
-.record-meta{ font-size:.85rem; color:#666; }
-.record-title{ font-size:1.05em; margin:0; font-weight:600; }
-.record-title a{ color:#245d44; }
-.record-detail{ font-size:.9rem; color:#555; margin-bottom:4px; }
-.record-summary{ margin-top:8px; line-height:1.6; font-size:.95rem; color:#333; }
-
-/* （中略：既存コード一切変更なし） */
-
-/* PCレイアウト修正部分 */
-@media (min-width:961px){
-
-  .top-layout{
-    display:flex;              /* 横並びに戻す */
-    align-items:flex-start;
-    gap:60px;
-    margin-top:40px;
-  }
-
-  .guide{
-    flex:0 0 320px;            /* 左固定幅 */
-  }
-
-  .latest{
-    flex:1;
-    margin-top:40px;           /* 開始位置調整 */
-  }
-
-  .home-nav{
-    text-align:left;
-    margin:0 0 30px 0;
-  }
-
-  .nav-primary{
-    margin-bottom:45px;        /* セクション間を少し広く */
-  }
-
-  .nav-primary a{
-    font-size:1.6rem;
-    font-weight:700;
-  }
-
-  .nav-secondary a{
-    font-size:1.2rem;
-    font-weight:500;
-  }
-
-  .nav-primary a,
-  .nav-secondary a{
-    display:block;
-    padding:12px 16px;         /* カード高さアップ */
-    margin-bottom:14px;
-    border-radius:6px;
-    background:rgba(255,255,255,0.6);
-    box-shadow:0 3px 10px rgba(0,0,0,0.08);
-  }
-
-  .nav-primary a:hover,
-  .nav-secondary a:hover{
-    background:rgba(255,255,255,0.75);
-  }
-
-  .latest .record-card{
-    background:rgba(255,255,255,0.75);
-    backdrop-filter:blur(2px);
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
-    border-radius:8px;
-  }
+.footer-inner{
+  max-width:1100px;
+  margin:0 auto;
+  padding:12px 16px;
+  text-align:center;
+  font-size:.9rem;
 }
+
 /* ===================================
-   最新の山行記録 レイアウト調整（追加のみ）
+   トップ要素
 =================================== */
-
-@media (min-width:961px){
-
-  /* ① タイトル高さを左と揃える */
-  .latest h2{
-    margin-top:0;
-    margin-bottom:24px;
-    font-size:2.8rem;
-    font-weight:700;
-    color:#144b33;
-  }
-
-  /* ② カードを縦並び固定 */
-  .latest{
-    display:flex;
-    flex-direction:column;
-  }
-
-  /* ③ カード内部レイアウト再構築 */
-  .latest .record-card{
-    display:grid;
-    grid-template-columns:300px 1fr;
-    grid-template-rows:auto auto;
-    column-gap:24px;
-    row-gap:10px;
-    align-items:start;
-  }
-
-  /* 写真を左固定 */
-  .latest .record-thumb{
-    grid-column:1;
-    grid-row:1;
-    width:100%;
-    height:200px;
-    margin:0;
-  }
-
-  /* 右側情報エリア */
-  .latest .record-title,
-  .latest .record-meta,
-  .latest .record-detail{
-    grid-column:2;
-  }
-
-  /* メタ情報を横並び（可変2列） */
-  .latest .record-detail{
-    display:flex;
-    flex-wrap:wrap;
-    gap:14px 24px;
-  }
-
-  /* ④ 感想を写真下からカード幅いっぱいに */
-  .latest .record-summary{
-    grid-column:1 / 3;
-    margin-top:6px;
-  }
-
+.welcome h1{
+  margin-top:24px;
+  font-size:2.8rem;
+  font-weight:700;
+  color:#144b33;
 }
+
+.lead{
+  font-size:1.1rem;
+  color:#295a3c;
+}
+
 /* ===================================
-   最新の山行記録 強制レイアウト修正
+   記録カード（共通）
 =================================== */
-
-@media (min-width:961px){
-
-  /* 見出し高さを完全に左タイトルと揃える */
-  .latest h2{
-    margin:0 0 30px 0;
-    font-size:2.8rem;
-    font-weight:700;
-    color:#144b33;
-  }
-
-  /* カード縦並び保証 */
-  .latest{
-    display:block;
-  }
-
-  /* --- カード本体を2段構造にする --- */
-  .latest .record-card{
-    display:flex !important;
-    flex-direction:column;
-  }
-
-  /* 上段：写真＋右情報 */
-  .latest .record-card > *:not(.record-summary){
-    width:100%;
-  }
-
-  /* 写真＋右情報を横並びに再構成 */
-  .latest .record-card{
-    position:relative;
-  }
-
-  .latest .record-thumb{
-    float:left;
-    width:320px !important;
-    height:200px;
-    margin:0 24px 10px 0 !important;
-    object-fit:cover;
-  }
-
-  /* 右側情報 */
-  .latest .record-meta,
-  .latest .record-title,
-  .latest .record-detail{
-    margin-left:0;
-  }
-
-  /* メタ情報横並び（自動2列折返し） */
-  .latest .record-detail{
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px 24px;
-  }
-
-  /* 感想は写真下からフル幅 */
-  .latest .record-summary{
-    clear:both;
-    margin-top:8px;
-  }
-
+.record-card{
+  background:rgba(255,255,255,0.92);
+  border-radius:10px;
+  padding:1.2em 1.4em;
+  margin-bottom:1.2em;
+  box-shadow:0 2px 8px rgba(0,0,0,0.08);
 }
-/* ===================================
-   最新の山行記録 完全レイアウト確定版
-=================================== */
 
-@media (min-width:961px){
-
-  /* 見出し高さを左タイトルと揃える */
-  .latest h2{
-    margin:0 0 30px 0;
-    font-size:2.8rem;
-    font-weight:700;
-    color:#144b33;
-  }
-
-  /* カード縦並び */
-  .latest{
-    display:flex;
-    flex-direction:column;
-    gap:20px;
-  }
-
-  /* カード構造を明確に2段にする */
-  .latest .record-card{
-    display:grid !important;
-    grid-template-columns:320px 1fr;
-    grid-template-rows:auto auto;
-    column-gap:24px;
-    row-gap:10px;
-    align-items:start;
-  }
-
-  /* 写真（左固定） */
-  .latest .record-thumb{
-    grid-column:1;
-    grid-row:1;
-    width:320px !important;
-    height:200px;
-    margin:0 !important;
-    object-fit:cover;
-  }
-
-  /* 右側情報をひとまとめ */
-  .latest .record-meta,
-  .latest .record-title,
-  .latest .record-detail{
-    grid-column:2;
-  }
-
-  /* 実施日・山域・ジャンルを1列基準、溢れたら2列 */
-  .latest .record-detail{
-    display:grid;
-    grid-template-columns:1fr;
-    gap:6px 24px;
-  }
-
-  /* 横幅に余裕がある場合は自動2列 */
-  @media (min-width:1200px){
-    .latest .record-detail{
-      grid-template-columns:repeat(2, 1fr);
-    }
-  }
-
-  /* 感想は写真の下からカード全幅 */
-  .latest .record-summary{
-    grid-column:1 / 3;
-    margin-top:8px;
-  }
-
+.record-thumb{
+  width:100%;
+  height:200px;
+  object-fit:cover;
+  border-radius:8px;
+  margin-bottom:12px;
 }
-/* =========================================
-   PC版：最新の山行記録 完全指定レイアウト（最終版）
-   ※既存CSSは変更しない（上書きのみ）
-========================================= */
 
-@media (min-width:961px){
-
-  /* ---------------------------------
-     1. 見出し調整
-  --------------------------------- */
-
-  .latest{
-    margin-top:0 !important;
-    display:flex;
-    flex-direction:column;
-    gap:30px;
-  }
-
-  .latest h2{
-    margin-top:24px !important;
-    margin-bottom:30px;
-    font-size:1rem !important;   /* hiro-sanの山歩き と同サイズ */
-    font-weight:700;
-    color:#222;
-  }
-
-  /* ---------------------------------
-     2. ブログ登録日を非表示
-  --------------------------------- */
-
-  .latest .record-meta{
-    display:none !important;
-  }
-
-  /* ---------------------------------
-     3. カード内部レイアウト
-  --------------------------------- */
-
-  .latest .record-card{
-    display:grid !important;
-    grid-template-columns:220px 1fr;
-    grid-template-rows:auto auto;
-    column-gap:24px;
-    row-gap:10px;
-    align-items:start;
-  }
-
-  /* --- 写真（左・正方形） --- */
-
-  .latest .record-thumb{
-    grid-column:1;
-    grid-row:1;
-    width:220px !important;
-    height:220px !important;
-    aspect-ratio:1 / 1;
-    object-fit:cover;
-    margin:0 !important;
-  }
-
-  /* --- 1行目：タイトル（ヤマレコリンク） --- */
-
-  .latest .record-title{
-    grid-column:2;
-    margin:0 0 6px 0;
-    font-size:1rem;
-    font-weight:700;
-  }
-
-  .latest .record-title a{
-    color:#245d44;
-    text-decoration:none;
-  }
-
-  .latest .record-title a:hover{
-    text-decoration:underline;
-  }
-
-  /* --- 2行目：実施日・山域・エリア --- */
-
-  .latest .record-detail{
-    grid-column:2;
-    display:flex;
-    flex-wrap:wrap;       /* 収まらない場合2行 */
-    gap:6px 24px;
-    font-size:0.9rem;
-    color:#555;
-    margin-bottom:4px;
-  }
-
-  /* ---------------------------------
-     4. 感想：写真の下からカード全面
-  --------------------------------- */
-
-  .latest .record-summary{
-    grid-column:1 / 3;
-    margin-top:8px;
-    font-size:0.95rem;
-    line-height:1.6;
-  }
-
+.record-meta{
+  font-size:.85rem;
+  color:#666;
 }
-/* =========================================
-   PC版：最新の山行記録 位置・構造修正版
-   既存CSSには影響させない
-========================================= */
 
-@media (min-width:961px){
+.record-title{
+  font-size:1.05em;
+  margin:0;
+  font-weight:600;
+}
 
-  /* ---------------------------------
-     1. セクションの縦位置を左側と揃える
-  --------------------------------- */
+.record-title a{
+  color:#245d44;
+}
 
-  .latest{
-    margin-top:24px !important;   /* .welcome と揃える */
-    padding-top:0 !important;
-    display:flex;
-    flex-direction:column;
-    gap:28px;
-  }
+.record-detail{
+  font-size:.9rem;
+  color:#555;
+  margin-bottom:4px;
+}
 
-  .latest h2{
-    margin:0 0 28px 0 !important;
-    font-size:1rem !important;   /* hiro-sanの山歩き と同サイズ */
-    font-weight:700;
-  }
-
-  /* ---------------------------------
-     2. カード内部レイアウト
-  --------------------------------- */
-
-  .latest .record-card{
-    display:grid !important;
-    grid-template-columns:180px 1fr;
-    grid-template-rows:auto auto;
-    column-gap:20px;
-    row-gap:10px;
-    align-items:start;
-  }
-
-  /* 写真：小さめ正方形 */
-  .latest .record-thumb{
-    grid-column:1;
-    grid-row:1;
-    width:180px !important;
-    height:180px !important;
-    aspect-ratio:1 / 1;
-    object-fit:cover;
-    margin:0 !important;
-  }
-
-  /* タイトル（1行目） */
-  .latest .record-title{
-    grid-column:2;
-    margin:0 0 6px 0;
-    font-size:1rem;
-    font-weight:700;
-  }
-
-  /* ブログ登録日を非表示 */
-  .latest .record-meta{
-    display:none !important;
-  }
-
-  /* 実施日・山域・エリア（2行目） */
-  .latest .record-detail{
-    grid-column:2;
-    display:flex;
-    flex-wrap:wrap;      /* 収まらなければ2行 */
-    gap:6px 20px;
-    font-size:0.9rem;
-  }
-
-  /* ---------------------------------
-     3. 感想：写真下からカード全面
-  --------------------------------- */
-
-  .latest .record-summary{
-    grid-column:1 / 3;
-    margin-top:6px;
-    line-height:1.6;
-  }
-
+.record-summary{
+  margin-top:8px;
+  line-height:1.6;
+  font-size:.95rem;
+  color:#333;
 }
 
 /* =========================================
-   PC版（961px以上）：トップページ二段レイアウト
-   左：サイト名・説明・ナビ / 右：最新記録
+   PC版（961px以上）
+   ※現行デザイン維持・不整合修正版
 ========================================= */
-
 @media (min-width:961px){
-
-  /* ================================================
-     1. コンテナとレイアウト基本設定
-  ================================================ */
-
-  .container{
-    max-width:1400px;
-    margin:20px auto;
-    padding:0 15px;
-  }
 
   .top-layout{
     display:flex;
@@ -566,103 +209,17 @@ a:hover{ opacity:.85; }
     align-items:flex-start;
     margin-top:0;
   }
-
-  /* ================================================
-     2. 左側バー：サイト名・説明・ナビ
-  ================================================ */
 
   .sidebar{
     flex:0 0 360px;
     padding-top:24px;
   }
 
-  /* サイト名：大きめボールド */
-  .sidebar .site-title{
-    margin:0 0 16px 0;
-    font-size:2rem;
-    font-weight:700;
-    color:#144b33;
-  }
-
-  /* ページ説明：3行縦並び */
-  .sidebar .site-description{
-    font-size:1rem;
-    line-height:1.8;
-    color:#555;
-    margin:0 0 32px 0;
-  }
-
-  /* ナビ全体 */
-  .home-nav{
-    display:flex;
-    flex-direction:column;
-    gap:24px;
-    text-align:left;
-    margin:0;
-  }
-
-  /* 大きめカード：歩いた日、足どりの記録 */
-  .nav-primary{
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-    margin:0;
-  }
-
-  .nav-primary a{
-    display:block;
-    padding:12px 16px;
-    font-size:1.4rem;
-    font-weight:700;
-    color:#245d44;
-    background:rgba(255,255,255,0.6);
-    border-radius:8px;
-    box-shadow:0 3px 10px rgba(0,0,0,0.08);
-    transition:all 0.3s ease;
-    backdrop-filter:blur(2px);
-  }
-
-  .nav-primary a:hover{
-    background:rgba(255,255,255,0.8);
-    text-decoration:none;
-  }
-
-  /* 標準カード：ひびのこと、わたしのこと、そのほか */
-  .nav-secondary{
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-    margin:0;
-  }
-
-  .nav-secondary a{
-    display:block;
-    padding:8px 12px;
-    font-size:1rem;
-    font-weight:400;
-    color:#245d44;
-    background:rgba(255,255,255,0.6);
-    border-radius:6px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.06);
-    transition:all 0.3s ease;
-    backdrop-filter:blur(2px);
-  }
-
-  .nav-secondary a:hover{
-    background:rgba(255,255,255,0.8);
-    text-decoration:none;
-  }
-
-  /* ================================================
-     3. 右側メインコンテンツ：最新記録
-  ================================================ */
-
   .main-content{
     flex:1;
     padding-top:24px;
   }
 
-  /* 最新の山行記録セクション */
   .latest{
     display:flex;
     flex-direction:column;
@@ -677,26 +234,9 @@ a:hover{ opacity:.85; }
     color:#144b33;
   }
 
-  /* ================================================
-     4. 山行記録カード：左写真・右情報（コンパクト）
-  ================================================ */
-
+  /* PC用カード横並び（現在の120px仕様維持） */
   .latest .record-card{
-    display:grid !important;
-    grid-template-columns:auto 1fr;
-    grid-template-rows:auto auto auto;
-    column-gap:14px;
-    row-gap:0;
-    align-items:start;
-    background:rgba(255,255,255,0.9);
-    border-radius:8px;
     padding:12px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.08);
-  }
-
-  /* 写真・テキストの横並び（.record-top を横並びに） */
-  .latest .record-card{
-    padding:10px;
   }
 
   .latest .record-top{
@@ -705,45 +245,35 @@ a:hover{ opacity:.85; }
     align-items:flex-start;
   }
 
-  /* 写真：固定正方形（統一） */
-  .latest .record-image img,
   .latest .record-thumb{
-    width:120px !important;
-    height:120px !important;
+    width:120px;
+    height:120px;
     object-fit:cover;
     border-radius:6px;
-    display:block;
     flex-shrink:0;
     margin:0;
-  }
-
-  /* テキスト側（右）：タイトルとメタをまとめる */
-  .latest .record-text{
-    flex:1;
-    display:flex;
-    flex-direction:column;
-    min-height:120px;
   }
 
   .latest .record-title{
     margin:0 0 6px 0;
     font-size:1rem;
     font-weight:700;
-    line-height:1.25;
   }
 
-  .latest .record-title a{ color:#245d44; text-decoration:none; }
-  .latest .record-title a:hover{ text-decoration:underline; }
+  .latest .record-meta{
+    display:none;
+  }
 
-  .latest .record-info{
-    margin-top:0;
-    color:#666;
+  .latest .record-detail{
     font-size:0.85rem;
+    color:#666;
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px 20px;
   }
 
-  /* 感想：写真下からカード全幅 */
   .latest .record-summary{
-    margin:8px 0 0 0;
+    margin-top:8px;
     font-size:0.93rem;
     line-height:1.5;
     color:#333;
