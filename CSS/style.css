@@ -280,3 +280,96 @@ a:hover{opacity:.85;}
   }
 
 }
+/* =====================================================
+   PC表示安定化パッチ（既存見た目完全維持）
+   ※他の定義には一切影響させない
+===================================================== */
+@media (min-width:961px){
+
+  /* ---------------------------------
+     山行記録カード 共通（トップ／一覧）
+  --------------------------------- */
+  .record-card{
+    display:flex;
+    align-items:stretch;
+  }
+
+  .record-top{
+    display:flex;
+    width:100%;
+    gap:12px;
+  }
+
+  /* 写真は必ず左・正方形固定 */
+  .record-thumb{
+    width:120px;
+    aspect-ratio:1/1;
+    height:auto;
+    object-fit:cover;
+    flex-shrink:0;
+  }
+
+  /* 右側は縦並び固定 */
+  .record-content{
+    display:flex;
+    flex-direction:column;
+    flex:1;
+  }
+
+  /* 1行目 タイトル */
+  .record-title{
+    font-weight:700;
+    margin:0 0 4px 0;
+  }
+
+  /* 2行目 詳細 */
+  .record-detail{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px 18px;
+    font-size:0.85rem;
+  }
+
+  /* 3行目以降 感想 */
+  .record-summary{
+    margin-top:6px;
+  }
+
+  /* ---------------------------------
+     トップページ左右配置確定
+  --------------------------------- */
+  .top-layout{
+    display:flex;
+    align-items:flex-start;
+    gap:60px;
+  }
+
+  .sidebar{
+    flex:0 0 360px;
+  }
+
+  .main-content{
+    flex:1;
+  }
+
+  /* 「歩いた日」「足取の記録」縦並び */
+  .nav-primary{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+
+  /* 下段ナビ縦並び */
+  .nav-secondary{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin-top:30px;
+  }
+
+  /* 最新の山行記録は右側 */
+  .latest{
+    margin-top:0;
+  }
+
+}
