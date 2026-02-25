@@ -1,16 +1,16 @@
-/* ===================================
-   共通レイアウト（全ページ）
-=================================== */
+/* ======================================
+   BASE
+====================================== */
+
+*{ box-sizing:border-box; }
+
 body{
   margin:0;
   font-family:"Hiragino Sans","Noto Sans JP",sans-serif;
   color:#222;
-  background:#f0f7f3 url('../data/IMG_4781.JPG') no-repeat center center fixed;
+  background:#f0f7f3 url('../data/IMG_4781.JPG') no-repeat center center;
   background-size:cover;
-  background-attachment:scroll;
   line-height:1.6;
-  min-height:100vh;
-  position:relative;
 }
 
 body::before{
@@ -18,43 +18,35 @@ body::before{
   position:fixed;
   inset:0;
   background:rgba(240,247,243,0.45);
-  pointer-events:none;
   z-index:-1;
 }
 
-a{
-  color:#0a4a2a;
-  text-decoration:none;
-}
-a:hover{opacity:.85;}
+a{ color:#245d44; text-decoration:none; }
+a:hover{ text-decoration:underline; }
 
-/* ===================================
-   ヘッダー
-=================================== */
+.container{
+  max-width:1400px;
+  margin:20px auto;
+  padding:0 20px;
+}
+
+/* ======================================
+   HEADER
+====================================== */
+
 .site-header{
   background:#357f67;
   color:#fff;
-  position:sticky;
-  top:0;
-  z-index:20;
 }
 
 .header-inner{
   max-width:1100px;
   margin:0 auto;
-  padding:10px 24px;
+  padding:10px 20px;
   display:flex;
   justify-content:space-between;
   align-items:center;
 }
-
-.site-title{
-  margin:0;
-  font-size:1rem;
-  font-weight:700;
-}
-
-.site-title a{color:#fff;}
 
 .global-nav ul{
   list-style:none;
@@ -62,314 +54,223 @@ a:hover{opacity:.85;}
   gap:28px;
   margin:0;
   padding:0;
-  align-items:center;
 }
 
-.global-nav a{
-  color:#fff;
-  font-weight:600;
-  font-size:1rem;
-}
+.global-nav a{ color:#fff; }
 
-.nav-toggle{
-  display:none;
-  background:none;
-  border:none;
-  color:#fff;
-  font-size:1.5rem;
-  cursor:pointer;
-}
+/* ======================================
+   FOOTER
+====================================== */
 
-/* ===================================
-   モバイル
-=================================== */
-@media (max-width:768px){
-
-  .header-inner{padding:8px 16px;}
-
-  .nav-toggle{display:block;}
-
-  .global-nav{
-    position:absolute;
-    top:100%;
-    left:0;
-    right:0;
-    background:#2c7b5f;
-    display:none;
-  }
-
-  .global-nav.nav-active{display:block;}
-
-  .global-nav ul{flex-direction:column;}
-
-  body::before{
-    background:rgba(255,255,255,0.38);
-  }
-
-}
-
-/* ===================================
-   コンテナ
-=================================== */
-.container{
-  max-width:1200px;
-  margin:20px auto;
-  padding:0 15px;
-}
-
-/* ===================================
-   フッター
-=================================== */
 .site-footer{
   background:#567e74;
-  padding:16px 0;
-  color:rgba(255,255,255,0.85);
-  margin-top:40px;
+  padding:30px 0;
+  margin-top:60px;
+  color:#fff;
 }
 
 .footer-inner{
   max-width:1100px;
   margin:0 auto;
-  padding:12px 16px;
   text-align:center;
+}
+
+.footer-nav ul{
+  list-style:none;
+  display:flex;
+  justify-content:center;
+  gap:24px;
+  margin:0 0 12px 0;
+  padding:0;
+}
+
+.footer-nav a{
+  color:#fff;
   font-size:.9rem;
 }
 
-/* ===================================
-   トップ要素
-=================================== */
-.welcome h1{
-  margin-top:24px;
-  font-size:2.8rem;
+/* ======================================
+   BREADCRUMB
+====================================== */
+
+.breadcrumb ul{
+  list-style:none;
+  display:flex;
+  gap:8px;
+  padding:0;
+  margin:0 0 20px 0;
+}
+
+/* ======================================
+   PC LAYOUT
+====================================== */
+
+@media (min-width:961px){
+
+.top-layout{
+  display:flex;
+  gap:80px;
+  align-items:flex-start;
+}
+
+/* ===== LEFT SIDEBAR ===== */
+
+.sidebar{
+  flex:0 0 380px;
+  padding-top:30px;
+}
+
+.site-title{
+  margin:0 0 16px 0;
+  font-size:2rem;
   font-weight:700;
   color:#144b33;
 }
 
-.lead{
-  font-size:1.1rem;
-  color:#295a3c;
+.site-description{
+  margin:0 0 40px 0;
+  color:#555;
+  line-height:1.8;
 }
 
-/* ===================================
-   記録カード（共通）
-=================================== */
+.home-nav{
+  display:flex;
+  flex-direction:column;
+  gap:36px;
+}
+
+.nav-primary,
+.nav-secondary{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+/* リキッドグラス風 */
+
+.nav-primary a,
+.nav-secondary a{
+  display:block;
+  padding:14px 18px;
+  border-radius:12px;
+  background:rgba(255,255,255,0.55);
+  backdrop-filter:blur(6px);
+  box-shadow:0 4px 14px rgba(0,0,0,0.08);
+  transition:all .3s ease;
+}
+
+.nav-primary a{
+  font-size:1.4rem;
+  font-weight:700;
+}
+
+.nav-secondary a{
+  font-size:1rem;
+}
+
+.nav-primary a:hover,
+.nav-secondary a:hover{
+  background:rgba(255,255,255,0.75);
+}
+
+/* ===== RIGHT MAIN ===== */
+
+.main-content{
+  flex:1;
+  padding-top:30px;
+}
+
+.latest{
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+}
+
+.latest h2{
+  margin:0 0 24px 0;
+  font-size:1.4rem;
+  font-weight:700;
+  color:#144b33;
+}
+
+/* ======================================
+   RECORD CARD（index / records 共通）
+====================================== */
+
 .record-card{
-  background:rgba(255,255,255,0.92);
+  display:grid;
+  grid-template-columns:120px 1fr;
+  column-gap:18px;
+  align-items:start;
+  background:rgba(255,255,255,0.9);
   border-radius:10px;
-  padding:1.2em 1.4em;
-  margin-bottom:1.2em;
-  box-shadow:0 2px 8px rgba(0,0,0,0.08);
+  padding:14px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.08);
+}
+
+/* 写真 */
+
+.record-thumb{
+  width:120px;
+  height:120px;
+  aspect-ratio:1 / 1;
+  object-fit:cover;
+  border-radius:8px;
+}
+
+/* タイトル */
+
+.record-title{
+  margin:0 0 6px 0;
+  font-size:1.05rem;
+  font-weight:700;
+  line-height:1.3;
+}
+
+.record-title a{ color:#245d44; }
+
+/* 実施日・山域・ジャンル */
+
+.record-detail{
+  font-size:0.85rem;
+  color:#555;
+  margin-bottom:6px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px 18px;
+}
+
+/* 感想 */
+
+.record-summary{
+  font-size:0.9rem;
+  line-height:1.55;
+  color:#333;
+}
+
+}
+
+/* ======================================
+   MOBILE（簡易：後で詳細調整可）
+====================================== */
+
+@media (max-width:960px){
+
+.top-layout{
+  display:block;
+}
+
+.record-card{
+  grid-template-columns:1fr;
 }
 
 .record-thumb{
   width:100%;
-  height:200px;
-  object-fit:cover;
-  border-radius:8px;
-  margin-bottom:12px;
+  height:auto;
 }
 
-.record-meta{
-  font-size:.85rem;
-  color:#666;
+.footer-nav ul{
+  flex-wrap:wrap;
 }
-
-.record-title{
-  font-size:1.05em;
-  margin:0;
-  font-weight:600;
-}
-
-.record-title a{
-  color:#245d44;
-}
-
-.record-detail{
-  font-size:.9rem;
-  color:#555;
-  margin-bottom:4px;
-}
-
-.record-summary{
-  margin-top:8px;
-  line-height:1.6;
-  font-size:.95rem;
-  color:#333;
-}
-
-/* =========================================
-   PC版（961px以上）
-   ※現行デザイン維持・不整合修正版
-========================================= */
-@media (min-width:961px){
-
-  .top-layout{
-    display:flex;
-    gap:60px;
-    align-items:flex-start;
-    margin-top:0;
-  }
-
-  .sidebar{
-    flex:0 0 360px;
-    padding-top:24px;
-  }
-
-  .main-content{
-    flex:1;
-    padding-top:24px;
-  }
-
-  .latest{
-    display:flex;
-    flex-direction:column;
-    gap:20px;
-    margin:0;
-  }
-
-  .latest h2{
-    margin:0 0 20px 0;
-    font-size:1.4rem;
-    font-weight:700;
-    color:#144b33;
-  }
-
-  /* PC用カード横並び（現在の120px仕様維持） */
-  .latest .record-card{
-    padding:12px;
-  }
-
-  .latest .record-top{
-    display:flex;
-    gap:12px;
-    align-items:flex-start;
-  }
-
-  .latest .record-thumb{
-    width:120px;
-    height:120px;
-    object-fit:cover;
-    border-radius:6px;
-    flex-shrink:0;
-    margin:0;
-  }
-
-  .latest .record-title{
-    margin:0 0 6px 0;
-    font-size:1rem;
-    font-weight:700;
-  }
-
-  .latest .record-meta{
-    display:none;
-  }
-
-  .latest .record-detail{
-    font-size:0.85rem;
-    color:#666;
-    display:flex;
-    flex-wrap:wrap;
-    gap:6px 20px;
-  }
-
-  .latest .record-summary{
-    margin-top:8px;
-    font-size:0.93rem;
-    line-height:1.5;
-    color:#333;
-  }
-
-}
-/* =====================================================
-   PC表示安定化パッチ（既存見た目完全維持）
-   ※他の定義には一切影響させない
-===================================================== */
-@media (min-width:961px){
-
-  /* ---------------------------------
-     山行記録カード 共通（トップ／一覧）
-  --------------------------------- */
-  .record-card{
-    display:flex;
-    align-items:stretch;
-  }
-
-  .record-top{
-    display:flex;
-    width:100%;
-    gap:12px;
-  }
-
-  /* 写真は必ず左・正方形固定 */
-  .record-thumb{
-    width:120px;
-    aspect-ratio:1/1;
-    height:auto;
-    object-fit:cover;
-    flex-shrink:0;
-  }
-
-  /* 右側は縦並び固定 */
-  .record-content{
-    display:flex;
-    flex-direction:column;
-    flex:1;
-  }
-
-  /* 1行目 タイトル */
-  .record-title{
-    font-weight:700;
-    margin:0 0 4px 0;
-  }
-
-  /* 2行目 詳細 */
-  .record-detail{
-    display:flex;
-    flex-wrap:wrap;
-    gap:6px 18px;
-    font-size:0.85rem;
-  }
-
-  /* 3行目以降 感想 */
-  .record-summary{
-    margin-top:6px;
-  }
-
-  /* ---------------------------------
-     トップページ左右配置確定
-  --------------------------------- */
-  .top-layout{
-    display:flex;
-    align-items:flex-start;
-    gap:60px;
-  }
-
-  .sidebar{
-    flex:0 0 360px;
-  }
-
-  .main-content{
-    flex:1;
-  }
-
-  /* 「歩いた日」「足取の記録」縦並び */
-  .nav-primary{
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-  }
-
-  /* 下段ナビ縦並び */
-  .nav-secondary{
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    margin-top:30px;
-  }
-
-  /* 最新の山行記録は右側 */
-  .latest{
-    margin-top:0;
-  }
 
 }
