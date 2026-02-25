@@ -42,10 +42,15 @@ a:hover{ text-decoration:underline; }
 .header-inner{
   max-width:1100px;
   margin:0 auto;
-  padding:10px 20px;
+  padding:12px 20px;
   display:flex;
   justify-content:space-between;
   align-items:center;
+}
+
+/* PCではハンバーガー非表示 */
+.menu-toggle{
+  display:none;
 }
 
 .global-nav ul{
@@ -109,14 +114,14 @@ a:hover{ text-decoration:underline; }
 
 .top-layout{
   display:flex;
-  gap:80px;
+  gap:90px;
   align-items:flex-start;
 }
 
 /* ===== LEFT SIDEBAR ===== */
 
 .sidebar{
-  flex:0 0 380px;
+  flex:0 0 400px;
   padding-top:30px;
 }
 
@@ -128,7 +133,7 @@ a:hover{ text-decoration:underline; }
 }
 
 .site-description{
-  margin:0 0 40px 0;
+  margin:0 0 50px 0;
   color:#555;
   line-height:1.8;
 }
@@ -136,41 +141,47 @@ a:hover{ text-decoration:underline; }
 .home-nav{
   display:flex;
   flex-direction:column;
-  gap:36px;
+  gap:44px;
 }
 
 .nav-primary,
 .nav-secondary{
   display:flex;
   flex-direction:column;
-  gap:12px;
+  gap:18px;
 }
 
-/* リキッドグラス風 */
+/* ===== 強化リキッドガラス ===== */
 
 .nav-primary a,
 .nav-secondary a{
   display:block;
-  padding:14px 18px;
-  border-radius:12px;
+  padding:18px 22px;
+  border-radius:18px;
+  font-weight:600;
   background:rgba(255,255,255,0.55);
-  backdrop-filter:blur(6px);
-  box-shadow:0 4px 14px rgba(0,0,0,0.08);
+  backdrop-filter:blur(14px) saturate(140%);
+  -webkit-backdrop-filter:blur(14px) saturate(140%);
+  border:1px solid rgba(255,255,255,0.6);
+  box-shadow:
+    0 8px 20px rgba(0,0,0,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.7);
   transition:all .3s ease;
 }
 
+/* フォントサイズ拡大 */
 .nav-primary a{
-  font-size:1.4rem;
-  font-weight:700;
+  font-size:1.6rem;
 }
 
 .nav-secondary a{
-  font-size:1rem;
+  font-size:1.15rem;
 }
 
 .nav-primary a:hover,
 .nav-secondary a:hover{
   background:rgba(255,255,255,0.75);
+  transform:translateY(-2px);
 }
 
 /* ===== RIGHT MAIN ===== */
@@ -183,75 +194,78 @@ a:hover{ text-decoration:underline; }
 .latest{
   display:flex;
   flex-direction:column;
-  gap:24px;
+  gap:30px;
 }
 
 .latest h2{
   margin:0 0 24px 0;
-  font-size:1.4rem;
+  font-size:1.5rem;
   font-weight:700;
   color:#144b33;
 }
 
 /* ======================================
-   RECORD CARD（index / records 共通）
+   RECORD CARD（完全修正版）
 ====================================== */
 
 .record-card{
   display:grid;
   grid-template-columns:120px 1fr;
-  column-gap:18px;
+  column-gap:20px;
   align-items:start;
   background:rgba(255,255,255,0.9);
-  border-radius:10px;
-  padding:14px;
-  box-shadow:0 2px 10px rgba(0,0,0,0.08);
+  border-radius:12px;
+  padding:18px;
+  box-shadow:0 4px 14px rgba(0,0,0,0.08);
 }
 
-/* 写真 */
+/* 画像 */
 
 .record-thumb{
   width:120px;
   height:120px;
-  aspect-ratio:1 / 1;
   object-fit:cover;
-  border-radius:8px;
+  border-radius:10px;
+}
+
+/* 右側テキスト全体を縦積みに固定 */
+.record-card > div{
+  display:flex;
+  flex-direction:column;
 }
 
 /* タイトル */
 
 .record-title{
-  margin:0 0 6px 0;
-  font-size:1.05rem;
+  margin:0 0 8px 0;
+  font-size:1.1rem;
   font-weight:700;
-  line-height:1.3;
+  line-height:1.4;
 }
 
 .record-title a{ color:#245d44; }
 
-/* 実施日・山域・ジャンル */
+/* 実施日など */
 
 .record-detail{
-  font-size:0.85rem;
+  font-size:0.88rem;
   color:#555;
-  margin-bottom:6px;
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px 18px;
+  margin-bottom:8px;
+  line-height:1.5;
 }
 
 /* 感想 */
 
 .record-summary{
-  font-size:0.9rem;
-  line-height:1.55;
+  font-size:0.92rem;
+  line-height:1.6;
   color:#333;
 }
 
 }
 
 /* ======================================
-   MOBILE（簡易：後で詳細調整可）
+   MOBILE（簡易）
 ====================================== */
 
 @media (max-width:960px){
@@ -267,10 +281,6 @@ a:hover{ text-decoration:underline; }
 .record-thumb{
   width:100%;
   height:auto;
-}
-
-.footer-nav ul{
-  flex-wrap:wrap;
 }
 
 }
