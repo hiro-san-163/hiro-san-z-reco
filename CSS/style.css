@@ -438,3 +438,134 @@ a:hover{ text-decoration:underline; }
     0 14px 40px rgba(0,0,0,0.15),
     inset 0 1px 0 rgba(255,255,255,0.9);
 }
+/* =========================================
+   MOBILE LAYOUT
+========================================= */
+@media screen and (max-width:768px){
+
+/* =========================================
+   ① ヘッダー調整
+========================================= */
+
+/* ナビを横書きに戻す */
+.global-nav{
+  writing-mode:horizontal-tb !important;
+}
+
+/* ハンバーガーを右へ */
+.nav-toggle{
+  margin-left:auto;
+  order:2;
+}
+
+/* =========================================
+   ② トップレイアウト縦並び化
+========================================= */
+
+.top-layout{
+  flex-direction:column;
+}
+
+.sidebar{
+  text-align:center;
+}
+
+/* サイト名 */
+.site-title{
+  font-size:1.6rem;
+  margin-bottom:12px;
+}
+
+/* 説明文 */
+.site-description{
+  font-size:1rem;
+  line-height:1.7;
+  margin-bottom:28px;
+}
+
+/* =========================================
+   ③ ナビカード（スマホ版）
+========================================= */
+
+/* 全体 */
+.home-nav{
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+}
+
+/* 上段2つ */
+.nav-primary{
+  display:flex;
+  gap:14px;
+}
+
+/* 下段3つ */
+.nav-secondary{
+  display:flex;
+  gap:10px;
+}
+
+/* 共通カードデザイン */
+.home-nav a{
+  flex:1;
+  padding:18px 10px;
+  text-align:center;
+  border-radius:20px;
+
+  /* 控えめリキッド */
+  background:rgba(255,255,255,0.22);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+
+  border:1px solid rgba(255,255,255,0.35);
+  box-shadow:0 6px 16px rgba(0,0,0,0.08);
+
+  text-decoration:none;
+  color:#1c3d33;
+  transition:all .25s ease;
+}
+
+/* 上段：やや大きめ */
+.nav-primary a{
+  font-size:1.15rem;
+  font-weight:700;
+}
+
+/* 下段：少し大きめ */
+.nav-secondary a{
+  font-size:1rem;
+  font-weight:600;
+}
+
+/* ホバー（タップ時の視覚効果） */
+.home-nav a:active{
+  transform:scale(0.97);
+}
+
+/* =========================================
+   ④ フッター最適化
+========================================= */
+
+footer{
+  padding:18px 10px;
+}
+
+.footer-nav{
+  display:flex;
+  justify-content:center;
+  gap:16px;
+  flex-wrap:wrap;   /* 必要なら2行 */
+}
+
+.footer-nav a{
+  font-size:0.9rem;
+  padding:8px 6px;
+}
+
+.footer-bottom{
+  font-size:0.75rem;
+  margin-top:10px;
+}
+
+}
