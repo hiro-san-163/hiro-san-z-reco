@@ -47,37 +47,22 @@ a:hover{ text-decoration:underline; }
   max-width:1300px;
   margin:0 auto;
   padding:12px 20px;
+
   display:flex;
-  justify-content:center;
   align-items:center;
-  gap:40px;
+  justify-content:space-between; /* ← center をやめる */
 }
 
-/* ★ サイトタイトル強化（追加部分） */
-.site-logo{
-  margin:0;
-}
-
+/* ロゴ */
 .site-logo a{
-  font-size:1.8rem;     /* 少し大きく */
+  font-size:1.8rem;
   font-weight:700;
-  color:#ffffff;        /* 白で視認性UP */
+  color:#ffffff;
   letter-spacing:.05em;
+  text-decoration:none;
 }
 
-.site-logo a:hover{
-  opacity:.85;
-}
-
-/* PCではハンバーガー完全削除 */
-@media (min-width:961px){
-  .menu-toggle,
-  .nav-toggle,
-  .hamburger{
-    display:none !important;
-  }
-}
-
+/* グローバルナビ（PC） */
 .global-nav ul{
   list-style:none;
   display:flex;
@@ -89,6 +74,17 @@ a:hover{ text-decoration:underline; }
 .global-nav a{
   color:#fff;
   font-weight:500;
+  text-decoration:none;
+}
+
+/* ハンバーガー（デフォルト非表示） */
+.nav-toggle{
+  display:none;
+  background:none;
+  border:none;
+  font-size:28px;
+  color:#fff;
+  cursor:pointer;
 }
 
 /* ======================================
@@ -444,39 +440,60 @@ a:hover{ text-decoration:underline; }
 @media screen and (max-width:768px){
 
 /* =========================================
-   ① ヘッダー調整
+   ① HEADER（PCには一切影響なし）
 ========================================= */
 
-/* ナビを横書きに戻す */
-.global-nav{
-  writing-mode:horizontal-tb !important;
+/* ハンバーガー表示＆大型化 */
+.nav-toggle{
+  display:block;
+  font-size:34px;
+  margin-left:auto;
+  background:none;
+  border:none;
+  color:#fff;
+  cursor:pointer;
 }
 
-/* ハンバーガーを右へ */
-.nav-toggle{
-  margin-left:auto;
-  order:2;
+/* ナビ初期非表示 */
+.global-nav{
+  display:none;
+  position:absolute;
+  top:100%;
+  right:16px;
+  background:#357f67;
+  padding:18px 20px;
+  border-radius:14px;
+  box-shadow:0 14px 30px rgba(0,0,0,.25);
+}
+
+/* 横書き固定 */
+.global-nav ul{
+  flex-direction:column;
+  gap:18px;
+}
+
+/* 開いたら表示 */
+.global-nav.open{
+  display:block;
 }
 
 /* =========================================
-   ② トップレイアウト縦並び化
+   ② トップ縦並び
 ========================================= */
 
 .top-layout{
-  flex-direction:column;
+  display:block;
 }
 
 .sidebar{
   text-align:center;
 }
 
-/* サイト名 */
 .site-title{
   font-size:1.6rem;
   margin-bottom:12px;
 }
 
-/* 説明文 */
 .site-description{
   font-size:1rem;
   line-height:1.7;
@@ -484,36 +501,31 @@ a:hover{ text-decoration:underline; }
 }
 
 /* =========================================
-   ③ ナビカード（スマホ版）
+   ③ ナビカード（スマホ最適）
 ========================================= */
 
-/* 全体 */
 .home-nav{
   display:flex;
   flex-direction:column;
   gap:20px;
 }
 
-/* 上段2つ */
 .nav-primary{
   display:flex;
-  gap:14px;
+  gap:12px;
 }
 
-/* 下段3つ */
 .nav-secondary{
   display:flex;
   gap:10px;
 }
 
-/* 共通カードデザイン */
 .home-nav a{
   flex:1;
-  padding:18px 10px;
+  padding:16px 8px;
   text-align:center;
   border-radius:20px;
 
-  /* 控えめリキッド */
   background:rgba(255,255,255,0.22);
   backdrop-filter:blur(8px);
   -webkit-backdrop-filter:blur(8px);
@@ -521,51 +533,54 @@ a:hover{ text-decoration:underline; }
   border:1px solid rgba(255,255,255,0.35);
   box-shadow:0 6px 16px rgba(0,0,0,0.08);
 
-  text-decoration:none;
   color:#1c3d33;
-  transition:all .25s ease;
+  transition:.2s;
 }
 
-/* 上段：やや大きめ */
 .nav-primary a{
-  font-size:1.15rem;
+  font-size:1.1rem;
   font-weight:700;
 }
 
-/* 下段：少し大きめ */
 .nav-secondary a{
-  font-size:1rem;
+  font-size:.95rem; /* 折り返し防止 */
   font-weight:600;
 }
 
-/* ホバー（タップ時の視覚効果） */
 .home-nav a:active{
-  transform:scale(0.97);
+  transform:scale(0.96);
 }
 
 /* =========================================
-   ④ フッター最適化
+   ④ FOOTER 最適化（1行優先）
 ========================================= */
 
-footer{
-  padding:18px 10px;
+.site-footer{
+  padding:18px 10px 14px;
 }
 
-.footer-nav{
-  display:flex;
+/* ulを基準に制御 */
+.footer-nav ul{
+  display:flex !important;
+  flex-direction:row !important;
   justify-content:center;
-  gap:16px;
-  flex-wrap:wrap;   /* 必要なら2行 */
+  align-items:center;
+  gap:14px;
+  flex-wrap:nowrap; /* まずは1行 */
+  margin-bottom:10px;
 }
 
+/* 文字少し小さく */
 .footer-nav a{
-  font-size:0.9rem;
-  padding:8px 6px;
+  font-size:.85rem;
+  padding:6px 4px;
 }
 
-.footer-bottom{
-  font-size:0.75rem;
-  margin-top:10px;
+/* どうしても入らない端末用 */
+@media (max-width:380px){
+  .footer-nav ul{
+    flex-wrap:wrap;
+  }
 }
 
 }

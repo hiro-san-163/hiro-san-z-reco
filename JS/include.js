@@ -16,11 +16,12 @@ function loadPart(id, url) {
 }
 
 // キャッシュ対策
-const v = "20250216";
+const v = "20250226";
 
 // header 読み込み
 loadPart("header", `parts/header.html?v=${v}`).then(() => {
   initNavToggle();
+  setHeaderActive(); // ← 追加
 });
 
 // footer 読み込み
@@ -58,7 +59,51 @@ function initNavToggle() {
 
 
 // =======================================
-// フッターナビ active 判定【最終確定版】
+// ヘッダーナビ active 判定（追加）
+// =======================================
+function setHeaderActive() {
+  const links = document.querySelectorAll(".global-nav a");
+  if (!links.length) return;
+
+  let path = location.pathname;
+
+  // GitHub Pages リポジトリ名除去
+  path = path.replace(/^\/hiro-san-z-reco/, "");
+
+  // 末尾スラッシュ除去
+  path = path.replace(/\/+$/, "");
+
+  links.forEach(link => {
+    link.classList.remove("active");
+
+    const href = link.getAttribute("href");
+    if (!href) return;
+
+    // home
+    if ((path === "" || path === "/" || path === "/index.html") && href === "index.html") {
+      link.classList.add("active");
+    }
+
+    // records
+    if (path.startsWith("/records") && href.startsWith("records/")) {
+      link.classList.add("active");
+    }
+
+    // logs
+    if (path.startsWith("/logs") && href.startsWith("logs/")) {
+      link.classList.add("active");
+    }
+
+    // single
+    if (path === "/" + href) {
+      link.classList.add("active");
+    }
+  });
+}
+
+
+// =======================================
+// フッターナビ active 判定
 // =======================================
 function setFooterActive() {
   const links = document.querySelectorAll(".footer-nav a");
@@ -66,10 +111,7 @@ function setFooterActive() {
 
   let path = location.pathname;
 
-  // GitHub Pages のリポジトリ名を除去
   path = path.replace(/^\/hiro-san-z-reco/, "");
-
-  // 末尾スラッシュ除去
   path = path.replace(/\/+$/, "");
 
   let current = "";
