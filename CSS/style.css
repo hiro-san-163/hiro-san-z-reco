@@ -319,6 +319,39 @@ a:hover{ text-decoration:underline; }
 }
 
 /* ======================================
+   PAGINATION（現在ページ強調）
+====================================== */
+
+.pagination{
+  margin:40px 0 20px;
+  text-align:center;
+}
+
+.pagination button{
+  min-width:40px;
+  padding:8px 14px;
+  margin:0 4px;
+  border-radius:8px;
+  border:1px solid #357f67;
+  background:#fff;
+  color:#357f67;
+  font-weight:600;
+  cursor:pointer;
+  transition:all .2s ease;
+}
+
+.pagination button:hover{
+  background:#e6f2ee;
+}
+
+/* ★ 現在ページ */
+.pagination button.active{
+  background:#357f67;
+  color:#fff;
+  border-color:#357f67;
+}
+
+/* ======================================
    MOBILE
 ====================================== */
 
