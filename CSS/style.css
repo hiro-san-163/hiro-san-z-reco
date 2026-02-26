@@ -390,3 +390,51 @@ a:hover{ text-decoration:underline; }
     0 14px 40px rgba(0,0,0,0.15),
     inset 0 1px 0 rgba(255,255,255,0.9);
 }
+/* =========================================
+   RECORDS：Blogger抽出ラベル（button版）
+   リキッドガラス復元
+========================================= */
+
+/* ラベルコンテナ */
+.label-buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:22px;
+  margin-top:40px;
+}
+
+/* ラベル本体 */
+.label-buttons button{
+  padding:16px 34px;
+  border-radius:40px;
+
+  /* デフォルトbuttonリセット */
+  border:none;
+  outline:none;
+  cursor:pointer;
+
+  /* リキッドガラス */
+  background:rgba(255,255,255,0.18);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+
+  border:1px solid rgba(255,255,255,0.45);
+  box-shadow:
+    0 8px 28px rgba(0,0,0,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.75);
+
+  font-size:1.25rem;     /* ← 文字拡大 */
+  font-weight:700;       /* ← 太字 */
+  letter-spacing:.05em;
+
+  color:#1c3d33;
+  transition:all .25s ease;
+}
+
+/* ホバー */
+.label-buttons button:hover{
+  transform:translateY(-5px);
+  box-shadow:
+    0 14px 40px rgba(0,0,0,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.9);
+}
