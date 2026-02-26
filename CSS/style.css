@@ -26,7 +26,8 @@ body::before{
 }
 
 a{ color:#245d44; text-decoration:none; }
-a:hover{ text-decoration:underline; }
+a:hover{ text-decoration:underline;
+ }
 
 .container{
   max-width:1300px;
@@ -44,12 +45,13 @@ a:hover{ text-decoration:underline; }
 }
 
 .header-inner{
-  max: width 1300px;0px;
+   max-width:1300px;          /* 正しいプロパティ名 */
   margin:0 auto;
   padding:12px 20px;
   display:flex;
-  justify-content:space-between;
+  justify-content:center;    /* タイトル＋ナビを中央寄せ */
   align-items:center;
+  gap:40px;     
 }
 
 /* PCではハンバーガー完全削除 */
@@ -150,16 +152,18 @@ a:hover{ text-decoration:underline; }
 }
 
 .site-title{
-  margin:0 0 16px 0;
-  font-size:2rem;
+   margin:0;
+  font-size:2.5rem;          /* 文字を大きく */
   font-weight:700;
-  color:#144b33;
+  color:#fff;  
 }
 
 .site-description{
   margin:0 0 50px 0;
   color:#555;
   line-height:1.8;
+  font-size:1.3rem;          /* 大きめ */
+  font-weight:600; 
 }
 
 .home-nav{
