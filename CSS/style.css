@@ -473,7 +473,7 @@ a:hover{ text-decoration:underline; }
 }
 
 /* 開いたら表示 */
-.global-nav.open{
+.global-nav.nav-active{
   display:block;
 }
 
