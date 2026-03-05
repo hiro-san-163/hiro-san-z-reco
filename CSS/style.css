@@ -10,12 +10,12 @@
 
 body{
   margin:0;
-  padding-top:58px;
   font-family:"Hiragino Sans","Noto Sans JP",sans-serif;
   color:#222;
   background:#f0f7f3 url('../data/IMG_4781.JPG') no-repeat center center;
   background-size:cover;
   line-height:1.6;
+  padding-top: 60px;
 }
 
 body::before{
@@ -42,10 +42,10 @@ a:hover{ text-decoration:underline; }
 .site-header{
   background:#357f67;
   color:#fff;
-  position:fixed;
-  top:0;
-  width:100%;
-  z-index:1000;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
 }
 
 .header-inner{
@@ -138,19 +138,9 @@ a:hover{ text-decoration:underline; }
   display:flex !important;
   flex-direction:row !important;
   justify-content:center;
-}
-
-/* フッターナビを最初の3項目だけ表示 */
-.footer-nav li:nth-child(n+4){
-  display:none;
   gap:24px;
   margin:0 0 16px 0;
   padding:0;
-}
-
-.footer-note,
-.copyright{
-  display:none;
 }
 
 .footer-nav a{
@@ -484,7 +474,7 @@ a:hover{ text-decoration:underline; }
   padding:18px 20px;
   border-radius:14px;
   box-shadow:0 14px 30px rgba(0,0,0,.25);
-  z-index:1000;
+  z-index:1002;
 }
 
 /* 横書き固定 */
@@ -580,6 +570,11 @@ a:hover{ text-decoration:underline; }
   padding:18px 10px 14px;
 }
 
+.footer-note,
+.copyright{
+  display:none;
+}
+
 /* ulを基準に制御 */
 .footer-nav ul{
   display:flex !important;
@@ -595,6 +590,11 @@ a:hover{ text-decoration:underline; }
 .footer-nav a{
   font-size:.85rem;
   padding:6px 4px;
+}
+
+/* スマホ版：4-6番目のメニューを非表示 */
+.footer-nav li:nth-child(n+4){
+  display:none;
 }
 
 /* どうしても入らない端末用 */
