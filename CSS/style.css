@@ -447,11 +447,15 @@ a:hover{ text-decoration:underline; }
 .nav-toggle{
   display:block;
   font-size:34px;
-  margin-left:auto;
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
   background:none;
   border:none;
   color:#fff;
   cursor:pointer;
+  z-index: 1001;
 }
 
 /* ナビ初期非表示 */
@@ -459,7 +463,7 @@ a:hover{ text-decoration:underline; }
   display:none;
   position:absolute;
   top:100%;
-  right:16px;
+  right:0;
   background:#357f67;
   padding:18px 20px;
   border-radius:14px;
