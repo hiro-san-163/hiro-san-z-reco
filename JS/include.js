@@ -209,6 +209,11 @@ const BREADCRUMB_MAP = {
     { label: "ホーム", url: "index.html" },
     { label: "山行ログ（ヤマレコ）" }
   ]
+  
+  "logs-SBindex": [
+    { label: "ホーム", url: "index.html" },
+    { label: "Silverboy" }
+  ]
 };
 
 
