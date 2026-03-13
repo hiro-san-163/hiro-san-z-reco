@@ -6,7 +6,7 @@
 :root {
   /* ★ brand: 主アクセント（リンク・ボタン・アクティブ）
      元: #1c6b4f → 青基調: #1e6df0（やや鮮やかな明るいブルー） */
-  --brand: #165ed1;
+  --brand: #1e6df0;
 
   /* ★ muted: 低コントラストの補助文字色
      元: #567 → 青みのクールグレー: #5a6b7c */
@@ -68,7 +68,7 @@
     margin: 20px auto;
     padding: 0 15px;
     /* 元: #eef5f2（薄ミント）→ #eef4ff（ごく薄いブルー） */
-    background: #eceef4;
+    background: #eef4ff;
     border-radius: 6px;
     padding: 1rem 15px;
   }
@@ -84,7 +84,7 @@
     width: 100%;
     padding: 0.6rem;
     /* 元: #dfe9e3 → #dfe7ff（淡いブルー） */
-    background: #dee3f2;
+    background: #dfe7ff;
     color: var(--brand);
     border: none;
     border-radius: 4px;
@@ -179,7 +179,7 @@
 /* デスクトップ版：3列グリッド */
 @media (min-width: 769px) {
   .card {
-    background: oklab(92.768% -0.00857 -0.00133);
+    background: #fff;
     /* 元: #e0eee8 → #e6edfb（ごく薄いブルーの枠線） */
     border: 1px solid #e6edfb;
     border-radius: 6px;
