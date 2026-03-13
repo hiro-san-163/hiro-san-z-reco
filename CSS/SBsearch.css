@@ -68,7 +68,7 @@
     margin: 20px auto;
     padding: 0 15px;
     /* 元: #eef5f2（薄ミント）→ #eef4ff（ごく薄いブルー） */
-    background: #aeb4c1;
+    background: #eceef4;
     border-radius: 6px;
     padding: 1rem 15px;
   }
@@ -84,7 +84,7 @@
     width: 100%;
     padding: 0.6rem;
     /* 元: #dfe9e3 → #dfe7ff（淡いブルー） */
-    background: #a6baf6;
+    background: #dee3f2;
     color: var(--brand);
     border: none;
     border-radius: 4px;
