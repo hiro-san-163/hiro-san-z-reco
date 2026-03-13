@@ -179,7 +179,7 @@
 /* デスクトップ版：3列グリッド */
 @media (min-width: 769px) {
   .card {
-    background: oklab(90.52% -0.04067 0.08295);
+    background: oklab(92.768% -0.00857 -0.00133);
     /* 元: #e0eee8 → #e6edfb（ごく薄いブルーの枠線） */
     border: 1px solid #e6edfb;
     border-radius: 6px;
