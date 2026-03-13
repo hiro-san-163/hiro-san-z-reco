@@ -2,17 +2,23 @@
 // parts loader（header / footer 共通）
 // =======================================
 function loadPart(id, url) {
-  return fetch(url)
-    .then(res => {
-      if (!res.ok) throw new Error("Failed load: " + url);
-      return res.text();
-    })
-    .then(html => {
-      const target = document.getElementById(id);
-      if (target) target.innerHTML = html;
-      return html;
-    })
-    .catch(err => console.error(err));
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.onload = function() {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        const target = document.getElementById(id);
+        if (target) target.innerHTML = xhr.responseText;
+        resolve(xhr.responseText);
+      } else {
+        reject(new Error("Failed load: " + url + " status: " + xhr.status));
+      }
+    };
+    xhr.onerror = function() {
+      reject(new Error("Failed load: " + url));
+    };
+    xhr.send();
+  });
 }
 
 // キャッシュ対策
@@ -85,12 +91,16 @@ function setHeaderActive() {
     }
 
     // records
-    if (path.startsWith("/records") && href.startsWith("records/")) {
+    if (path.startsWith("/records") && href === "records/index.html") {
       link.classList.add("active");
     }
 
     // logs
-    if (path.startsWith("/logs") && href.startsWith("logs/")) {
+    if (path === "/logs/index.html" && href === "logs/index.html") {
+      link.classList.add("active");
+    }
+
+    if (path === "/logs/SBindex.html" && href === "logs/SBindex.html") {
       link.classList.add("active");
     }
 
@@ -114,37 +124,33 @@ function setFooterActive() {
   path = path.replace(/^\/hiro-san-z-reco/, "");
   path = path.replace(/\/+$/, "");
 
-  let current = "";
-
-  if (path === "" || path === "/" || path === "/index.html") {
-    current = "home";
-  } else if (path.startsWith("/records")) {
-    current = "records";
-  } else if (path.startsWith("/logs")) {
-    current = "logs";
-  } else {
-    current = "single";
-  }
-
   links.forEach(link => {
     link.classList.remove("active");
 
     const href = link.getAttribute("href");
     if (!href) return;
 
-    if (current === "home" && href === "index.html") {
+    // home
+    if ((path === "" || path === "/" || path === "/index.html") && href === "index.html") {
       link.classList.add("active");
     }
 
-    if (current === "records" && href.startsWith("records/")) {
+    // records
+    if (path.startsWith("/records") && href === "records/index.html") {
       link.classList.add("active");
     }
 
-    if (current === "logs" && href.startsWith("logs/")) {
+    // logs
+    if (path === "/logs/index.html" && href === "logs/index.html") {
       link.classList.add("active");
     }
 
-    if (current === "single" && path === "/" + href) {
+    if (path === "/logs/SBindex.html" && href === "logs/SBindex.html") {
+      link.classList.add("active");
+    }
+
+    // single
+    if (path === "/" + href) {
       link.classList.add("active");
     }
   });
