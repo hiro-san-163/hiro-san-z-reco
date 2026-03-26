@@ -101,6 +101,13 @@
       btn.onclick = () => {
         currentPage = i;
         renderResults();
+        renderPagination(); 
+
+
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
       };
       paginationEl.appendChild(btn);
     }
