@@ -605,3 +605,66 @@ a:hover{ text-decoration:underline; }
 }
 
 }
+
+/* ======================================
+   ABOUTページ専用（安全追加）
+====================================== */
+
+/* コンテンツ幅と余白 */
+.about .container{
+  max-width:720px;
+  margin:40px auto;
+}
+
+/* 見出し（控えめ） */
+.about h2{
+  font-size:15px;
+  font-weight:600;
+  color:#555;
+  margin-top:32px;
+  margin-bottom:10px;
+}
+
+/* 本文 */
+.about p{
+  font-size:15px;
+  line-height:1.9;
+  margin-bottom:16px;
+}
+
+/* パンくず微調整（既存を活かす） */
+.breadcrumb{
+  font-size:12px;
+  color:#666;
+}
+
+/* ======================================
+   ABOUT スマホ最適化（最小限）
+====================================== */
+
+@media (max-width:768px){
+
+  .about .container{
+    margin:20px auto;
+    padding:0 14px;
+  }
+
+  .about p{
+    font-size:14px;
+    line-height:1.85;
+  }
+
+  .about h2{
+    margin-top:28px;
+  }
+
+}
+
+/* ======================================
+   HEADER ACTIVE（追加）
+====================================== */
+
+.global-nav a.active{
+  border-bottom:2px solid #ffffff;
+  padding-bottom:4px;
+}
