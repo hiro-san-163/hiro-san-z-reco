@@ -6,16 +6,16 @@
 /* CSS変数定義（他のCSSと共通） */
 :root {
   /* brand: 主アクセント（リンク・ボタン・アクティブ） */
-  --brand: #1c6b4f;
+  --brand: #1e6df0; /* SBページは明るい青で差別化 */
 
   /* muted: 低コントラストの補助文字色 */
-  --muted: #567;
+  --muted: #5a6b7c; /* 青系を使って統一 */
   
   /* その他統一設定 */
-  --color-heading: #144b33;
-  --color-heading-secondary: #1c6b4f;
-  --color-text-body: #333;
-  --color-text-muted: #567;
+  --color-heading: #1e6df0;
+  --color-heading-secondary: #1e6df0;
+  --color-text-body: #0d4db3;
+  --color-text-muted: #5a6b7c;
   
   --size-h1: 2rem;
   --size-h2: 1.4rem;
@@ -122,10 +122,14 @@
   height: 2.3rem;
   padding: 0.4rem 0.6rem;
   font-size: 0.9rem;
-  /* 元: #cfe2d8 → #cfe0ff（薄い青の枠線） */
+  color: var(--color-text-body);
   border: 1px solid #cfe0ff;
   border-radius: 4px;
   box-sizing: border-box;
+}
+
+.keyword-search input::placeholder {
+  color: #6ea1ff; /* ほんのり明るい青のプレースホルダー */
 }
 
 /* =====================================
@@ -144,10 +148,16 @@
   height: 2.3rem;
   padding: 0.4rem 0.6rem;
   font-size: 0.9rem;
-  /* 元: #cfe2d8 → #cfe0ff */
+  color: var(--color-text-body);
   border: 1px solid #cfe0ff;
   border-radius: 4px;
   box-sizing: border-box;
+}
+
+.filters select:focus,
+.filters input[type="number"]:focus {
+  outline: 2px solid rgba(30,109,240,0.35);
+  outline-offset: 2px;
 }
 
 /* スマホ版：フィルター調整 */
@@ -215,6 +225,7 @@
     grid-area: title;
     font-size: 1rem;
     font-weight: 600;
+    color: #1e6df0; /* 明るい青文字 */
   }
 
   .card .meta {
