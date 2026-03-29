@@ -9,6 +9,11 @@
   if (!resp.ok) return;
 
   const raw = await resp.json();
+  // データ源の形式が複数存在する可能性に対応
+  // 1. 配列として直接データがある場合
+  // 2. records というキー配下にある場合
+  // 3. items というキー配下にある場合
+  // 4. その他の場合は Object.values() で値を抽出
   const records = Array.isArray(raw)
     ? raw
     : (raw.records || raw.items || Object.values(raw));
@@ -22,11 +27,15 @@
     url: r.yamareco_url || r.url || ''
   })).filter(r => r.date || r.title);
 
+  // 日付文字列から西暦4桁を抽出
+  // 例: "2025-12-15", "2025年12月15日" → 2025
   const toYear = d => {
-    const m = String(d).match(/(\d{4})/);
+    const m = String(d).match(/(\d{4})/);  // 最初の4桁の連続する数字を抽出
     return m ? Number(m[1]) : null;
   };
 
+  // 日付文字列をソート可能な数値に変換
+  // 無効な日付は0を返す（ソート時に最後尾に配列される）
   const safeDate = d =>
     isNaN(Date.parse(d)) ? 0 : Date.parse(d);
 
@@ -138,19 +147,26 @@
   }
 
   /* ---------- フィルタ ---------- */
+  // 選択したフィルタ条件を適用してデータを絞り込み・ソート・ページング
   function applyFilters() {
-    const y = yearSel.value;
-    const a = areaSel.value;
-    const g = genreSel.value;
+    // 各フィルタの選択値を取得
+    const y = yearSel.value;      // 年フィルタ
+    const a = areaSel.value;      // 山域フィルタ
+    const g = genreSel.value;     // ジャンル フィルタ
+    // キーワード検索：複数キーワードをスペース区切りで指定可能
+    // 「全キーワードを含む」AND検索を実行（空文字列は除外）
     const keywords = keywordInput.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
     const sortType = sortSel.value;
 
+    // 各フィルタ条件は AND で結合（全て満たす必要あり）
     let filtered = norm.filter(r => {
       if (y && toYear(r.date) !== Number(y)) return false;
       if (a && r.area !== a) return false;
       if (g && r.genre !== g) return false;
       if (keywords.length) {
+        // タイトルと概要を対象に全キーワードでマッチ判定
         const text = `${r.title} ${r.summary}`.toLowerCase();
+        // every()で全キーワードが含まれることを確認（AND検索）
         return keywords.every(k => text.includes(k));
       }
       return true;
@@ -158,7 +174,7 @@
 
     // ソート適用
     filteredData = sortData(filtered, sortType);
-    currentPage = 1;
+    currentPage = 1;  // フィルタ変更時はページをリセット
     const pageSize = Number(pageSizeInput.value) || 20;
     totalPages = Math.ceil(filteredData.length / pageSize) || 1;
 

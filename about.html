@@ -20,6 +20,9 @@
   <!-- ▼ メイン ▼ -->
   <main class="container main-content about">
 
+    <!-- ブレッドクラム -->
+    <nav class="breadcrumb"></nav>
+
     <h1>自己紹介</h1>
 
     <h2>このサイトについて</h2>
@@ -81,6 +84,13 @@
   <div id="footer"></div>
 
   <script src="JS/include.js"></script>
+
+  <!-- ブレッドクラム設定 -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      setBreadcrumb("about");
+    });
+  </script>
 
 </body>
 </html>

@@ -22,6 +22,9 @@
 
   <!-- ▼ ページ内容 ▼ -->
   <div class="container">
+    <!-- ブレッドクラム -->
+    <nav class="breadcrumb"></nav>
+
     <h1>ブログ・ひびのことリンク</h1>
     <p>以下のリンクからブログ記事一覧にアクセスできます。</p>
 
@@ -51,8 +54,11 @@
   <!-- Bloggerフィード（JSONP） -->
   <script src="JS/blogfeed-daily.js"></script>
   <script>
-    // ひびのことブログから最新5件を取得
-    loadDailyBlogFeed("daily-cards");
+    // ブレッドクラム設定
+    document.addEventListener("DOMContentLoaded", () => {
+      setBreadcrumb("blog");
+      loadDailyBlogFeed("daily-cards");
+    });
   </script>
 
 </body>

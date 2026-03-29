@@ -2,6 +2,25 @@
    BASE
 ====================================== */
 
+/* ======================================
+   CSS変数：共通色とフォント定義
+====================================== */
+:root {
+  --color-heading: #144b33;          /* 見出し（濃い緑） */
+  --color-heading-secondary: #1c6b4f; /* サブ見出し */
+  --color-text-body: #333;            /* 本文 */
+  --color-text-muted: #567;           /* 補助テキスト */
+  --color-brand: #245d44;             /* ブランドカラー（リンク） */
+  
+  /* フォントサイズ */
+  --size-h1: 2rem;
+  --size-h2: 1.4rem;
+  --size-h3: 1.05rem;
+  --size-body: 1rem;
+  --size-small: 0.9rem;
+  --size-muted: 0.85rem;
+}
+
 *,
 *::before,
 *::after{
@@ -11,7 +30,7 @@
 body{
   margin:0;
   font-family:"Hiragino Sans","Noto Sans JP",sans-serif;
-  color:#222;
+  color:var(--color-text-body);
   background:#f0f7f3 url('../data/IMG_4781.JPG') no-repeat center center;
   background-size:cover;
   line-height:1.6;
@@ -26,7 +45,40 @@ body::before{
   z-index:-1;
 }
 
-a{ color:#245d44; text-decoration:none; }
+/* 見出しの統一スタイル */
+h1 {
+  font-size: var(--size-h1);
+  color: var(--color-heading);
+  font-weight: 700;
+  margin: 0 0 16px 0;
+}
+
+h2 {
+  font-size: var(--size-h2);
+  color: var(--color-heading-secondary);
+  font-weight: 700;
+  margin: 24px 0 12px 0;
+}
+
+h3 {
+  font-size: var(--size-h3);
+  color: var(--color-heading-secondary);
+  font-weight: 700;
+  margin: 18px 0 10px 0;
+}
+
+/* 本文の統一スタイル */
+p {
+  color: var(--color-text-body);
+  margin: 0 0 16px 0;
+}
+
+/* 補助テキスト */
+.muted {
+  color: var(--color-text-muted);
+}
+
+a{ color:var(--color-brand); text-decoration:none; }
 a:hover{ text-decoration:underline; }
 
 .container{
@@ -272,9 +324,7 @@ a:hover{ text-decoration:underline; }
 
 .latest h2{
   margin:0 0 24px 0;
-  font-size:1.5rem;
-  font-weight:700;
-  color:#144b33;
+  /* font-size と color は h2 共通スタイルから継承 */
 }
 
 .record-card{
@@ -300,20 +350,21 @@ a:hover{ text-decoration:underline; }
 .record-title{
   grid-column:2;
   margin:0;
-  font-size:1.1rem;
+  font-size: var(--size-h3);
   font-weight:700;
+  color: var(--color-heading-secondary);
 }
 
 .record-detail{
   grid-column:2;
-  font-size:.9rem;
-  color:#555;
+  font-size: var(--size-muted);
+  color: var(--color-text-muted);
 }
 
 .record-summary{
   grid-column:2;
-  font-size:.92rem;
-  color:#333;
+  font-size: var(--size-small);
+  color: var(--color-text-body);
   line-height:1.6;
 }
 
@@ -458,9 +509,10 @@ a:hover{ text-decoration:underline; }
   transform: translateY(-50%);
   background:none;
   border:none;
-  color:#fff;
+  color:#ffa500;
   cursor:pointer;
   z-index: 1001;
+  text-shadow: -1px -1px 2px rgba(0,0,0,0.3), 1px 1px 2px rgba(255,255,255,0.3);
 }
 
 /* ナビ初期非表示 */
@@ -616,20 +668,19 @@ a:hover{ text-decoration:underline; }
   margin:40px auto;
 }
 
-/* 見出し（控えめ） */
+/* 見出し（共通スタイルから継承） */
 .about h2{
-  font-size:15px;
-  font-weight:600;
-  color:#555;
   margin-top:32px;
   margin-bottom:10px;
+  /* font-size, font-weight, color は h2 共通スタイルから継承 */
 }
 
 /* 本文 */
 .about p{
-  font-size:15px;
+  font-size: var(--size-body);
   line-height:1.9;
   margin-bottom:16px;
+  color: var(--color-text-body);
 }
 
 /* パンくず微調整（既存を活かす） */

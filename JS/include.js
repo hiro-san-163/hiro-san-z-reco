@@ -67,16 +67,20 @@ function initNavToggle() {
 // =======================================
 // ヘッダーナビ active 判定（追加）
 // =======================================
+// 現在のページパスに基づいて該当するナビリンクに active クラスを付与
 function setHeaderActive() {
   const links = document.querySelectorAll(".global-nav a");
   if (!links.length) return;
 
   let path = location.pathname;
 
-  // GitHub Pages リポジトリ名除去
+  // GitHub Pages 環境対応：
+  // リポジトリ名 "hiro-san-z-reco" をパスから除去して相対パスとする
+  // 例: /hiro-san-z-reco/records/year.html → /records/year.html
   path = path.replace(/^\/hiro-san-z-reco/, "");
 
-  // 末尾スラッシュ除去
+  // パスの末尾スラッシュを除去（/records/ → /records）
+  // これによりパス比較を統一
   path = path.replace(/\/+$/, "");
 
   links.forEach(link => {
@@ -85,26 +89,30 @@ function setHeaderActive() {
     const href = link.getAttribute("href");
     if (!href) return;
 
-    // home
+    // パターン1: ホームページ（トップページ）
+    // 相対パスが空、/、またはindex.htmlの場合にマッチ
     if ((path === "" || path === "/" || path === "/index.html") && href === "index.html") {
       link.classList.add("active");
     }
 
-    // records
+    // パターン2: 山行記録ページ
+    // /records/ で始まるすべてのページにマッチ（年別、山域別、ジャンル別etc）
     if (path.startsWith("/records") && href === "records/index.html") {
       link.classList.add("active");
     }
 
-    // logs
+    // パターン3: 山行ログ（ヤマレコ）ページ
     if (path === "/logs/index.html" && href === "logs/index.html") {
       link.classList.add("active");
     }
 
+    // パターン4: Silverboy（ヤマレコ）ページ
     if (path === "/logs/SBindex.html" && href === "logs/SBindex.html") {
       link.classList.add("active");
     }
 
-    // single
+    // パターン5: その他のシングルページ
+    // ブログ、自己紹介、その他ページなど（path と href が一致）
     if (path === "/" + href) {
       link.classList.add("active");
     }
@@ -115,12 +123,14 @@ function setHeaderActive() {
 // =======================================
 // フッターナビ active 判定
 // =======================================
+// ヘッダーと同じロジックでフッターナビのアクティブ状態を判定・適用
 function setFooterActive() {
   const links = document.querySelectorAll(".footer-nav a");
   if (!links.length) return;
 
   let path = location.pathname;
 
+  // GitHub Pages リポジトリ名と末尾スラッシュを除去してパスを正規化
   path = path.replace(/^\/hiro-san-z-reco/, "");
   path = path.replace(/\/+$/, "");
 
@@ -130,12 +140,12 @@ function setFooterActive() {
     const href = link.getAttribute("href");
     if (!href) return;
 
-    // home
+    // ホームページ判定
     if ((path === "" || path === "/" || path === "/index.html") && href === "index.html") {
       link.classList.add("active");
     }
 
-    // records
+    // 山行記録ページ判定
     if (path.startsWith("/records") && href === "records/index.html") {
       link.classList.add("active");
     }
@@ -214,6 +224,24 @@ const BREADCRUMB_MAP = {
   "logs-index": [
     { label: "ホーム", url: "index.html" },
     { label: "山行ログ（ヤマレコ）" }
+  ],
+
+  // ブログ・ひびのこと用（新規追加）
+  "blog": [
+    { label: "ホーム", url: "index.html" },
+    { label: "ひびのこと" }
+  ],
+
+  // 自己紹介用（新規追加）
+  "about": [
+    { label: "ホーム", url: "index.html" },
+    { label: "わたしのこと" }
+  ],
+
+  // Silverboy（ヤマレコ）用（新規追加）
+  "logs-silverboy": [
+    { label: "ホーム", url: "index.html" },
+    { label: "Silverboy（ヤマレコ）" }
   ]
  
 };

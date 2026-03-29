@@ -55,8 +55,13 @@
   </script> 
   
   <!-- DOM構築完了後に実行 --> 
-   <script> document.addEventListener("DOMContentLoaded", () => { renderLatestBlogPosts({ target: "#latest-records", max: 5 }); }); 
-
-   </script> 
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // ブレッドクラム設定
+      setBreadcrumb("records-index");
+      // 最新の山行記録を読み込み
+      renderLatestBlogPosts({ target: "#latest-records", max: 5 });
+    });
+  </script> 
    </body> 
    </html>
