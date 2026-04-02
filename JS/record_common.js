@@ -1,7 +1,6 @@
 /* ===================================================
-   山行記録 共通ロジック
-   year / genre / area 共通利用
-   カードUI統一版（index.htmlと同一構造）
+   山行記録 共通ロジック（V2最終版）
+   JSONP安全化 + ローディング対応
 ================================================= */
 
 window.BLOG_URL = window.BLOG_URL || "https://hiro-san-163.blogspot.com";
@@ -17,7 +16,7 @@ function initRecordPage(config) {
   }
 
   window.RECORD_CONFIG = config;
-  createFeedHandler(config.pageType);
+
   config._labelSet = new Set();
   renderBreadcrumb(config);
   fetchAllEntries(config, 1);
@@ -27,54 +26,104 @@ function initRecordPage(config) {
    JSONP 取得
 ================================================= */
 function fetchAllEntries(config, startIndex) {
+
+  // ★動的callback生成
+  const callbackName = createFeedHandler(startIndex);
+
   const script = document.createElement("script");
+
   script.src =
     `${BLOG_URL}/feeds/posts/default` +
     `?alt=json-in-script` +
-    `&callback=handleFeed_${config.pageType}` +
+    `&callback=${callbackName}` +
     `&max-results=${MAX_RESULTS}` +
     `&start-index=${startIndex}`;
+
+  // ★script削除用
+  script.dataset.callback = callbackName;
+
+  // ★エラーハンドリング
+  script.onerror = function () {
+
+    const loading = document.querySelector(".loading");
+    if (loading) loading.remove();
+
+    showError("データの取得に失敗しました。");
+  };
 
   document.body.appendChild(script);
 }
 
 /* ===================================================
-   フィード処理
+   フィード処理（動的callback）
 ================================================= */
-function createFeedHandler(pageType) {
-  window[`handleFeed_${pageType}`] = function (data) {
+function createFeedHandler(startIndex) {
+
+  const callbackName = `feedCallback_${Date.now()}_${startIndex}`;
+
+  window[callbackName] = function (data) {
+
     const config = window.RECORD_CONFIG;
     const entries = data.feed.entry || [];
 
-    entries.forEach(entry => {
-      if (!entry.category) return;
-      entry.category.forEach(cat => {
-        const label = cat.term;
-        if (config.excludeLabel && config.excludeLabel(label)) return;
-        config._labelSet.add(label);
+    try {
+
+      // ★ローディング削除（成功時）
+      const loading = document.querySelector(".loading");
+      if (loading) loading.remove();
+
+      entries.forEach(entry => {
+        if (!entry.category) return;
+
+        entry.category.forEach(cat => {
+          const label = cat.term;
+
+          if (config.excludeLabel && config.excludeLabel(label)) return;
+
+          config._labelSet.add(label);
+        });
       });
-    });
 
-    if (entries.length === MAX_RESULTS) {
-      const nextIndex =
-        Number(data.feed.openSearch$startIndex.$t) + MAX_RESULTS;
-      fetchAllEntries(config, nextIndex);
-      return;
+      // ★ページング
+      if (entries.length === MAX_RESULTS) {
+        const nextIndex =
+          Number(data.feed.openSearch$startIndex.$t) + MAX_RESULTS;
+
+        fetchAllEntries(config, nextIndex);
+        return;
+      }
+
+      renderLabels(config);
+      handleQueryIfExists(config);
+
+    } finally {
+
+      // ★callback削除
+      delete window[callbackName];
+
+      // ★script削除
+      const scripts = document.querySelectorAll("script");
+      scripts.forEach(s => {
+        if (s.dataset.callback === callbackName) {
+          s.remove();
+        }
+      });
     }
-
-    renderLabels(config);
-    handleQueryIfExists(config);
   };
+
+  return callbackName;
 }
 
 /* ===================================================
-   ラベル描画（ガラスカード）
+   ラベル描画
 ================================================= */
 function renderLabels(config) {
+
   const container = document.getElementById(config.labelContainerId);
   if (!container) return;
 
   container.innerHTML = "";
+
   const labels = Array.from(config._labelSet).sort();
 
   if (labels.length === 0) {
@@ -84,6 +133,7 @@ function renderLabels(config) {
   }
 
   labels.forEach(label => {
+
     const btn = document.createElement("button");
     btn.textContent = label;
 
@@ -100,8 +150,10 @@ function renderLabels(config) {
    クエリ処理
 ================================================= */
 function handleQueryIfExists(config) {
+
   const params = new URLSearchParams(location.search);
   const label = params.get("label");
+
   if (!label) return;
 
   const listBox = document.getElementById(config.listBoxId);
@@ -114,22 +166,25 @@ function handleQueryIfExists(config) {
    ラベル別最新5件取得
 ================================================= */
 function showLatestPosts(label) {
+
   document.getElementById("list-title").textContent =
     `${label} の最新5件`;
 
   document.getElementById("more-link").href =
     `${BLOG_URL}/search/label/${encodeURIComponent(label)}`;
 
+  const callbackName = "handlePosts";
+
   const script = document.createElement("script");
   script.src =
     `${BLOG_URL}/feeds/posts/default/-/${encodeURIComponent(label)}` +
-    `?alt=json-in-script&callback=handlePosts&max-results=5`;
+    `?alt=json-in-script&callback=${callbackName}&max-results=5`;
 
   document.body.appendChild(script);
 }
 
 /* ===================================================
-   記事カード描画（indexと同じ構造）
+   記事カード描画
 ================================================= */
 function handlePosts(data) {
 
@@ -187,7 +242,21 @@ function handlePosts(data) {
 }
 
 /* ===================================================
-   本文解析（blogfeed.jsと同一）
+   エラー表示
+================================================= */
+function showError(message) {
+
+  const config = window.RECORD_CONFIG;
+  const container = document.getElementById(config.labelContainerId);
+
+  if (!container) return;
+
+  container.innerHTML =
+    `<div class="error-message">${message}</div>`;
+}
+
+/* ===================================================
+   本文解析
 ================================================= */
 function extractPostContent(htmlContent) {
 
@@ -203,6 +272,7 @@ function extractPostContent(htmlContent) {
   if (info) {
     info.querySelectorAll("p").forEach(p => {
       const text = p.innerText.trim();
+
       if (text.includes("実施日")) {
         date = text.replace("実施日：", "").trim();
       }
@@ -229,6 +299,7 @@ function extractPostContent(htmlContent) {
    パンくず
 ================================================= */
 function renderBreadcrumb(config) {
+
   const bc = document.querySelector("nav.breadcrumb");
   if (!bc) return;
 
