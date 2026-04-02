@@ -1,7 +1,5 @@
 /* =========================================================
-   blogfeed.js
-   トップページ / 山行記録ページ 共通レイアウト完全統一版
-   CSSは変更不要
+   blogfeed.js（JSONP安全化版）
 ========================================================= */
 
 window.BLOG_URL = window.BLOG_URL || "https://hiro-san-163.blogspot.com";
@@ -10,11 +8,21 @@ window.BLOG_URL = window.BLOG_URL || "https://hiro-san-163.blogspot.com";
 function renderLatestBlogPosts(options) {
   const { target = "#latest-records", max = 3 } = options || {};
 
-  window.__latestContainerSelector = target;
+  // ★グローバル依存を減らすため保持（最小変更）
+  window.__latestConfig = { target, max };
+
+  // ★動的callback生成
+  const callbackName = createLatestHandler();
 
   const script = document.createElement("script");
   script.src =
-    `${BLOG_URL}/feeds/posts/default?alt=json-in-script&max-results=${max}&callback=handleLatestPosts`;
+    `${BLOG_URL}/feeds/posts/default` +
+    `?alt=json-in-script` +
+    `&max-results=${max}` +
+    `&callback=${callbackName}`; // ★変更
+
+  // ★script削除用
+  script.dataset.callback = callbackName;
 
   document.body.appendChild(script);
 }
@@ -57,63 +65,87 @@ function extractPostContent(htmlContent) {
   return { date, area, genre, summary, image };
 }
 
-/* ---------- JSONP callback ---------- */
-window.handleLatestPosts = function(data) {
+/* =========================================================
+   ★追加：動的callback生成
+========================================================= */
+function createLatestHandler() {
 
-  const selector = window.__latestContainerSelector || "#latest-records";
-  const container = document.querySelector(selector);
-  const loading = document.getElementById("latest-loading");
+  const callbackName = `latestCallback_${Date.now()}`;
 
-  if (loading) loading.remove();
-  if (!container) return;
+  window[callbackName] = function (data) {
 
-  if (!data || !data.feed || !data.feed.entry) {
-    container.innerHTML = "<p>山行記録を取得できませんでした。</p>";
-    return;
-  }
+    const config = window.__latestConfig || {};
+    const selector = config.target || "#latest-records";
 
-  /* ★ ここが重要
-     山行記録ページでも .latest と同じ構造にする */
-  container.classList.add("latest");
+    const container = document.querySelector(selector);
+    const loading = document.getElementById("latest-loading");
 
-  container.innerHTML = "";
+    try {
 
-  data.feed.entry.forEach(entry => {
+      if (loading) loading.remove();
+      if (!container) return;
 
-    const title = entry.title.$t;
-    const linkObj = entry.link.find(l => l.rel === "alternate");
-    const link = linkObj ? linkObj.href : "#";
+      if (!data || !data.feed || !data.feed.entry) {
+        container.innerHTML = "<p>山行記録を取得できませんでした。</p>";
+        return;
+      }
 
-    const content = entry.content ? entry.content.$t : "";
-    const postInfo = extractPostContent(content);
+      container.classList.add("latest");
+      container.innerHTML = "";
 
-    const article = document.createElement("article");
-    article.className = "record-card";
+      data.feed.entry.forEach(entry => {
 
-    article.innerHTML = `
-      ${postInfo.image ? `
-        <img src="${postInfo.image}" class="record-thumb" alt="${title}">
-      ` : ""}
+        const title = entry.title.$t;
+        const linkObj = entry.link.find(l => l.rel === "alternate");
+        const link = linkObj ? linkObj.href : "#";
 
-      <h3 class="record-title">
-        <a href="${link}" target="_blank" rel="noopener">
-          ${title}
-        </a>
-      </h3>
+        const content = entry.content ? entry.content.$t : "";
+        const postInfo = extractPostContent(content);
 
-      <div class="record-detail">
-        ${postInfo.date ? `<span>実施日：${postInfo.date}</span>` : ""}
-        ${postInfo.area ? `<span>山域：${postInfo.area}</span>` : ""}
-        ${postInfo.genre ? `<span>ジャンル：${postInfo.genre}</span>` : ""}
-      </div>
+        const article = document.createElement("article");
+        article.className = "record-card";
 
-      ${postInfo.summary ? `
-        <div class="record-summary">
-          ${postInfo.summary}…
-        </div>
-      ` : ""}
-    `;
+        article.innerHTML = `
+          ${postInfo.image ? `
+            <img src="${postInfo.image}" class="record-thumb" alt="${title}">
+          ` : ""}
 
-    container.appendChild(article);
-  });
-};
+          <h3 class="record-title">
+            <a href="${link}" target="_blank" rel="noopener">
+              ${title}
+            </a>
+          </h3>
+
+          <div class="record-detail">
+            ${postInfo.date ? `<span>実施日：${postInfo.date}</span>` : ""}
+            ${postInfo.area ? `<span>山域：${postInfo.area}</span>` : ""}
+            ${postInfo.genre ? `<span>ジャンル：${postInfo.genre}</span>` : ""}
+          </div>
+
+          ${postInfo.summary ? `
+            <div class="record-summary">
+              ${postInfo.summary}…
+            </div>
+          ` : ""}
+        `;
+
+        container.appendChild(article);
+      });
+
+    } finally {
+
+      // ★callback削除
+      delete window[callbackName];
+
+      // ★script削除
+      const scripts = document.querySelectorAll("script");
+      scripts.forEach(s => {
+        if (s.dataset.callback === callbackName) {
+          s.remove();
+        }
+      });
+    }
+  };
+
+  return callbackName;
+}
