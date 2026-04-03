@@ -110,8 +110,14 @@ function setHeaderActive() {
     if (path === "/logs/SBindex.html" && href === "logs/SBindex.html") {
       link.classList.add("active");
     }
+    
+　  // パターン5: ショウタン（ヤマレコ）ページ
+    if (path === "/logs/STindex.html" && href === "logs/STindex.html") {
+      link.classList.add("active");
+    }
 
-    // パターン5: その他のシングルページ
+    
+    // パターン6: その他のシングルページ
     // ブログ、自己紹介、その他ページなど（path と href が一致）
     if (path === "/" + href) {
       link.classList.add("active");
@@ -156,6 +162,10 @@ function setFooterActive() {
     }
 
     if (path === "/logs/SBindex.html" && href === "logs/SBindex.html") {
+      link.classList.add("active");
+    }
+    
+    if (path === "/logs/STindex.html" && href === "logs/STindex.html") {
       link.classList.add("active");
     }
 
@@ -242,6 +252,12 @@ const BREADCRUMB_MAP = {
   "logs-silverboy": [
     { label: "ホーム", url: "index.html" },
     { label: "Silverboy（ヤマレコ）" }
+  ],
+
+   // Silverboy（ヤマレコ）用（新規追加）
+  "logs-ショウタン": [
+    { label: "ホーム", url: "index.html" },
+    { label: "ショウタン（ヤマレコ）" }
   ]
  
 };
