@@ -3,16 +3,19 @@
    配色のみ黄土系に変更（構造完全維持）
 ===================================== */
 
-/* CSS変数定義（他のCSSと共通） */
+/* =====================================
+   CSS変数定義（他のCSSと共通）
+   ※ベースカラー（ブランド・テキスト系）
+===================================== */
 :root {
-  --brand: #1e6df0;
-  --muted: #5a6b7c;
-  
-  --color-heading: #1e6df0;
+  --brand: #1e6df0;          /* メインカラー（ボタン等） */
+  --muted: #5a6b7c;          /* 補助テキスト */
+
+  --color-heading: #1e6df0;  /* 見出し */
   --color-heading-secondary: #1e6df0;
   --color-text-body: #0d4db3;
   --color-text-muted: #5a6b7c;
-  
+
   --size-h1: 2rem;
   --size-h2: 1.4rem;
   --size-h3: 1.05rem;
@@ -31,18 +34,20 @@
   padding: 0 15px;
 }
 
+/* ▼ ページタイトル */
 .search-header h1 {
   margin: 20px 0 0.5rem;
   font-size: 1.8rem;
-  color: #7a5a2b; 
-  font-weight:600;
+  color: #7a5a2b; /* 黄土ブラウン */
+  font-weight: 600;
 }
 
-/* ▼ 該当件数 */
+/* ▼ 該当件数表示 */
 .search-count {
-  color: #7a5a2b; 
+  color: #7a5a2b; /* 黄土ブラウン */
 }
 
+/* ▼ パンくず */
 .search-header .breadcrumb {
   margin: 0;
   padding: 0;
@@ -63,6 +68,7 @@
   content: ' > ';
 }
 
+/* ▼ 説明文 */
 .page-desc {
   margin: 0 0 1rem;
   color: var(--muted);
@@ -73,10 +79,12 @@
 ===================================== */
 
 @media (max-width: 768px) {
+  /* ▼ 条件エリア非表示時 */
   .search-header.cond-hidden {
     display: none;
   }
 
+  /* ▼ 検索サマリー */
   .search-summary {
     max-width: 1200px;
     margin: 20px auto;
@@ -92,6 +100,7 @@
     color: #8a6a00;
   }
 
+  /* ▼ 条件編集ボタン */
   .search-summary .summary-edit {
     width: 100%;
     padding: 0.6rem;
@@ -116,17 +125,19 @@
   margin-bottom: 0.75rem;
 }
 
+/* ▼ 入力フィールド */
 .keyword-search input {
   width: 100%;
   height: 2.3rem;
   padding: 0.4rem 0.6rem;
   font-size: 0.9rem;
-  color: #7a5a00; /* 入力文字 */
+  color: #7a5a00; /* 入力文字（黄土系） */
   border: 1px solid #cfe0ff;
   border-radius: 4px;
   box-sizing: border-box;
 }
 
+/* ▼ プレースホルダー */
 .keyword-search input::placeholder {
   color: #cbb36a;
 }
@@ -142,25 +153,26 @@
   align-items: end;
 }
 
-/* ▼ select内文字色 */
+/* ▼ セレクト・数値入力 */
 .filters select,
 .filters input[type="number"] {
   height: 2.3rem;
   padding: 0.4rem 0.6rem;
   font-size: 0.9rem;
-  color: #7a5a00; /* ←ここが重要 */
+  color: #7a5a00; /* 文字色 */
   border: 1px solid #cfe0ff;
   border-radius: 4px;
   box-sizing: border-box;
 }
 
+/* ▼ フォーカス時 */
 .filters select:focus,
 .filters input[type="number"]:focus {
   outline: 2px solid rgba(30,109,240,0.35);
   outline-offset: 2px;
 }
 
-/* スマホ */
+/* ▼ スマホレイアウト */
 @media (max-width: 768px) {
   .filters {
     grid-template-columns: repeat(2, 1fr);
@@ -171,6 +183,7 @@
     width: 100%;
   }
 
+  /* ▼ 検索実行ボタン */
   .search-apply-btn {
     grid-column: 1 / -1;
     height: 2.3rem;
@@ -198,6 +211,7 @@
   gap: 0.75rem;
 }
 
+/* ▼ PC表示 */
 @media (min-width: 769px) {
   .card {
     background: #fff;
@@ -213,32 +227,47 @@
     gap: 0.3rem 0.8rem;
   }
 
+  /* ▼ 日付 */
   .card .date {
     grid-area: date;
     font-size: 0.85rem;
     color: #8a6a00;
   }
 
-  /* ▼ 検索結果タイトル */
+  /* ▼ タイトル（ベース） */
   .card .title {
     grid-area: title;
     font-size: 1rem;
     font-weight: 600;
-    color: #b68a00;
+    color: #7a5a2b; /* 黄土ブラウン */
   }
 
-  /* ▼ 検索結果メタ */
+  /* ▼ タイトルリンク（←今回追加・最重要） */
+  .card .title a {
+    color: #7a5a2b;           /* 深いブラウン */
+    text-decoration: none;    /* 下線なし */
+  }
+
+  /* ▼ タイトルホバー */
+  .card .title a:hover {
+    color: #a8741a;           /* 明るめ黄土 */
+    text-decoration: underline;
+  }
+
+  /* ▼ メタ情報 */
   .card .meta {
     grid-area: meta;
     font-size: 0.85rem;
     color: #8a6a00;
   }
 
+  /* ▼ ボタン配置 */
   .card .actions {
     grid-area: actions;
     text-align: right;
   }
 
+  /* ▼ 詳細ボタン */
   .card .btn {
     display: inline-block;
     padding: 0.3rem 0.5rem;
@@ -255,7 +284,7 @@
   }
 }
 
-/* スマホ */
+/* ▼ スマホ表示 */
 @media (max-width: 768px) {
   .card {
     background: #fff;
@@ -265,14 +294,16 @@
     display: block;
   }
 
+  /* ▼ メタ情報 */
   .card .meta {
     font-size: 0.75rem;
     color: #8a6a00;
     margin-bottom: 0.5rem;
   }
 
+  /* ▼ タイトルリンク（スマホ） */
   .card .title a {
-    color: #b68a00;
+    color: #7a5a2b;           /* PCと統一 */
     text-decoration: none;
   }
 
@@ -280,10 +311,12 @@
     text-decoration: underline;
   }
 
+  /* ▼ 日付非表示 */
   .card .date {
     display: none;
   }
 
+  /* ▼ ボタン非表示 */
   .card .btn {
     display: none;
   }
@@ -293,6 +326,7 @@
    ページング
 ===================================== */
 
+/* ▼ ページングボタン */
 .pagination button {
   color: #7a5a00;
 }
@@ -301,6 +335,7 @@
    空表示
 ===================================== */
 
+/* ▼ データなし表示 */
 .empty {
   color: #8a6a00;
 }
