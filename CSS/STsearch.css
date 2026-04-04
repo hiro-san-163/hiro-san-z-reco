@@ -1,17 +1,13 @@
 /* =====================================
    検索ページ専用（統一版・整理済）
-   配色のみ黄土系に変更（構造は完全維持）
+   配色のみ黄土系に変更（構造完全維持）
 ===================================== */
 
 /* CSS変数定義（他のCSSと共通） */
 :root {
-  /* brand: 主アクセント（リンク・ボタン・アクティブ） */
   --brand: #1e6df0;
-
-  /* muted: 低コントラストの補助文字色 */
   --muted: #5a6b7c;
   
-  /* その他統一設定 */
   --color-heading: #1e6df0;
   --color-heading-secondary: #1e6df0;
   --color-text-body: #0d4db3;
@@ -23,13 +19,6 @@
   --size-body: 1rem;
   --size-small: 0.9rem;
   --size-muted: 0.85rem;
-
-  /* ▼ 検索ページ専用カラー（追加のみ） */
-  --search-accent: #c89b1d;
-  --search-accent-light: #fff4cc;
-  --search-accent-mid: #f3e2a4;
-  --search-accent-border: #e6d28a;
-  --search-accent-hover: #f7e8b8;
 }
 
 /* =====================================
@@ -85,7 +74,8 @@
     max-width: 1200px;
     margin: 20px auto;
     padding: 0 15px;
-    background: var(--search-accent-light);
+    /* 青 → 黄土 */
+    background: #fff6d6;
     border-radius: 6px;
     padding: 1rem 15px;
   }
@@ -99,8 +89,9 @@
   .search-summary .summary-edit {
     width: 100%;
     padding: 0.6rem;
-    background: var(--search-accent-mid);
-    color: var(--search-accent);
+    /* 青 → 黄土 */
+    background: #f3e2a4;
+    color: #b68a00;
     border: none;
     border-radius: 4px;
     font-weight: 600;
@@ -113,7 +104,7 @@
 }
 
 /* =====================================
-   キーワード検索
+   キーワード検索エリア（※触らない）
 ===================================== */
 
 .keyword-search {
@@ -126,17 +117,17 @@
   padding: 0.4rem 0.6rem;
   font-size: 0.9rem;
   color: var(--color-text-body);
-  border: 1px solid var(--search-accent-border);
+  border: 1px solid #cfe0ff;
   border-radius: 4px;
   box-sizing: border-box;
 }
 
 .keyword-search input::placeholder {
-  color: #cbb36a;
+  color: #6ea1ff;
 }
 
 /* =====================================
-   フィルター
+   検索条件エリア（※触らない）
 ===================================== */
 
 .filters {
@@ -152,17 +143,18 @@
   padding: 0.4rem 0.6rem;
   font-size: 0.9rem;
   color: var(--color-text-body);
-  border: 1px solid var(--search-accent-border);
+  border: 1px solid #cfe0ff;
   border-radius: 4px;
   box-sizing: border-box;
 }
 
 .filters select:focus,
 .filters input[type="number"]:focus {
-  outline: 2px solid rgba(200,155,29,0.35);
+  outline: 2px solid rgba(30,109,240,0.35);
   outline-offset: 2px;
 }
 
+/* スマホ */
 @media (max-width: 768px) {
   .filters {
     grid-template-columns: repeat(2, 1fr);
@@ -178,7 +170,7 @@
     height: 2.3rem;
     padding: 0.4rem 0.6rem;
     font-size: 0.9rem;
-    background: var(--search-accent);
+    background: var(--brand);
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -203,7 +195,8 @@
 @media (min-width: 769px) {
   .card {
     background: #fff;
-    border: 1px solid var(--search-accent-border);
+    /* 青 → 黄土 */
+    border: 1px solid #ead9a0;
     border-radius: 6px;
     padding: 0.7rem 0.9rem;
 
@@ -225,7 +218,8 @@
     grid-area: title;
     font-size: 1rem;
     font-weight: 600;
-    color: var(--search-accent);
+    /* 青 → 黄土 */
+    color: #b68a00;
   }
 
   .card .meta {
@@ -244,21 +238,23 @@
     padding: 0.3rem 0.5rem;
     font-size: 0.8rem;
     border-radius: 4px;
-    background: var(--search-accent-light);
-    color: var(--search-accent);
-    border: 1px solid var(--search-accent-border);
+    /* 青 → 黄土 */
+    background: #fff6d6;
+    color: #b68a00;
+    border: 1px solid #ead9a0;
     text-decoration: none;
   }
 
   .card .btn:hover {
-    background: var(--search-accent-hover);
+    background: #f5e7b5;
   }
 }
 
+/* スマホ */
 @media (max-width: 768px) {
   .card {
     background: #fff;
-    border: 1px solid var(--search-accent-border);
+    border: 1px solid #ead9a0;
     border-radius: 6px;
     padding: 0.7rem 0.9rem;
     display: block;
@@ -277,7 +273,7 @@
   }
 
   .card .title a {
-    color: var(--search-accent);
+    color: var(--brand);
     text-decoration: none;
   }
 
@@ -295,7 +291,7 @@
 }
 
 .card .title a {
-  color: var(--search-accent);
+  color: var(--brand);
   text-decoration: none;
 }
 
@@ -320,16 +316,17 @@
   padding: 0.4rem 0.7rem;
   font-size: 0.85rem;
   border-radius: 4px;
-  border: 1px solid var(--search-accent-border);
+  /* 青 → 黄土 */
+  border: 1px solid #ead9a0;
   background: #fff;
   cursor: pointer;
   white-space: nowrap;
 }
 
 .pagination button.active {
-  background: var(--search-accent);
+  background: var(--brand);
   color: #fff;
-  border-color: var(--search-accent);
+  border-color: var(--brand);
 }
 
 @media (max-width: 768px) {
