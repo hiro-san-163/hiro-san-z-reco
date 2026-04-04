@@ -34,7 +34,12 @@
 .search-header h1 {
   margin: 20px 0 0.5rem;
   font-size: 1.8rem;
-  color: #b68a00; /* ←追加 */
+  color: #b68a00;
+}
+
+/* ▼ 該当件数 */
+.search-count {
+  color: #b68a00;
 }
 
 .search-header .breadcrumb {
@@ -83,7 +88,7 @@
   .search-summary .summary-text {
     margin-bottom: 1rem;
     font-size: 0.95rem;
-    color: #8a6a00; /* ←追加 */
+    color: #8a6a00;
   }
 
   .search-summary .summary-edit {
@@ -115,18 +120,18 @@
   height: 2.3rem;
   padding: 0.4rem 0.6rem;
   font-size: 0.9rem;
-  color: #7a5a00; /* ←変更（入力文字） */
+  color: #7a5a00; /* 入力文字 */
   border: 1px solid #cfe0ff;
   border-radius: 4px;
   box-sizing: border-box;
 }
 
 .keyword-search input::placeholder {
-  color: #cbb36a; /* ←変更 */
+  color: #cbb36a;
 }
 
 /* =====================================
-   検索条件エリア（触らない）
+   検索条件エリア
 ===================================== */
 
 .filters {
@@ -136,12 +141,13 @@
   align-items: end;
 }
 
+/* ▼ select内文字色 */
 .filters select,
 .filters input[type="number"] {
   height: 2.3rem;
   padding: 0.4rem 0.6rem;
   font-size: 0.9rem;
-  color: var(--color-text-body);
+  color: #7a5a00; /* ←ここが重要 */
   border: 1px solid #cfe0ff;
   border-radius: 4px;
   box-sizing: border-box;
@@ -209,9 +215,10 @@
   .card .date {
     grid-area: date;
     font-size: 0.85rem;
-    color: #8a6a00; /* ←追加 */
+    color: #8a6a00;
   }
 
+  /* ▼ 検索結果タイトル */
   .card .title {
     grid-area: title;
     font-size: 1rem;
@@ -219,10 +226,11 @@
     color: #b68a00;
   }
 
+  /* ▼ 検索結果メタ */
   .card .meta {
     grid-area: meta;
     font-size: 0.85rem;
-    color: #8a6a00; /* ←追加 */
+    color: #8a6a00;
   }
 
   .card .actions {
@@ -262,12 +270,6 @@
     margin-bottom: 0.5rem;
   }
 
-  .card .title {
-    font-size: 0.95rem;
-    font-weight: 600;
-    margin-bottom: 0;
-  }
-
   .card .title a {
     color: #b68a00;
     text-decoration: none;
@@ -286,55 +288,12 @@
   }
 }
 
-.card .title a {
-  color: #b68a00;
-  text-decoration: none;
-}
-
-.card .title a:hover {
-  text-decoration: underline;
-}
-
 /* =====================================
    ページング
 ===================================== */
 
-.pagination {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin: 1.8rem 0;
-  max-width: 100%;
-}
-
 .pagination button {
-  padding: 0.4rem 0.7rem;
-  font-size: 0.85rem;
-  border-radius: 4px;
-  border: 1px solid #ead9a0;
-  background: #fff;
-  cursor: pointer;
-  white-space: nowrap;
-  color: #7a5a00; /* ←追加 */
-}
-
-.pagination button.active {
-  background: var(--brand);
-  color: #fff;
-  border-color: var(--brand);
-}
-
-@media (max-width: 768px) {
-  .pagination {
-    gap: 0.3rem;
-    margin: 1.5rem 0;
-  }
-
-  .pagination button {
-    padding: 0.35rem 0.6rem;
-    font-size: 0.8rem;
-  }
+  color: #7a5a00;
 }
 
 /* =====================================
@@ -342,7 +301,5 @@
 ===================================== */
 
 .empty {
-  text-align: center;
-  padding: 2rem;
-  color: #8a6a00; /* ←変更 */
+  color: #8a6a00;
 }
