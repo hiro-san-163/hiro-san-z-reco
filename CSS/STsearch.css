@@ -34,13 +34,13 @@
 .search-header h1 {
   margin: 20px 0 0.5rem;
   font-size: 1.8rem;
-  color: #e6b800; 
+  color: #7a5a2b; 
   font-weight:600;
 }
 
 /* ▼ 該当件数 */
 .search-count {
-  color: #e6b800; 
+  color: #7a5a2b; 
 }
 
 .search-header .breadcrumb {
