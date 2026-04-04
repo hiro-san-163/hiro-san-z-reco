@@ -6,16 +6,18 @@
 /* CSS変数定義（他のCSSと共通） */
 :root {
   /* brand: 主アクセント（リンク・ボタン・アクティブ） */
-  --brand: #1e6df0; /* SBページは明るい青で差別化 */
+  /* ▼変更：青 → 黄土系 */
+  --brand: #b68b2c; /* 変更：黄土色アクセント */
 
   /* muted: 低コントラストの補助文字色 */
-  --muted: #5a6b7c; /* 青系を使って統一 */
+  /* ▼変更：青系 → 黄土系に寄せたグレー */
+  --muted: #7a6a4f; /* 変更 */
   
   /* その他統一設定 */
-  --color-heading: #1e6df0;
-  --color-heading-secondary: #1e6df0;
-  --color-text-body: #0d4db3;
-  --color-text-muted: #5a6b7c;
+  --color-heading: #b68b2c; /* 変更 */
+  --color-heading-secondary: #b68b2c; /* 変更 */
+  --color-text-body: #5c4a2a; /* 変更：茶寄り */
+  --color-text-muted: #7a6a4f; /* 変更 */
   
   --size-h1: 2rem;
   --size-h2: 1.4rem;
@@ -26,61 +28,28 @@
 }
 
 /* =====================================
-   検索ヘッダー（幅制限・他ページに統一）
+   検索ヘッダー
 ===================================== */
-
-.search-header {
-  max-width: 1200px;
-  margin: 20px auto;
-  padding: 0 15px;
-}
-
-.search-header h1 {
-  margin: 20px 0 0.5rem;
-  font-size: 1.8rem;
-}
-
-.search-header .breadcrumb {
-  margin: 0;
-  padding: 0;
-}
-
-.search-header .breadcrumb ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  font-size: 0.9rem;
-}
-
-.search-header .breadcrumb li {
-  display: inline;
-}
-
-.search-header .breadcrumb li:not(:last-child)::after {
-  content: ' > ';
-}
 
 .page-desc {
   margin: 0 0 1rem;
-  /* 元: #567 → muted */
   color: var(--muted);
 }
 
 /* =====================================
-   スマホ版：条件選択エリアの表示・非表示
+   スマホ版：検索サマリー
 ===================================== */
 
 @media (max-width: 768px) {
-  .search-header.cond-hidden {
-    display: none;
-  }
 
   .search-summary {
     max-width: 1200px;
     margin: 20px auto;
     padding: 0 15px;
-    /* 元: #eef5f2（薄ミント）→ #eef4ff（ごく薄いブルー） */
-    background: #eef4ff;
+
+    /* ▼変更：薄ブルー → 薄い生成り系 */
+    background: #f7f3e8; /* 変更 */
+
     border-radius: 6px;
     padding: 1rem 15px;
   }
@@ -88,266 +57,104 @@
   .search-summary .summary-text {
     margin-bottom: 1rem;
     font-size: 0.95rem;
-    /* 元: #567 → muted */
     color: var(--muted);
   }
 
   .search-summary .summary-edit {
     width: 100%;
     padding: 0.6rem;
-    /* 元: #dfe9e3 → #dfe7ff（淡いブルー） */
-    background: #dfe7ff;
+
+    /* ▼変更：淡いブルー → 薄い黄土 */
+    background: #efe4c8; /* 変更 */
+
     color: var(--brand);
     border: none;
     border-radius: 4px;
     font-weight: 600;
     cursor: pointer;
   }
-
-  .search-summary .summary-edit:hover {
-    opacity: 0.9;
-  }
 }
 
 /* =====================================
-   キーワード検索エリア
+   キーワード検索
 ===================================== */
 
-.keyword-search {
-  margin-bottom: 0.75rem;
-}
-
 .keyword-search input {
-  width: 100%;
-  height: 2.3rem;
-  padding: 0.4rem 0.6rem;
-  font-size: 0.9rem;
-  color: var(--color-text-body);
-  border: 1px solid #cfe0ff;
-  border-radius: 4px;
-  box-sizing: border-box;
+  border: 1px solid #e2d3a6; /* 変更：黄系ボーダー */
 }
 
 .keyword-search input::placeholder {
-  color: #6ea1ff; /* ほんのり明るい青のプレースホルダー */
+  /* ▼変更：青 → 黄土系 */
+  color: #c5a85a; /* 変更 */
 }
 
 /* =====================================
-   検索条件エリア（レスポンシブ対応）
+   フィルター
 ===================================== */
-
-.filters {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 0.75rem;
-  align-items: end;
-}
 
 .filters select,
 .filters input[type="number"] {
-  height: 2.3rem;
-  padding: 0.4rem 0.6rem;
-  font-size: 0.9rem;
-  color: var(--color-text-body);
-  border: 1px solid #cfe0ff;
-  border-radius: 4px;
-  box-sizing: border-box;
+  border: 1px solid #e2d3a6; /* 変更 */
 }
 
 .filters select:focus,
 .filters input[type="number"]:focus {
-  outline: 2px solid rgba(30,109,240,0.35);
-  outline-offset: 2px;
-}
-
-/* スマホ版：フィルター調整 */
-@media (max-width: 768px) {
-  .filters {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .filters select,
-  .filters input[type="number"] {
-    width: 100%;
-  }
-
-  .search-apply-btn {
-    grid-column: 1 / -1;
-    height: 2.3rem;
-    padding: 0.4rem 0.6rem;
-    font-size: 0.9rem;
-    background: var(--brand);
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: 600;
-  }
-
-  .search-apply-btn:hover {
-    opacity: 0.9;
-  }
+  /* ▼変更：青フォーカス → 黄土系 */
+  outline: 2px solid rgba(182,139,44,0.35); /* 変更 */
 }
 
 /* =====================================
-   山行ログ一覧（レスポンシブ対応）
+   カード（デスクトップ）
 ===================================== */
 
-.list {
-  display: grid;
-  gap: 0.75rem;
-}
-
-/* デスクトップ版：3列グリッド */
 @media (min-width: 769px) {
   .card {
     background: #fff;
-    /* 元: #e0eee8 → #e6edfb（ごく薄いブルーの枠線） */
-    border: 1px solid #e6edfb;
-    border-radius: 6px;
-    padding: 0.7rem 0.9rem;
 
-    display: grid;
-    grid-template-columns: 130px 1fr 90px;
-    grid-template-areas:
-      "date title actions"
-      "meta meta actions";
-    gap: 0.3rem 0.8rem;
-  }
+    /* ▼変更：薄ブルー → 薄い黄 */
+    border: 1px solid #efe4c8; /* 変更 */
 
-  .card .date {
-    grid-area: date;
-    font-size: 0.85rem;
-    color: var(--muted);
   }
 
   .card .title {
-    grid-area: title;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #1e6df0; /* 明るい青文字 */
-  }
-
-  .card .meta {
-    grid-area: meta;
-    font-size: 0.85rem;
-    color: var(--muted);
-  }
-
-  .card .actions {
-    grid-area: actions;
-    text-align: right;
+    /* ▼変更：青 → ブランド色 */
+    color: var(--brand); /* 変更 */
   }
 
   .card .btn {
-    display: inline-block;
-    padding: 0.3rem 0.5rem;
-    font-size: 0.8rem;
-    border-radius: 4px;
-    /* 元: #eef5f2 → #eef4ff（薄い青背景） */
-    background: #eef4ff;
+    /* ▼変更：背景 */
+    background: #f7f3e8; /* 変更 */
+
     color: var(--brand);
-    /* 元: #cfe2d8 → #cfe0ff（薄い青の枠線） */
-    border: 1px solid #cfe0ff;
-    text-decoration: none;
+
+    /* ▼変更：ボーダー */
+    border: 1px solid #e2d3a6; /* 変更 */
   }
 
   .card .btn:hover {
-    /* 元: #e0efe8 → #e3ebff（少し濃い青背景） */
-    background: #e3ebff;
+    /* ▼変更：ホバー色 */
+    background: #efe4c8; /* 変更 */
   }
-}
-
-/* スマホ版：シンプルレイアウト */
-@media (max-width: 768px) {
-  .card {
-    background: #fff;
-    /* 元: #e0eee8 → #e6edfb */
-    border: 1px solid #e6edfb;
-    border-radius: 6px;
-    padding: 0.7rem 0.9rem;
-    display: block;
-  }
-
-  .card .meta {
-    font-size: 0.75rem;
-    color: var(--muted);
-    margin-bottom: 0.5rem;
-  }
-
-  .card .title {
-    font-size: 0.95rem;
-    font-weight: 600;
-    margin-bottom: 0;
-  }
-
-  .card .title a {
-    color: var(--brand);
-    text-decoration: none;
-  }
-
-  .card .title a:hover {
-    text-decoration: underline;
-  }
-
-  .card .date {
-    display: none;
-  }
-
-  .card .btn {
-    display: none;
-  }
-}
-
-.card .title a {
-  color: var(--brand);
-  text-decoration: none;
-}
-
-.card .title a:hover {
-  text-decoration: underline;
 }
 
 /* =====================================
-   ページング（レスポンシブ対応）
+   カード（スマホ）
 ===================================== */
 
-.pagination {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin: 1.8rem 0;
-  max-width: 100%;
+@media (max-width: 768px) {
+  .card {
+    /* ▼変更 */
+    border: 1px solid #efe4c8; /* 変更 */
+  }
 }
+
+/* =====================================
+   ページング
+===================================== */
 
 .pagination button {
-  padding: 0.4rem 0.7rem;
-  font-size: 0.85rem;
-  border-radius: 4px;
-  /* 元: #cfe2d8 → #cfe0ff */
-  border: 1px solid #cfe0ff;
-  background: #fff;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.pagination button.active {
-  background: var(--brand);
-  color: #fff;
-  border-color: var(--brand);
-}
-
-@media (max-width: 768px) {
-  .pagination {
-    gap: 0.3rem;
-    margin: 1.5rem 0;
-  }
-
-  .pagination button {
-    padding: 0.35rem 0.6rem;
-    font-size: 0.8rem;
-  }
+  /* ▼変更 */
+  border: 1px solid #e2d3a6; /* 変更 */
 }
 
 /* =====================================
@@ -355,7 +162,5 @@
 ===================================== */
 
 .empty {
-  text-align: center;
-  padding: 2rem;
   color: var(--muted);
 }
