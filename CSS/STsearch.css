@@ -34,6 +34,7 @@
 .search-header h1 {
   margin: 20px 0 0.5rem;
   font-size: 1.8rem;
+  color: #b68a00; /* ←追加 */
 }
 
 .search-header .breadcrumb {
@@ -74,7 +75,6 @@
     max-width: 1200px;
     margin: 20px auto;
     padding: 0 15px;
-    /* 青 → 黄土 */
     background: #fff6d6;
     border-radius: 6px;
     padding: 1rem 15px;
@@ -83,13 +83,12 @@
   .search-summary .summary-text {
     margin-bottom: 1rem;
     font-size: 0.95rem;
-    color: var(--muted);
+    color: #8a6a00; /* ←追加 */
   }
 
   .search-summary .summary-edit {
     width: 100%;
     padding: 0.6rem;
-    /* 青 → 黄土 */
     background: #f3e2a4;
     color: #b68a00;
     border: none;
@@ -104,7 +103,7 @@
 }
 
 /* =====================================
-   キーワード検索エリア（※触らない）
+   キーワード検索エリア
 ===================================== */
 
 .keyword-search {
@@ -116,18 +115,18 @@
   height: 2.3rem;
   padding: 0.4rem 0.6rem;
   font-size: 0.9rem;
-  color: var(--color-text-body);
+  color: #7a5a00; /* ←変更（入力文字） */
   border: 1px solid #cfe0ff;
   border-radius: 4px;
   box-sizing: border-box;
 }
 
 .keyword-search input::placeholder {
-  color: #6ea1ff;
+  color: #cbb36a; /* ←変更 */
 }
 
 /* =====================================
-   検索条件エリア（※触らない）
+   検索条件エリア（触らない）
 ===================================== */
 
 .filters {
@@ -195,7 +194,6 @@
 @media (min-width: 769px) {
   .card {
     background: #fff;
-    /* 青 → 黄土 */
     border: 1px solid #ead9a0;
     border-radius: 6px;
     padding: 0.7rem 0.9rem;
@@ -211,21 +209,20 @@
   .card .date {
     grid-area: date;
     font-size: 0.85rem;
-    color: var(--muted);
+    color: #8a6a00; /* ←追加 */
   }
 
   .card .title {
     grid-area: title;
     font-size: 1rem;
     font-weight: 600;
-    /* 青 → 黄土 */
     color: #b68a00;
   }
 
   .card .meta {
     grid-area: meta;
     font-size: 0.85rem;
-    color: var(--muted);
+    color: #8a6a00; /* ←追加 */
   }
 
   .card .actions {
@@ -238,7 +235,6 @@
     padding: 0.3rem 0.5rem;
     font-size: 0.8rem;
     border-radius: 4px;
-    /* 青 → 黄土 */
     background: #fff6d6;
     color: #b68a00;
     border: 1px solid #ead9a0;
@@ -262,7 +258,7 @@
 
   .card .meta {
     font-size: 0.75rem;
-    color: var(--muted);
+    color: #8a6a00;
     margin-bottom: 0.5rem;
   }
 
@@ -273,7 +269,7 @@
   }
 
   .card .title a {
-    color: var(--brand);
+    color: #b68a00;
     text-decoration: none;
   }
 
@@ -291,7 +287,7 @@
 }
 
 .card .title a {
-  color: var(--brand);
+  color: #b68a00;
   text-decoration: none;
 }
 
@@ -316,11 +312,11 @@
   padding: 0.4rem 0.7rem;
   font-size: 0.85rem;
   border-radius: 4px;
-  /* 青 → 黄土 */
   border: 1px solid #ead9a0;
   background: #fff;
   cursor: pointer;
   white-space: nowrap;
+  color: #7a5a00; /* ←追加 */
 }
 
 .pagination button.active {
@@ -348,5 +344,5 @@
 .empty {
   text-align: center;
   padding: 2rem;
-  color: var(--muted);
+  color: #8a6a00; /* ←変更 */
 }
