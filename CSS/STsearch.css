@@ -1,23 +1,18 @@
 /* =====================================
    検索ページ専用（統一版・整理済）
-   配色をサイト全体の緑基調に統一
+   黄土系アクセントに変更（共通カラーは維持）
 ===================================== */
 
-/* CSS変数定義（他のCSSと共通） */
+/* CSS変数定義（共通＋検索ページ専用） */
 :root {
-  /* brand: 主アクセント（リンク・ボタン・アクティブ） */
-  /* ▼変更：青 → 黄土系 */
-  --brand: #b68b2c; /* 変更：黄土色アクセント */
-
-  /* muted: 低コントラストの補助文字色 */
-  /* ▼変更：青系 → 黄土系に寄せたグレー */
-  --muted: #7a6a4f; /* 変更 */
+  /* 共通（変更しない） */
+  --brand: #1e6df0;
+  --muted: #5a6b7c;
   
-  /* その他統一設定 */
-  --color-heading: #b68b2c; /* 変更 */
-  --color-heading-secondary: #b68b2c; /* 変更 */
-  --color-text-body: #5c4a2a; /* 変更：茶寄り */
-  --color-text-muted: #7a6a4f; /* 変更 */
+  --color-heading: #1e6df0;
+  --color-heading-secondary: #1e6df0;
+  --color-text-body: #0d4db3;
+  --color-text-muted: #5a6b7c;
   
   --size-h1: 2rem;
   --size-h2: 1.4rem;
@@ -25,11 +20,46 @@
   --size-body: 1rem;
   --size-small: 0.9rem;
   --size-muted: 0.85rem;
+
+  /* ▼ 検索ページ専用カラー */
+  --search-accent: #c89b1d;
+  --search-accent-light: #fff4cc;
+  --search-accent-mid: #f3e2a4;
+  --search-accent-border: #e6d28a;
+  --search-accent-hover: #f7e8b8;
+  --search-text: #7a5a00;
 }
 
 /* =====================================
    検索ヘッダー
 ===================================== */
+
+.search-header {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 15px;
+}
+
+.search-header h1 {
+  margin: 20px 0 0.5rem;
+  font-size: 1.8rem;
+  color: var(--search-accent);
+}
+
+.search-header .breadcrumb ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.search-header .breadcrumb li {
+  display: inline;
+}
+
+.search-header .breadcrumb li:not(:last-child)::after {
+  content: ' > ';
+}
 
 .page-desc {
   margin: 0 0 1rem;
@@ -37,21 +67,20 @@
 }
 
 /* =====================================
-   スマホ版：検索サマリー
+   スマホ：サマリー
 ===================================== */
 
 @media (max-width: 768px) {
+  .search-header.cond-hidden {
+    display: none;
+  }
 
   .search-summary {
     max-width: 1200px;
     margin: 20px auto;
-    padding: 0 15px;
-
-    /* ▼変更：薄ブルー → 薄い生成り系 */
-    background: #f7f3e8; /* 変更 */
-
-    border-radius: 6px;
     padding: 1rem 15px;
+    background: var(--search-accent-light);
+    border-radius: 6px;
   }
 
   .search-summary .summary-text {
@@ -63,11 +92,8 @@
   .search-summary .summary-edit {
     width: 100%;
     padding: 0.6rem;
-
-    /* ▼変更：淡いブルー → 薄い黄土 */
-    background: #efe4c8; /* 変更 */
-
-    color: var(--brand);
+    background: var(--search-accent-mid);
+    color: var(--search-accent);
     border: none;
     border-radius: 4px;
     font-weight: 600;
@@ -80,81 +106,154 @@
 ===================================== */
 
 .keyword-search input {
-  border: 1px solid #e2d3a6; /* 変更：黄系ボーダー */
+  width: 100%;
+  height: 2.3rem;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.9rem;
+  color: var(--color-text-body);
+  border: 1px solid var(--search-accent-border);
+  border-radius: 4px;
 }
 
 .keyword-search input::placeholder {
-  /* ▼変更：青 → 黄土系 */
-  color: #c5a85a; /* 変更 */
+  color: #cbb36a;
 }
 
 /* =====================================
    フィルター
 ===================================== */
 
+.filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.75rem;
+  align-items: end;
+}
+
 .filters select,
 .filters input[type="number"] {
-  border: 1px solid #e2d3a6; /* 変更 */
+  height: 2.3rem;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.9rem;
+  border: 1px solid var(--search-accent-border);
+  border-radius: 4px;
 }
 
 .filters select:focus,
 .filters input[type="number"]:focus {
-  /* ▼変更：青フォーカス → 黄土系 */
-  outline: 2px solid rgba(182,139,44,0.35); /* 変更 */
+  outline: 2px solid rgba(200,155,29,0.35);
+}
+
+/* スマホ */
+@media (max-width: 768px) {
+  .filters {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .search-apply-btn {
+    grid-column: 1 / -1;
+    height: 2.3rem;
+    background: var(--search-accent);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+  }
 }
 
 /* =====================================
-   カード（デスクトップ）
+   カード一覧
 ===================================== */
 
+.list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+/* PC */
 @media (min-width: 769px) {
   .card {
     background: #fff;
+    border: 1px solid var(--search-accent-border);
+    border-radius: 6px;
+    padding: 0.7rem 0.9rem;
 
-    /* ▼変更：薄ブルー → 薄い黄 */
-    border: 1px solid #efe4c8; /* 変更 */
+    display: grid;
+    grid-template-columns: 130px 1fr 90px;
+    grid-template-areas:
+      "date title actions"
+      "meta meta actions";
+  }
 
+  .card .date {
+    font-size: 0.85rem;
+    color: var(--muted);
   }
 
   .card .title {
-    /* ▼変更：青 → ブランド色 */
-    color: var(--brand); /* 変更 */
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--search-accent);
+  }
+
+  .card .meta {
+    font-size: 0.85rem;
+    color: var(--muted);
   }
 
   .card .btn {
-    /* ▼変更：背景 */
-    background: #f7f3e8; /* 変更 */
-
-    color: var(--brand);
-
-    /* ▼変更：ボーダー */
-    border: 1px solid #e2d3a6; /* 変更 */
+    padding: 0.3rem 0.5rem;
+    font-size: 0.8rem;
+    border-radius: 4px;
+    background: var(--search-accent-light);
+    color: var(--search-accent);
+    border: 1px solid var(--search-accent-border);
   }
 
   .card .btn:hover {
-    /* ▼変更：ホバー色 */
-    background: #efe4c8; /* 変更 */
+    background: var(--search-accent-hover);
   }
 }
 
-/* =====================================
-   カード（スマホ）
-===================================== */
-
+/* スマホ */
 @media (max-width: 768px) {
   .card {
-    /* ▼変更 */
-    border: 1px solid #efe4c8; /* 変更 */
+    border: 1px solid var(--search-accent-border);
+    padding: 0.7rem;
+  }
+
+  .card .title a {
+    color: var(--search-accent);
+  }
+
+  .card .date,
+  .card .btn {
+    display: none;
   }
 }
 
 /* =====================================
-   ページング
+   ページネーション
 ===================================== */
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
+  margin: 1.8rem 0;
+}
+
 .pagination button {
-  /* ▼変更 */
-  border: 1px solid #e2d3a6; /* 変更 */
+  padding: 0.4rem 0.7rem;
+  border-radius: 4px;
+  border: 1px solid var(--search-accent-border);
+  background: #fff;
+}
+
+.pagination button.active {
+  background: var(--search-accent);
+  color: #fff;
+  border-color: var(--search-accent);
 }
 
 /* =====================================
@@ -162,5 +261,7 @@
 ===================================== */
 
 .empty {
+  text-align: center;
+  padding: 2rem;
   color: var(--muted);
 }
