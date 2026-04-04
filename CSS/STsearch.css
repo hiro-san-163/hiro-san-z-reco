@@ -34,13 +34,13 @@
 .search-header h1 {
   margin: 20px 0 0.5rem;
   font-size: 1.8rem;
-  color: #b68a00;
+  color: #e6b800; 
   font-weight:600;
 }
 
 /* ▼ 該当件数 */
 .search-count {
-  color: #b68a00;
+  color: #e6b800; 
 }
 
 .search-header .breadcrumb {
@@ -66,19 +66,6 @@
 .page-desc {
   margin: 0 0 1rem;
   color: var(--muted);
-}
-
-/* =====================================
-   検索バー背景：黄土色に変更
-===================================== */
-.search-header{
-  background: linear-gradient(
-    135deg,
-    rgba(210,170,80,0.35),
-    rgba(245,225,160,0.55)
-  );
-  border-radius: 10px;
-  padding: 15px;
 }
 
 /* =====================================
