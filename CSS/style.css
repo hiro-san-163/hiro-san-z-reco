@@ -645,7 +645,7 @@ a:hover{ text-decoration:underline; }
 }
 
 /* スマホ版：4-6番目のメニューを非表示 */
-.footer-nav li:nth-child(n+5){
+.footer-nav li:nth-child(n+6){
   display:none;
 }
 
@@ -655,6 +655,27 @@ a:hover{ text-decoration:underline; }
     flex-wrap:wrap;
   }
 }
+
+}
+
+/* スマホ：フッター2段表示 2026-04-04追加 */
+@media (max-width:768px){
+
+  .footer-nav ul{
+    flex-wrap:wrap;   /* ←折り返しON */
+    gap:10px;
+  }
+
+  .footer-nav li{
+    width:20%;        /* ←5個均等配置 */
+    text-align:center;
+  }
+
+  .footer-nav a{
+    font-size:0.8rem;
+    line-height:1.2;
+    display:block;
+  }
 
 }
 
