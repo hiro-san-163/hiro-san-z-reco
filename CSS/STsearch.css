@@ -47,6 +47,17 @@
   color: #7a5a2b; /* 黄土ブラウン */
 }
 
+/* ▼ 該当件数内のリンク色（←これが必要）0404-あとから追加 */
+.search-count a {
+  color: #7a5a2b;        /* ブラウン */
+  text-decoration: none; /* 任意（見た目調整） */
+}
+
+/* ▼ ホバー時 */
+.search-count a:hover {
+  color: #a8741a;        /* 少し明るく */
+}
+
 /* ▼ パンくず */
 .search-header .breadcrumb {
   margin: 0;
