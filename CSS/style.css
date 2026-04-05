@@ -615,20 +615,23 @@ a:hover{ text-decoration:underline; }
   gap:20px;
 }
 
+/* ▼ primary（間隔を少し広げる） */
 .nav-primary{
   display:flex;
   gap:12px;
+  margin-bottom:6px; /* ← ここ追加（secondaryとの間隔） */
 }
 
+/* ▼ secondary（2列固定＋崩れ防止） */
 .nav-secondary{
-  display: grid;                       /* ← flex → grid */
-  grid-template-columns: repeat(2, 1fr); /* ← 2列化 */
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* ← これが重要 */
   gap:10px;
 }
 
 .home-nav a{
   flex:1;
-  padding:16px 8px;
+  padding:14px 8px;
   text-align:center;
   border-radius:20px;
 
@@ -644,13 +647,16 @@ a:hover{ text-decoration:underline; }
 }
 
 .nav-primary a{
-  font-size:1.1rem;
+  font-size:1.05rem;
   font-weight:700;
 }
 
+/* ▼ secondaryカード（ここ調整） */
 .nav-secondary a{
-  font-size:.95rem; /* 折り返し防止 */
+  font-size:0.88rem;   /* ← 少し小さく */
   font-weight:600;
+  line-height:1.2;     /* ← 行間詰める */
+  padding:12px 6px;    /* ← 横幅圧縮 */
 }
 
 .home-nav a:active{
