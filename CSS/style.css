@@ -621,7 +621,8 @@ a:hover{ text-decoration:underline; }
 }
 
 .nav-secondary{
-  display:flex;
+  display: grid;                       /* ← flex → grid */
+  grid-template-columns: repeat(2, 1fr); /* ← 2列化 */
   gap:10px;
 }
 
