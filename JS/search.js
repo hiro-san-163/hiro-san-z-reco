@@ -263,7 +263,7 @@
 
   } else {
     // PC：従来通り即時検索
-    [yearSel, areaSel, genreSel, sortSel, pageSizeInput]
+    [yearSel, monthSel, areaSel, genreSel, sortSel, pageSizeInput]
       .forEach(el => el.addEventListener('change', applyFilters));
     keywordInput.addEventListener('input', applyFilters);
     applyFilters();
