@@ -34,6 +34,21 @@
     return m ? Number(m[1]) : null;
   };
 
+  // ★追加：日付文字列から月を抽出
+  // 例: "2025-12-15", "2025年12月15日" → 12
+  const toMonth = d => {
+    if (!d) return null;
+
+    // yyyy-mm-dd / yyyy/mm/dd
+    const m1 = String(d).match(/\d{4}[-\/](\d{1,2})/);
+    if (m1) return Number(m1[1]);
+
+    // yyyy年mm月
+    const m2 = String(d).match(/\d{4}年(\d{1,2})月/);
+    if (m2) return Number(m2[1]);
+
+    return null;
+  };
   // 日付文字列をソート可能な数値に変換
   // 無効な日付は0を返す（ソート時に最後尾に配列される）
   const safeDate = d =>
@@ -44,6 +59,7 @@
   const filters = document.querySelector('.filters');
 
   const yearSel = document.getElementById('year');
+  const monthSel = document.getElementById('month'); // ★追加
   const areaSel = document.getElementById('area');
   const genreSel = document.getElementById('genre');
   const sortSel = document.getElementById('sort');
@@ -72,6 +88,10 @@
 
   fillSelect(yearSel, '年',
     [...new Set(norm.map(r => toYear(r.date)).filter(Boolean))].sort((a, b) => b - a)
+  );
+   // ★追加：月セレクト
+  fillSelect(monthSel, '月',
+    [...new Set(norm.map(r => toMonth(r.date)).filter(Boolean))].sort((a, b) => a - b)
   );
   fillSelect(areaSel, '山域', [...new Set(norm.map(r => r.area).filter(Boolean))]);
   fillSelect(genreSel, 'ジャンル', [...new Set(norm.map(r => r.genre).filter(Boolean))]);
@@ -158,6 +178,7 @@
   function applyFilters() {
     // 各フィルタの選択値を取得
     const y = yearSel.value;      // 年フィルタ
+    const m = monthSel.value;     // ★追加：月フィルタ
     const a = areaSel.value;      // 山域フィルタ
     const g = genreSel.value;     // ジャンル フィルタ
     // キーワード検索：複数キーワードをスペース区切りで指定可能
@@ -168,6 +189,7 @@
     // 各フィルタ条件は AND で結合（全て満たす必要あり）
     let filtered = norm.filter(r => {
       if (y && toYear(r.date) !== Number(y)) return false;
+      if (m && toMonth(r.date) !== Number(m)) return false; // ★追加
       if (a && r.area !== a) return false;
       if (g && r.genre !== g) return false;
       if (keywords.length) {
@@ -216,6 +238,7 @@
     function buildSummary() {
       const p = [];
       if (yearSel.value) p.push(`年=${yearSel.value}`);
+      if (monthSel.value) p.push(`月=${monthSel.value}`); // ★追加
       if (areaSel.value) p.push(`山域=${areaSel.value}`);
       if (genreSel.value) p.push(`ジャンル=${genreSel.value}`);
       if (keywordInput.value.trim()) p.push(`KW=${keywordInput.value.trim()}`);
