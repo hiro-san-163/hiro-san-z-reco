@@ -666,6 +666,7 @@ a:hover{ text-decoration:underline; }
 /* ▼ 3個目以降（＝2段目）を3列に */
 .nav-secondary a:nth-child(n+3){
   flex:0 0 calc(33.333% - 6px);
+  margin-top:14px; /* 1行目と2行目の間隔を広げて押し間違え軽減 */
 }
 .home-nav a:active{
   transform:scale(0.96);
