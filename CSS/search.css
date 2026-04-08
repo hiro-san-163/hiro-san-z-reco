@@ -330,3 +330,17 @@
   padding: 2rem;
   color: var(--muted);
 }
+/* =====================================
+   カードクリックUI（押した感）
+===================================== */
+
+.card {
+  cursor: pointer;
+  transition: transform 0.08s;
+}
+
+.card:active {
+  transform: scale(0.98);
+}
+
+
