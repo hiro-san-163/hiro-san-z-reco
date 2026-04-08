@@ -335,3 +335,16 @@
 .empty {
   color: #8a6a00;
 }
+
+/* =====================================
+   カードクリックUI（押した感）
+===================================== */
+
+.card {
+  cursor: pointer;
+  transition: transform 0.08s;
+}
+
+.card:active {
+  transform: scale(0.98);
+}
