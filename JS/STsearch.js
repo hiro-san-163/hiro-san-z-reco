@@ -158,7 +158,15 @@
           ${r.url ? `<a class="btn" href="${r.url}" target="_blank">記事を開く</a>` : ''}
         `;
       }
-      listEl.appendChild(card);
+
+       // ★これ追加
+  card.style.cursor = 'pointer';
+  card.addEventListener('click', (e) => {
+    if (e.target.closest('a')) return;
+    if (r.url) window.open(r.url, '_blank');
+  });
+      
+  listEl.appendChild(card);
     });
   }
 
