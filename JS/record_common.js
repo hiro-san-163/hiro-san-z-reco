@@ -159,6 +159,9 @@ function handleQueryIfExists(config) {
   const listBox = document.getElementById(config.listBoxId);
   if (listBox) listBox.style.display = "block";
 
+  const labelContainer = document.getElementById(config.labelContainerId);
+  if (labelContainer) labelContainer.style.display = "none";
+
   showLatestPosts(label);
 }
 

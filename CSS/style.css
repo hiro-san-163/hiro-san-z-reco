@@ -532,6 +532,30 @@ a:hover{ text-decoration:underline; }
     0 14px 40px rgba(0,0,0,0.15),
     inset 0 1px 0 rgba(255,255,255,0.9);
 }
+
+/* =========================================
+   RECORDS：Blogger抽出ラベル（button版） - MOBILE
+   スマホ用サイズ調整
+========================================= */
+@media screen and (max-width:768px) {
+  .label-buttons{
+    gap:12px;
+    margin-top:28px;
+  }
+
+  .label-buttons button{
+    padding:10px 18px;
+    border-radius:28px;
+    font-size:1rem;
+    min-height:44px;
+    letter-spacing:.04em;
+  }
+
+  .label-buttons button:hover{
+    transform:translateY(-3px);
+  }
+}
+
 /* =========================================
    MOBILE LAYOUT
 ========================================= */
