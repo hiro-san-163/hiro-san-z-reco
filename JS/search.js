@@ -5,6 +5,7 @@
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
   /* ---------- データ取得 ---------- */
+  window.addEventListener('load', () => {
   const resp = await fetch('data/records.json');
   if (!resp.ok) return;
 
