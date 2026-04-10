@@ -1,6 +1,15 @@
+// 山行記録 検索・一覧表示用スクリプト
 document.addEventListener("DOMContentLoaded", async () => {
 
   'use strict';
+
+  // ★追加：include.js の完了待ち（最重要）
+  if (window.partsLoaded) {
+    await window.partsLoaded;
+  }
+
+  // ★追加：スマホ環境での微妙な遅延対策
+  await new Promise(r => setTimeout(r, 50));
 
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
@@ -12,10 +21,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   
   // データ源の形式が複数存在する可能性に対応
-  // 1. 配列として直接データがある場合
-  // 2. records というキー配下にある場合
-  // 3. items というキー配下にある場合
-  // 4. その他の場合は Object.values() で値を抽出
   const records = Array.isArray(raw)
     ? raw
     : (raw.records || raw.items || Object.values(raw));
@@ -29,15 +34,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     url: r.yamareco_url || r.url || ''
   })).filter(r => r.date || r.title);
 
-  // 日付文字列から西暦4桁を抽出
-  // 例: "2025-12-15", "2025年12月15日" → 2025
   const toYear = d => {
-    const m = String(d).match(/(\d{4})/);  // 最初の4桁の連続する数字を抽出
+    const m = String(d).match(/(\d{4})/);
     return m ? Number(m[1]) : null;
   };
 
-  // ★追加：日付文字列から月を抽出
-  // 例: "2025-12-15", "2025年12月15日" → 12
   const toMonth = d => {
     if (!d) return null;
     const m1 = String(d).match(/\d{4}[-\/](\d{1,2})/);
@@ -47,8 +48,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     return null;
   };
 
-  // 日付文字列をソート可能な数値に変換
-  // 無効な日付は0を返す（ソート時に最後尾に配列される）
   const safeDate = d =>
     isNaN(Date.parse(d)) ? 0 : Date.parse(d);
 
@@ -68,11 +67,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   const listEl = document.getElementById('list');
   const paginationEl = document.getElementById('pagination');
 
-  // 👇ここに入れる👇
-if (!yearSel || !monthSel || !areaSel || !genreSel) {
-  console.warn('セレクト要素が見つからない');
-  return;
-}
+  // ★既存：セレクト存在チェック（OK）
+  if (!yearSel || !monthSel || !areaSel || !genreSel) {
+    console.warn('セレクト要素が見つからない');
+    return;
+  }
 
   /* ---------- ページング状態 ---------- */
   let currentPage = 1;
@@ -81,7 +80,7 @@ if (!yearSel || !monthSel || !areaSel || !genreSel) {
 
   /* ---------- セレクト生成 ---------- */
   function fillSelect(sel, label, values) {
-      if (!sel) return;  // ★これ追加
+    if (!sel) return; // ★安全化
     sel.innerHTML = `<option value="">${label}：すべて</option>`;
     values.forEach(v => {
       const o = document.createElement('option');
@@ -152,13 +151,11 @@ if (!yearSel || !monthSel || !areaSel || !genreSel) {
       card.className = 'card';
       
       if (isMobile) {
-        // スマホ版：メタ情報→タイトル（リンク化）
         card.innerHTML = `
           <div class="meta">${r.date} / ${r.area} / ${r.genre}</div>
           <div class="title"><a href="${r.url}" target="_blank">${r.title}</a></div>
         `;
       } else {
-        // PC版：従来通り
         card.innerHTML = `
           <div class="date">${r.date}</div>
           <div class="title"><a href="${r.url}" target="_blank">${r.title}</a></div>
@@ -166,48 +163,42 @@ if (!yearSel || !monthSel || !areaSel || !genreSel) {
           ${r.url ? `<a class="btn" href="${r.url}" target="_blank">記事を開く</a>` : ''}
         `;
       }
-       // ★これ追加
-  card.style.cursor = 'pointer';
-  card.addEventListener('click', (e) => {
-    if (e.target.closest('a')) return;
-    if (r.url) window.open(r.url, '_blank');
-  });
+
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('a')) return;
+        if (r.url) window.open(r.url, '_blank');
+      });
       
       listEl.appendChild(card);
     });
   }
 
   /* ---------- フィルタ ---------- */
-  // 選択したフィルタ条件を適用してデータを絞り込み・ソート・ページング
   function applyFilters() {
-    // 各フィルタの選択値を取得
-    const y = yearSel.value;      // 年フィルタ
-    const m = monthSel.value;     // 月フィルタ
-    const a = areaSel.value;      // 山域フィルタ
-    const g = genreSel.value;     // ジャンル フィルタ
-    // キーワード検索：複数キーワードをスペース区切りで指定可能
-    // 「全キーワードを含む」AND検索を実行（空文字列は除外）
+    const y = yearSel.value;
+    const m = monthSel.value;
+    const a = areaSel.value;
+    const g = genreSel.value;
+
     const keywords = keywordInput.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
     const sortType = sortSel.value;
 
-    // 各フィルタ条件は AND で結合（全て満たす必要あり）
     let filtered = norm.filter(r => {
       if (y && toYear(r.date) !== Number(y)) return false;
       if (m && toMonth(r.date) !== Number(m)) return false;
       if (a && r.area !== a) return false;
       if (g && r.genre !== g) return false;
       if (keywords.length) {
-        // タイトルと概要を対象に全キーワードでマッチ判定
         const text = `${r.title} ${r.summary}`.toLowerCase();
-        // every()で全キーワードが含まれることを確認（AND検索）
         return keywords.every(k => text.includes(k));
       }
       return true;
     });
 
-    // ソート適用
     filteredData = sortData(filtered, sortType);
-    currentPage = 1;  // フィルタ変更時はページをリセット
+    currentPage = 1;
+
     const pageSize = Number(pageSizeInput.value) || 20;
     totalPages = Math.ceil(filteredData.length / pageSize) || 1;
 
@@ -218,17 +209,14 @@ if (!yearSel || !monthSel || !areaSel || !genreSel) {
     renderPagination();
   }
 
-  /* ---------- スマホUI ---------- */
+  /* ---------- UI ---------- */
   if (isMobile) {
-
-    // 検索ボタン（filters 内・固定）
     const searchBtn = document.createElement('button');
     searchBtn.type = 'button';
     searchBtn.className = 'search-apply-btn';
     searchBtn.textContent = '検索する';
     filters.appendChild(searchBtn);
 
-    // サマリー（再検索はここだけ）
     const summary = document.createElement('div');
     summary.className = 'search-summary';
     summary.hidden = true;
@@ -261,15 +249,13 @@ if (!yearSel || !monthSel || !areaSel || !genreSel) {
       summary.hidden = true;
     };
 
-    // 初期表示：新しい順に全件表示
     applyFilters();
 
   } else {
-    // PC：従来通り即時検索
     [yearSel, monthSel, areaSel, genreSel, sortSel, pageSizeInput]
       .forEach(el => el.addEventListener('change', applyFilters));
     keywordInput.addEventListener('input', applyFilters);
     applyFilters();
   }
 
-})();
+});
