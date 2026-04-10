@@ -75,6 +75,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   /* ---------- セレクト生成 ---------- */
   function fillSelect(sel, label, values) {
+      if (!sel) return;  // ★これ追加
     sel.innerHTML = `<option value="">${label}：すべて</option>`;
     values.forEach(v => {
       const o = document.createElement('option');
