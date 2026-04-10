@@ -35,8 +35,9 @@ const footerPromise = loadPart("footer", `parts/footer.html?v=${v}`).then(() => 
   setFooterActive();
 });
 
-// ★これが正しい位置＆書き方
+// ★これが最重要（正しくPromiseを渡す）
 window.partsLoaded = Promise.all([headerPromise, footerPromise]);
+
 // 既存HTML互換用（削除禁止）
 function loadHeaderFooter() {}
 
