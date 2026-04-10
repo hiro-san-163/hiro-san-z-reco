@@ -3,9 +3,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   'use strict';
 
-  // ★追加：include.js の完了待ち（最重要）
-  if (window.partsLoaded) {
-    await window.partsLoaded;
+  // ★ここが決定的に違う
+  while (!window.partsLoaded) {
+    await new Promise(r => setTimeout(r, 10));
+  }
+
+  await window.partsLoaded;
   }
 
   // ★追加：スマホ環境での微妙な遅延対策
