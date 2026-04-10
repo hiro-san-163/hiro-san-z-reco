@@ -1,5 +1,5 @@
-// 山行記録 検索・一覧表示用スクリプト
-(async function () {
+document.addEventListener("DOMContentLoaded", async () => {
+
   'use strict';
 
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
@@ -9,6 +9,8 @@
   if (!resp.ok) return;
 
   const raw = await resp.json();
+
+  
   // データ源の形式が複数存在する可能性に対応
   // 1. 配列として直接データがある場合
   // 2. records というキー配下にある場合
