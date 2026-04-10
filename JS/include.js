@@ -25,19 +25,18 @@ function loadPart(id, url) {
 const v = "20250226";
 
 // header 読み込み
-loadPart("header", `parts/header.html?v=${v}`).then(() => {
+const headerPromise = loadPart("header", `parts/header.html?v=${v}`).then(() => {
   initNavToggle();
-  setHeaderActive(); // ← 追加
+  setHeaderActive();
 });
 
 // footer 読み込み
-loadPart("footer", `parts/footer.html?v=${v}`).then(() => {
+const footerPromise = loadPart("footer", `parts/footer.html?v=${v}`).then(() => {
   setFooterActive();
 });
 
-// 👇追加（ここがポイント）
+// ★これが正しい位置＆書き方
 window.partsLoaded = Promise.all([headerPromise, footerPromise]);
-
 // 既存HTML互換用（削除禁止）
 function loadHeaderFooter() {}
 
