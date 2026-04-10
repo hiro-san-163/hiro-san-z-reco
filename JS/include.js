@@ -35,6 +35,9 @@ loadPart("footer", `parts/footer.html?v=${v}`).then(() => {
   setFooterActive();
 });
 
+// 👇追加（ここがポイント）
+window.partsLoaded = Promise.all([headerPromise, footerPromise]);
+
 // 既存HTML互換用（削除禁止）
 function loadHeaderFooter() {}
 
