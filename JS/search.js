@@ -68,6 +68,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   const listEl = document.getElementById('list');
   const paginationEl = document.getElementById('pagination');
 
+  // 👇ここに入れる👇
+if (!yearSel || !monthSel || !areaSel || !genreSel) {
+  console.warn('セレクト要素が見つからない');
+  return;
+}
+
   /* ---------- ページング状態 ---------- */
   let currentPage = 1;
   let totalPages = 1;
