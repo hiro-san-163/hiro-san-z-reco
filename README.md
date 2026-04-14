@@ -33,7 +33,7 @@
 Blogger（記事生成）
         ↓（JSON / JSONP）
 GitHub Pages（表示・検索UI）
-        ↓
+        ↑
 records.json（統合データ）
 ```
 
@@ -68,7 +68,7 @@ records.json（統合データ）
 │   ├── blogfeed-daily.js
 │   ├── include.js
 │   ├── record_common.js
-│   └── access-counter.js
+│   └── access-counter.js　　←　実装していない
 │
 ├── data/
 │   ├── records.json
