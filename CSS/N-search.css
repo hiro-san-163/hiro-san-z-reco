@@ -362,3 +362,41 @@
   font-size: 1rem;
   color: var(--color-text-body);
 }
+/* データソースUI */
+.ds-checkboxes { display:none; }
+
+@media (max-width:768px){
+  #dataSource{ display:none; }
+  .ds-checkboxes{ display:block; }
+  .ds-checkboxes label{
+    display:block;
+    padding:0.3rem 0;
+  }
+}
+
+/* 色分けタグ */
+.source-tag{
+  margin-left:0.4rem;
+  padding:0.15rem 0.4rem;
+  font-size:0.7rem;
+  border-radius:4px;
+  font-weight:600;
+}
+
+.source-records{
+  background:#e6f3ec;
+  color:#1c6b4f;
+  border:1px solid #cfe2d8;
+}
+
+.source-SBrecords{
+  background:#e8f0fb;
+  color:#2c5aa0;
+  border:1px solid #c6d8f5;
+}
+
+.source-STrecords{
+  background:#f3ede6;
+  color:#7a5a3a;
+  border:1px solid #e0d3c2;
+}
