@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <base href="/hiro-san-z-reco/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>山行記録検索 - hiro-sanの山歩き</title>
+
+  <!-- 共通CSS -->
+  <link rel="stylesheet" href="CSS/style.css">
+  <!-- 検索ページ専用CSS -->
+  <link rel="stylesheet" href="CSS/search.css">
+
+  <link rel="icon" href="favicon.ico">
+</head>
+<body>
+
+  <!-- ★追加：ローディング表示 -->
+  <div id="loading" class="loading">読み込み中...</div>
+
+  <!-- 共通ヘッダー -->
+  <div id="header"></div>
+
+  <!-- ページ固有ヘッダー -->
+  <header class="search-header">
+    <nav class="breadcrumb">
+      <ul>
+        <li><a href="../index.html">ホーム</a></li>
+        <li>logs</li>
+      </ul>
+    </nav>
+
+    <h1>山行記録検索</h1>
+
+    <p class="page-desc">
+      年・山域・ジャンル・キーワードから山行記録を絞り込めます。
+    </p>
+
+    <!-- キーワード検索 -->
+    <div class="keyword-search">
+      <input
+        type="text"
+        id="keyword"
+        placeholder="キーワード（山名・内容・印象的な言葉など）"
+      >
+    </div>
+
+    <!-- フィルタ -->
+    <div class="filters">
+
+      <!-- ★追加：データソース選択 -->
+      <select id="dataSource">
+        <option value="all">すべて</option>
+        <option value="records">通常</option>
+        <option value="SBrecords">SB</option>
+        <option value="STrecords">ST</option>
+      </select>
+
+      <select id="year"></select>
+      <select id="month"></select>
+      <select id="area"></select>
+      <select id="genre"></select>
+
+      <select id="sort">
+        <option value="date_desc" selected>日付（新しい順）</option>
+        <option value="date_asc">日付（古い順）</option>
+        <option value="title_asc">タイトル（A→Z）</option>
+        <option value="title_desc">タイトル（Z→A）</option>
+      </select>
+
+      <input id="pageSize" type="number" min="5" max="100" step="5" value="20">
+    </div>
+  </header>
+
+  <!-- メイン -->
+  <main class="container">
+
+    <!-- 該当件数 -->
+    <div id="count" class="search-result-count"></div>
+
+    <!-- 一覧 -->
+    <div id="list" class="list"></div>
+
+    <!-- ページネーション -->
+    <div id="pagination" class="pagination"></div>
+
+  </main>
+
+  <!-- 共通フッター -->
+  <div id="footer"></div>
+
+  <!-- 共通JS -->
+  <script src="JS/include.js" defer></script>
+  <!-- 検索ページ専用JS -->
+  <script src="JS/search.js" defer></script>
+
+  <!-- パンくず -->
+  <script>
+    setBreadcrumb("logs-index");
+  </script>
+
+</body>
+</html>
