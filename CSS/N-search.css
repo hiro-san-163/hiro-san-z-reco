@@ -400,3 +400,27 @@
   color:#7a5a3a;
   border:1px solid #e0d3c2;
 }
+
+.ds-checkboxes {
+  display: none;
+}
+
+@media (max-width:768px){
+
+  #dataSource {
+    display: none;
+  }
+
+  .ds-checkboxes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 0.3rem 0.6rem;
+  }
+
+  .ds-checkboxes label {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.85rem;
+  }
+}
