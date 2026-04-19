@@ -59,7 +59,7 @@ function initDataSourceSelect() {
     dataSourceSel.appendChild(new Option(labelMap[key], key));
   });
 
-  dataSourceSel.size = dataSourceSel.options.length;
+  // ★修正：multiple用のsize削除（プルダウン化）
   all.selected = true;
 }
 
@@ -96,8 +96,9 @@ function getSelectedSources() {
     return v.includes('all') ? Object.keys(DATA_FILES) : v;
   }
 
-  const v = [...dataSourceSel.selectedOptions].map(o => o.value);
-  return v.includes('all') ? Object.keys(DATA_FILES) : v;
+  // ★修正：single select対応
+  const v = dataSourceSel.value;
+  return v === 'all' ? Object.keys(DATA_FILES) : [v];
 }
 
 /* ---------- データ取得 ---------- */
@@ -310,11 +311,34 @@ areaSel.addEventListener('change', applyFilters);
 genreSel.addEventListener('change', applyFilters);
 sortSel.addEventListener('change', applyFilters);
 pageSizeInput.addEventListener('change', applyFilters);
-keywordInput.addEventListener('input', applyFilters);
+
+/* ★修正：キーワード確定型 */
+keywordInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') applyFilters();
+});
+keywordInput.addEventListener('blur', applyFilters);
+
+/* ★修正：データソース変更時 */
+dataSourceSel.addEventListener('change', async () => {
+  await initData();
+  applyFilters();
+});
 
 /* ---------- 起動 ---------- */
 initDataSourceSelect();
 if (isMobile) initCheckboxes();
+
+/* ★修正：スマホ検索ボタン復活 */
+if (isMobile) {
+  const btn = document.createElement('button');
+  btn.textContent = '検索する';
+  btn.className = 'search-apply-btn';
+  filters.appendChild(btn);
+
+  btn.onclick = () => {
+    applyFilters();
+  };
+}
 
 await initData();
 applyFilters();
