@@ -188,17 +188,129 @@ function renderResults() {
   });
 }
 
-/* ---------- イベント ---------- */
-dataSourceSel.addEventListener('change', async () => {
-  await initData();
-  applyFilters();
-});
+/* ---------- ヘルパー関数 ---------- */
+function toYear(d) {
+  const m = String(d).match(/(\d{4})/);
+  return m ? Number(m[1]) : null;
+}
 
-document.getElementById('dataSourceCheckboxes')
-  .addEventListener('change', async () => {
-    await initData();
-    applyFilters();
+function toMonth(d) {
+  if (!d) return null;
+  const m1 = String(d).match(/\d{4}[-\/](\d{1,2})/);
+  if (m1) return Number(m1[1]);
+  const m2 = String(d).match(/\d{4}年(\d{1,2})月/);
+  if (m2) return Number(m2[1]);
+  return null;
+}
+
+function safeDate(d) {
+  return isNaN(Date.parse(d)) ? 0 : Date.parse(d);
+}
+
+function sortData(data, sortType) {
+  const sorted = [...data];
+  switch (sortType) {
+    case 'date_asc':
+      sorted.sort((a, b) => safeDate(a.date) - safeDate(b.date));
+      break;
+    case 'date_desc':
+      sorted.sort((a, b) => safeDate(b.date) - safeDate(a.date));
+      break;
+    case 'title_asc':
+      sorted.sort((a, b) => a.title.localeCompare(b.title, 'ja'));
+      break;
+    case 'title_desc':
+      sorted.sort((a, b) => b.title.localeCompare(a.title, 'ja'));
+      break;
+    default:
+      sorted.sort((a, b) => safeDate(b.date) - safeDate(a.date));
+  }
+  return sorted;
+}
+
+/* ---------- セレクト生成 ---------- */
+function fillAllSelects() {
+  function fillSelect(sel, label, values) {
+    if (!sel) return;
+    sel.innerHTML = `<option value="">${label}：すべて</option>`;
+    values.forEach(v => {
+      const o = document.createElement('option');
+      o.value = v;
+      o.textContent = v;
+      sel.appendChild(o);
+    });
+  }
+
+  fillSelect(yearSel, '年',
+    [...new Set(norm.map(r => toYear(r.date)).filter(Boolean))].sort((a, b) => b - a)
+  );
+  fillSelect(monthSel, '月',
+    [...new Set(norm.map(r => toMonth(r.date)).filter(Boolean))].sort((a, b) => a - b)
+  );
+  fillSelect(areaSel, '山域', [...new Set(norm.map(r => r.area).filter(Boolean))]);
+  fillSelect(genreSel, 'ジャンル', [...new Set(norm.map(r => r.genre).filter(Boolean))]);
+}
+
+/* ---------- フィルタ ---------- */
+function applyFilters() {
+  const y = yearSel.value;
+  const m = monthSel.value;
+  const a = areaSel.value;
+  const g = genreSel.value;
+
+  const keywords = keywordInput.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  const sortType = sortSel.value;
+
+  let filtered = norm.filter(r => {
+    if (y && toYear(r.date) !== Number(y)) return false;
+    if (m && toMonth(r.date) !== Number(m)) return false;
+    if (a && r.area !== a) return false;
+    if (g && r.genre !== g) return false;
+    if (keywords.length) {
+      const text = r.searchText;
+      return keywords.every(k => text.includes(k));
+    }
+    return true;
   });
+
+  filteredData = sortData(filtered, sortType);
+  currentPage = 1;
+
+  const pageSize = Number(pageSizeInput.value) || 20;
+  totalPages = Math.ceil(filteredData.length / pageSize) || 1;
+
+  countEl.textContent =
+    `該当件数：${filteredData.length}件 / 全${norm.length}件`;
+
+  renderResults();
+  renderPagination();
+}
+
+/* ---------- ページング描画 ---------- */
+function renderPagination() {
+  paginationEl.innerHTML = '';
+  if (totalPages <= 1) return;
+
+  for (let i = 1; i <= totalPages; i++) {
+    const btn = document.createElement('button');
+    btn.textContent = i;
+    if (i === currentPage) btn.classList.add('active');
+    btn.onclick = () => {
+      currentPage = i;
+      renderResults();
+    };
+    paginationEl.appendChild(btn);
+  }
+}
+
+/* ---------- イベント ---------- */
+yearSel.addEventListener('change', applyFilters);
+monthSel.addEventListener('change', applyFilters);
+areaSel.addEventListener('change', applyFilters);
+genreSel.addEventListener('change', applyFilters);
+sortSel.addEventListener('change', applyFilters);
+pageSizeInput.addEventListener('change', applyFilters);
+keywordInput.addEventListener('input', applyFilters);
 
 /* ---------- 起動 ---------- */
 initDataSourceSelect();
