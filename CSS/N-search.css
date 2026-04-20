@@ -345,7 +345,7 @@
 }
 
 /* =====================================
-   ★追加：ローディング表示（安全に独立）
+   ローディング表示
 ===================================== */
 
 #loading {
@@ -355,26 +355,18 @@
   width: 100%;
   height: 100%;
   background: #ffffff;
-  display: none; /* JSで制御 */
+  display: none;
   align-items: center;
   justify-content: center;
   z-index: 9999;
   font-size: 1rem;
   color: var(--color-text-body);
 }
-/* データソースUI */
-.ds-checkboxes { display:none; }
 
-@media (max-width:768px){
-  #dataSource{ display:none; }
-  .ds-checkboxes{ display:block; }
-  .ds-checkboxes label{
-    display:block;
-    padding:0.3rem 0;
-  }
-}
+/* =====================================
+   色分けタグ
+===================================== */
 
-/* 色分けタグ */
 .source-tag{
   margin-left:0.4rem;
   padding:0.15rem 0.4rem;
@@ -401,6 +393,10 @@
   border:1px solid #e0d3c2;
 }
 
+/* =====================================
+   ★データソースUI（最終版）
+===================================== */
+
 .ds-checkboxes {
   display: none;
 }
@@ -422,5 +418,18 @@
     align-items: center;
     gap: 0.3rem;
     font-size: 0.85rem;
+    padding: 4px 6px;
+    border-radius: 6px;
+    background: #eef5f2;
+    cursor: pointer;
+  }
+
+  .ds-checkboxes input {
+    cursor: pointer;
+  }
+
+  .ds-checkboxes label:has(input:checked) {
+    background: #cde8d5;
+    font-weight: 600;
   }
 }
