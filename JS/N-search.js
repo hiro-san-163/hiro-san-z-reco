@@ -65,10 +65,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       dataSourceCheckboxes.appendChild(label);
     });
 
-   // 修正後
-if (isMobile) {
-  dataSourceSel.style.display = 'none';
-}
+      // 修正後
+   if (isMobile) {
+     dataSourceSel.style.display = 'none';
+   }
+  }
+  
   /* ---------- ★追加：checkbox → select同期 ---------- */
   function syncCheckboxToSelect() {
     const checkedValues = Array.from(
