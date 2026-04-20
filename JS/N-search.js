@@ -3,29 +3,27 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   'use strict';
 
-  // ✔ include.js がある場合だけ待つ
   if (window.partsLoaded) {
     await window.partsLoaded;
   }
 
-  // ★追加：スマホ環境での微妙な遅延対策
   await new Promise(r => setTimeout(r, 50));
 
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
-  /* ---------- ★追加：データソース定義 ---------- */
+  /* ---------- データソース定義 ---------- */
   const DATA_FILES = {
     records: 'data/records.json',
     SBrecords: 'data/SBrecords.json',
     STrecords: 'data/STrecords.json'
   };
 
-  /* ---------- ★追加：キャッシュ ---------- */
   const DATA_CACHE = {};
 
-  /* ---------- ★追加：セレクト ---------- */
   const dataSourceSel = document.getElementById('dataSource');
+  const dataSourceCheckboxes = document.getElementById('dataSourceCheckboxes');
 
+  /* ---------- セレクト初期化 ---------- */
   function initDataSourceSelector() {
     if (!dataSourceSel) return;
 
@@ -33,12 +31,81 @@ document.addEventListener("DOMContentLoaded", async () => {
       const opt = document.createElement('option');
       opt.value = key;
       opt.textContent = key;
-      opt.selected = true; // 初期は全選択
+      opt.selected = true;
       dataSourceSel.appendChild(opt);
     });
   }
 
-  /* ---------- ★追加：複数＋キャッシュ対応 ---------- */
+  /* ---------- ★追加：チェックボックス生成 ---------- */
+  function initDataSourceCheckboxes() {
+    if (!dataSourceCheckboxes) return;
+
+    dataSourceCheckboxes.innerHTML = '';
+
+    Object.keys(DATA_FILES).forEach(key => {
+      const label = document.createElement('label');
+      label.className = 'ds-item';
+
+      const cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.value = key;
+      cb.checked = true;
+
+      const span = document.createElement('span');
+      span.textContent = key;
+
+      // ★チェック変更 → selectに反映
+      cb.addEventListener('change', () => {
+        syncCheckboxToSelect();
+        triggerDataReload();
+      });
+
+      label.appendChild(cb);
+      label.appendChild(span);
+      dataSourceCheckboxes.appendChild(label);
+    });
+
+    // selectはUIから隠す（ロジック専用）
+    dataSourceSel.style.display = 'none';
+  }
+
+  /* ---------- ★追加：checkbox → select同期 ---------- */
+  function syncCheckboxToSelect() {
+    const checkedValues = Array.from(
+      dataSourceCheckboxes.querySelectorAll('input:checked')
+    ).map(cb => cb.value);
+
+    Array.from(dataSourceSel.options).forEach(opt => {
+      opt.selected = checkedValues.includes(opt.value);
+    });
+  }
+
+  /* ---------- ★追加：再読み込みトリガ ---------- */
+  async function triggerDataReload() {
+    const newRaw = await loadDataFromSources();
+
+    const newRecords = Array.isArray(newRaw)
+      ? newRaw
+      : (newRaw.records || newRaw.items || Object.values(newRaw));
+
+    norm.length = 0;
+
+    newRecords.forEach(r => {
+      const obj = {
+        date: r.date_s || '',
+        area: r.area || '',
+        genre: r.genre || '',
+        title: r.title || '',
+        summary: r.summary || '',
+        url: r.yamareco_url || r.url || ''
+      };
+      if (obj.date || obj.title) norm.push(obj);
+    });
+
+    applyFilters();
+  }
+
+  /* ---------- データ取得 ---------- */
   async function loadDataFromSources() {
     const selected = dataSourceSel
       ? Array.from(dataSourceSel.selectedOptions).map(o => o.value)
@@ -49,7 +116,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     const results = await Promise.all(
       targets.map(async key => {
 
-        // キャッシュ利用
         if (DATA_CACHE[key]) {
           return DATA_CACHE[key];
         }
@@ -72,12 +138,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     return results.flat();
   }
 
-  /* ---------- データ取得（★ここだけ置き換え） ---------- */
+  /* ---------- 初期化 ---------- */
   initDataSourceSelector();
+  initDataSourceCheckboxes();
 
   const raw = await loadDataFromSources();
 
-  // データ源の形式が複数存在する可能性に対応
   const records = Array.isArray(raw)
     ? raw
     : (raw.records || raw.items || Object.values(raw));
@@ -129,34 +195,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  /* ---------- ★追加：データソース変更時再読込 ---------- */
-  if (dataSourceSel) {
-    dataSourceSel.addEventListener('change', async () => {
-
-      const newRaw = await loadDataFromSources();
-
-      const newRecords = Array.isArray(newRaw)
-        ? newRaw
-        : (newRaw.records || newRaw.items || Object.values(newRaw));
-
-      norm.length = 0;
-
-      newRecords.forEach(r => {
-        const obj = {
-          date: r.date_s || '',
-          area: r.area || '',
-          genre: r.genre || '',
-          title: r.title || '',
-          summary: r.summary || '',
-          url: r.yamareco_url || r.url || ''
-        };
-        if (obj.date || obj.title) norm.push(obj);
-      });
-
-      applyFilters();
-    });
-  }
-
   /* ---------- ページング状態 ---------- */
   let currentPage = 1;
   let totalPages = 1;
@@ -183,7 +221,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   fillSelect(areaSel, '山域', [...new Set(norm.map(r => r.area).filter(Boolean))]);
   fillSelect(genreSel, 'ジャンル', [...new Set(norm.map(r => r.genre).filter(Boolean))]);
 
-  /* ---------- ソート関数 ---------- */
   function sortData(data, sortType) {
     const sorted = [...data];
     switch (sortType) {
@@ -205,7 +242,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     return sorted;
   }
 
-  /* ---------- ページング描画 ---------- */
   function renderPagination() {
     paginationEl.innerHTML = '';
     if (totalPages <= 1) return;
@@ -222,7 +258,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  /* ---------- 結果描画 ---------- */
   function renderResults() {
     const pageSize = Number(pageSizeInput.value) || 20;
     const startIdx = (currentPage - 1) * pageSize;
@@ -258,7 +293,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  /* ---------- フィルタ ---------- */
   function applyFilters() {
     const y = yearSel.value;
     const m = monthSel.value;
@@ -293,7 +327,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderPagination();
   }
 
-  /* ---------- UI ---------- */
   if (isMobile) {
     const searchBtn = document.createElement('button');
     searchBtn.type = 'button';
