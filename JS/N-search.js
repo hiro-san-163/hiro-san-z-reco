@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     ? raw
     : (raw.records || raw.items || Object.values(raw));
 
-  const norm = records.map(r => ({
+  let norm = records.map(r => ({
     date: r.date_s || '',
     area: r.area || '',
     genre: r.genre || '',
