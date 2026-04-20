@@ -65,10 +65,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       dataSourceCheckboxes.appendChild(label);
     });
 
-    // selectはUIから隠す（ロジック専用）
-    dataSourceSel.style.display = 'none';
-  }
-
+   // 修正後
+if (isMobile) {
+  dataSourceSel.style.display = 'none';
+}
   /* ---------- ★追加：checkbox → select同期 ---------- */
   function syncCheckboxToSelect() {
     const checkedValues = Array.from(
@@ -371,8 +371,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   } else {
     [yearSel, monthSel, areaSel, genreSel, sortSel, pageSizeInput]
       .forEach(el => el.addEventListener('change', applyFilters));
-    keywordInput.addEventListener('input', applyFilters);
+  // 修正
+keywordInput.removeEventListener('input', applyFilters);
+
+keywordInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
     applyFilters();
   }
-
-});
+});  
