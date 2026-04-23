@@ -195,6 +195,13 @@ for (const src of sources) {
     });
   }
 
+  // ← applyFiltersの「前」でOK
+
+function getSelectedSources() {
+  const checks = document.querySelectorAll('#dataSelector input:checked');
+  return Array.from(checks).map(c => c.value);
+}
+
   /* ---------- フィルタ ---------- */
   function applyFilters() {
     const y = yearSel.value;
@@ -205,7 +212,13 @@ for (const src of sources) {
     const keywords = keywordInput.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
     const sortType = sortSel.value;
 
+    //これも追加
+    const selectedSources = getSelectedSources();
+    
     let filtered = norm.filter(r => {
+     // ★追加（ここだけ）
+      if (selectedSources.length && !selectedSources.includes(r.__source)) return false; 
+      
       if (y && toYear(r.date) !== Number(y)) return false;
       if (m && toMonth(r.date) !== Number(m)) return false;
       if (a && r.area !== a) return false;
@@ -276,6 +289,11 @@ for (const src of sources) {
     [yearSel, monthSel, areaSel, genreSel, sortSel, pageSizeInput]
       .forEach(el => el.addEventListener('change', applyFilters));
     keywordInput.addEventListener('input', applyFilters);
+
+  // ★追加（ここ）
+  document.querySelectorAll('#dataSelector input')
+    .forEach(el => el.addEventListener('change', applyFilters));
+    
     applyFilters();
   }
 
