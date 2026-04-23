@@ -294,8 +294,11 @@ function getSelectedSources() {
   } else {
     [yearSel, monthSel, areaSel, genreSel, sortSel, pageSizeInput]
       .forEach(el => el.addEventListener('change', applyFilters));
-    keywordInput.addEventListener('input', applyFilters);
-
+    keywordInput.addEventListener('keyup', (e) => {
+  if (e.key === 'Enter') {
+    applyFilters();
+  }
+});
   // ★追加（ここ）
   document.querySelectorAll('#dataSelector input')
     .forEach(el => el.addEventListener('change', applyFilters));
