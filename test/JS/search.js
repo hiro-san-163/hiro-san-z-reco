@@ -267,16 +267,23 @@ function getSelectedSources() {
     header.after(summary);
 
     function buildSummary() {
-      const p = [];
-      if (yearSel.value) p.push(`年=${yearSel.value}`);
-      if (monthSel.value) p.push(`月=${monthSel.value}`);
-      if (areaSel.value) p.push(`山域=${areaSel.value}`);
-      if (genreSel.value) p.push(`ジャンル=${genreSel.value}`);
-      if (keywordInput.value.trim()) p.push(`KW=${keywordInput.value.trim()}`);
-      return p.join(' / ') || 'すべて';
-    }
+  const p = [];
 
-    searchBtn.onclick = () => {
+  const selectedSources = getSelectedSources();
+
+  if (selectedSources.length) {
+    p.push(`データ=${selectedSources.join(',')}`);
+  }
+
+  if (yearSel.value) p.push(`年=${yearSel.value}`);
+  if (monthSel.value) p.push(`月=${monthSel.value}`);
+  if (areaSel.value) p.push(`山域=${areaSel.value}`);
+  if (genreSel.value) p.push(`ジャンル=${genreSel.value}`);
+  if (keywordInput.value.trim()) p.push(`KW=${keywordInput.value.trim()}`);
+
+  return p.join(' / ') || 'すべて';
+}
+     searchBtn.onclick = () => {
       applyFilters();
       header.classList.add('cond-hidden');
       summary.hidden = false;
