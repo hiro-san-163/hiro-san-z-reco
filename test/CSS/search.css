@@ -1,1 +1,344 @@
+/* =====================================
+   検索ページ専用（安定版・整理済）
+===================================== */
 
+/* CSS変数定義（style.cssと共通） */
+:root {
+  --color-heading: #144b33;
+  --color-heading-secondary: #1c6b4f;
+  --color-text-body: #333;
+  --color-text-muted: #567;
+  --brand: #1c6b4f;
+  --muted: #567;
+  
+  --size-h1: 2rem;
+  --size-h2: 1.4rem;
+  --size-h3: 1.05rem;
+  --size-body: 1rem;
+  --size-small: 0.9rem;
+  --size-muted: 0.85rem;
+}
+
+/* =====================================
+   検索ヘッダー（幅制限・他ページに統一）
+===================================== */
+
+.search-header {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 15px;
+}
+
+.search-header h1 {
+  margin: 20px 0 0.5rem;
+  font-size: 1.8rem;
+}
+
+.search-header .breadcrumb {
+  margin: 0;
+  padding: 0;
+}
+
+.search-header .breadcrumb ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: var(--size-muted);
+}
+
+.search-header .breadcrumb li {
+  display: inline;
+}
+
+.search-header .breadcrumb li:not(:last-child)::after {
+  content: ' > ';
+}
+
+.page-desc {
+  margin: 0 0 1rem;
+  color: var(--color-text-muted);
+}
+
+/* =====================================
+   スマホ版：条件選択エリアの表示・非表示
+===================================== */
+
+@media (max-width: 768px) {
+  .search-header.cond-hidden {
+    display: none;
+  }
+  
+  .search-summary {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 15px;
+    background: #eef5f2;
+    border-radius: 6px;
+    padding: 1rem 15px;
+  }
+  
+  .search-summary .summary-text {
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    color: #567;
+  }
+  
+  .search-summary .summary-edit {
+    width: 100%;
+    padding: 0.6rem;
+    background: #dfe9e3;
+    color: var(--brand);
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  
+  .search-summary .summary-edit:hover {
+    opacity: 0.9;
+  }
+}
+
+/* =====================================
+   キーワード検索エリア
+===================================== */
+
+.keyword-search {
+  margin-bottom: 0.75rem;
+}
+
+.keyword-search input {
+  width: 100%;
+  height: 2.3rem;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.9rem;
+  border: 1px solid #cfe2d8;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* =====================================
+   検索条件エリア（レスポンシブ対応）
+===================================== */
+
+.filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.75rem;
+  align-items: end;
+}
+
+.filters select,
+.filters input[type="number"] {
+  height: 2.3rem;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.9rem;
+  border: 1px solid #cfe2d8;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* スマホ版：フィルター調整 */
+@media (max-width: 768px) {
+  .filters {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .filters select,
+  .filters input[type="number"] {
+    width: 100%;
+  }
+  
+  .search-apply-btn {
+    grid-column: 1 / -1;
+    height: 2.3rem;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.9rem;
+    background: var(--brand);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  
+  .search-apply-btn:hover {
+    opacity: 0.9;
+  }
+}
+
+/* =====================================
+   山行ログ一覧（レスポンシブ対応）
+===================================== */
+
+.list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+/* デスクトップ版：3列グリッド */
+@media (min-width: 769px) {
+  .card {
+    background: #fff;
+    border: 1px solid #e0eee8;
+    border-radius: 6px;
+    padding: 0.7rem 0.9rem;
+    
+    display: grid;
+    grid-template-columns: 130px 1fr 90px;
+    grid-template-areas:
+      "date title actions"
+      "meta meta actions";
+    gap: 0.3rem 0.8rem;
+  }
+  
+  .card .date {
+    grid-area: date;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  
+  .card .title {
+    grid-area: title;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  
+  .card .meta {
+    grid-area: meta;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  
+  .card .actions {
+    grid-area: actions;
+    text-align: right;
+  }
+  
+  .card .btn {
+    display: inline-block;
+    padding: 0.3rem 0.5rem;
+    font-size: 0.8rem;
+    border-radius: 4px;
+    background: #eef5f2;
+    color: var(--brand);
+    border: 1px solid #cfe2d8;
+    text-decoration: none;
+  }
+  
+  .card .btn:hover {
+    background: #e0efe8;
+  }
+}
+
+/* スマホ版：シンプルレイアウト */
+@media (max-width: 768px) {
+  .card {
+    background: #fff;
+    border: 1px solid #e0eee8;
+    border-radius: 6px;
+    padding: 0.7rem 0.9rem;
+    display: block;
+  }
+  
+  .card .meta {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+  
+  .card .title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0;
+  }
+  
+  .card .title a {
+    color: var(--brand);
+    text-decoration: none;
+  }
+  
+  .card .title a:hover {
+    text-decoration: underline;
+  }
+  
+  .card .date {
+    display: none;
+  }
+  
+  .card .btn {
+    display: none;
+  }
+}
+
+.card .title a {
+  color: var(--brand);
+  text-decoration: none;
+}
+
+.card .title a:hover {
+  text-decoration: underline;
+}
+
+/* =====================================
+   ページング（レスポンシブ対応）
+===================================== */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 1.8rem 0;
+  max-width: 100%;
+}
+
+.pagination button {
+  padding: 0.4rem 0.7rem;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  border: 1px solid #cfe2d8;
+  background: #fff;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.pagination button.active {
+  background: var(--brand);
+  color: #fff;
+  border-color: var(--brand);
+}
+
+@media (max-width: 768px) {
+  .pagination {
+    gap: 0.3rem;
+    margin: 1.5rem 0;
+  }
+  
+  .pagination button {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* =====================================
+   空表示
+===================================== */
+
+.empty {
+  text-align: center;
+  padding: 2rem;
+  color: var(--muted);
+}
+/* =====================================
+   カードクリックUI（押した感）
+===================================== */
+
+.card {
+  cursor: pointer;
+  transition: transform 0.08s;
+}
+
+.card:active {
+  transform: scale(0.98);
+}
