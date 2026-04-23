@@ -13,17 +13,38 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
-  /* ---------- データ取得 ---------- */
-  const resp = await fetch('data/records.json', { cache: 'no-store' });
-  if (!resp.ok) return;
+// ---------- 複数JSON取得 ----------
+const sources = [
+  { url: 'data/records.json', label: 'hiro-san' },
+  { url: 'data/SBrecords.json', label: 'silverboy' },
+  { url: 'data/STrecords.json', label: 'syoutann' }
+];
 
-  const raw = await resp.json();
+let records = [];
 
-  
-  // データ源の形式が複数存在する可能性に対応
-  const records = Array.isArray(raw)
-    ? raw
-    : (raw.records || raw.items || Object.values(raw));
+for (const src of sources) {
+  try {
+    const resp = await fetch(src.url, { cache: 'no-store' });
+    if (!resp.ok) continue;
+
+    const raw = await resp.json();
+
+    const arr = Array.isArray(raw)
+      ? raw
+      : (raw.records || raw.items || Object.values(raw));
+
+    // ★ここが今回の肝：source情報を付与
+    const tagged = arr.map(r => ({
+      ...r,
+      __source: src.label
+    }));
+
+    records = records.concat(tagged);
+
+  } catch (e) {
+    console.warn('JSON読み込み失敗:', src.url, e);
+  }
+}
 
   const norm = records.map(r => ({
     date: r.date_s || '',
