@@ -33,10 +33,9 @@ for (const src of sources) {
       ? raw
       : (raw.records || raw.items || Object.values(raw));
 
-    // ★ここが今回の肝：source情報を付与
     const tagged = arr.map(r => ({
       ...r,
-      __source: src.label
+      __source: src.label   // ★これが必須
     }));
 
     records = records.concat(tagged);
@@ -205,6 +204,12 @@ function getSelectedSources() {
 
   /* ---------- フィルタ ---------- */
   function applyFilters() {
+
+  // ★ここに入れる
+  console.log('selected:', getSelectedSources());
+  console.log('sources in data:', [...new Set(records.map(r => r.__source))]);
+  console.log('sources in norm:', [...new Set(norm.map(r => r.__source))]);
+    
     const y = yearSel.value;
     const m = monthSel.value;
     const a = areaSel.value;
