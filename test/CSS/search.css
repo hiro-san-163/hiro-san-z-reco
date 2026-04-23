@@ -342,3 +342,16 @@
 .card:active {
   transform: scale(0.98);
 }
+
+/* =====================================
+   データソース選択（STEP3追加）
+===================================== */
+
+.data-selector {
+  margin-bottom: 0.8rem;
+  font-size: 0.9rem;
+}
+
+.data-selector label {
+  margin-right: 10px;
+}
