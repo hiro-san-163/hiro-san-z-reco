@@ -52,7 +52,8 @@ for (const src of sources) {
     genre: r.genre || '',
     title: r.title || '',
     summary: r.summary || '',
-    url: r.yamareco_url || r.url || ''
+    url: r.yamareco_url || r.url || '',
+  __source: r.__source || 'main' // ★追加
   })).filter(r => r.date || r.title);
 
   const toYear = d => {
