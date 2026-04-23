@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
   /* ---------- データ取得 ---------- */
-  const resp = await fetch('test/records.json');
+  const resp = await fetch('test/records.json', { cache: 'no-store' });
   if (!resp.ok) return;
 
   const raw = await resp.json();
