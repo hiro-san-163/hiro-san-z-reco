@@ -381,7 +381,13 @@
 }
 
 /* 選択中の強調 */
-.data-selector input:checked + * {
+.data-selector input:checked {
+  accent-color: var(--brand);
+}
+
+.data-selector label:has(input:checked) {
+  background: #cfe2d8;
+  border-color: var(--brand);
   font-weight: 600;
 }
 
