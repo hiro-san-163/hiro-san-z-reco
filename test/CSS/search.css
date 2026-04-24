@@ -355,3 +355,77 @@
 .data-selector label {
   margin-right: 10px;
 }
+/* =====================================
+   STEP5 UI仕上げ（追加のみ）
+===================================== */
+
+/* データ選択UI */
+.data-selector {
+  margin-bottom: 0.8rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.data-selector label {
+  font-size: 0.85rem;
+  background: #eef5f2;
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid #cfe2d8;
+}
+
+.data-selector input {
+  margin-right: 0.2rem;
+}
+
+/* 選択中の強調 */
+.data-selector input:checked + * {
+  font-weight: 600;
+}
+
+/* カード：ソースラベル強調 */
+.card .meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.card .meta::after {
+  content: "";
+}
+
+/* ソース表示を少し目立たせる */
+.card .meta {
+  font-size: 0.8rem;
+}
+
+.card .meta span.source {
+  background: #dfe9e3;
+  padding: 0 4px;
+  border-radius: 3px;
+  font-size: 0.75rem;
+}
+
+/* 空表示 */
+.empty {
+  text-align: center;
+  padding: 2rem;
+  color: #567;
+  font-size: 0.95rem;
+}
+
+/* スマホ調整 */
+@media (max-width: 768px) {
+
+  .data-selector {
+    gap: 0.4rem;
+  }
+
+  .data-selector label {
+    flex: 1 1 calc(50% - 4px);
+    text-align: center;
+  }
+
+}
