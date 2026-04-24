@@ -1,50 +1,62 @@
-// 山行記録 検索・一覧表示用スクリプト
 document.addEventListener("DOMContentLoaded", async () => {
 
   'use strict';
 
-  // ✔ include.js がある場合だけ待つ
   if (window.partsLoaded) {
     await window.partsLoaded;
   }
 
-  // ★追加：スマホ環境での微妙な遅延対策
   await new Promise(r => setTimeout(r, 50));
 
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
-// ---------- 複数JSON取得 ----------
-const sources = [
-  { url: 'data/records.json', label: 'hiro-san' },
-  { url: 'data/SBrecords.json', label: 'silverboy' },
-  { url: 'data/STrecords.json', label: 'syoutann' }
-];
+  /* ---------- ★追加：データソース ---------- */
+  const sources = [
+    { url: 'data/records.json', label: 'hiro-san' },
+    { url: 'data/SBrecords.json', label: 'silverboy' },
+    { url: 'data/STrecords.json', label: 'syoutann' }
+  ];
 
-let records = [];
+  /* ---------- ★追加：キャッシュ付き取得 ---------- */
+  const CACHE_KEY = 'logRecordsCache_v1';
 
-for (const src of sources) {
-  try {
-    const resp = await fetch(src.url, { cache: 'no-store' });
-    if (!resp.ok) continue;
+  async function loadAllRecords() {
+    const cached = sessionStorage.getItem(CACHE_KEY);
+    if (cached) return JSON.parse(cached);
 
-    const raw = await resp.json();
+    let records = [];
 
-    const arr = Array.isArray(raw)
-      ? raw
-      : (raw.records || raw.items || Object.values(raw));
+    for (const src of sources) {
+      try {
+        const resp = await fetch(src.url, { cache: 'no-store' });
+        if (!resp.ok) continue;
 
-    const tagged = arr.map(r => ({
-      ...r,
-      __source: src.label   // ★これが必須
-    }));
+        const raw = await resp.json();
 
-    records = records.concat(tagged);
+        const arr = Array.isArray(raw)
+          ? raw
+          : (raw.records || raw.items || Object.values(raw));
 
-  } catch (e) {
-    console.warn('JSON読み込み失敗:', src.url, e);
+        const tagged = arr.map(r => ({
+          ...r,
+          __source: src.label // ★追加
+        }));
+
+        records = records.concat(tagged);
+
+      } catch (e) {
+        console.warn('JSON読み込み失敗:', src.url, e);
+      }
+    }
+
+    sessionStorage.setItem(CACHE_KEY, JSON.stringify(records));
+    return records;
   }
-}
 
+  /* ---------- データ取得（置き換え） ---------- */
+  const records = await loadAllRecords(); // ★変更
+
+  /* ---------- 正規化 ---------- */
   const norm = records.map(r => ({
     date: r.date_s || '',
     area: r.area || '',
@@ -52,8 +64,16 @@ for (const src of sources) {
     title: r.title || '',
     summary: r.summary || '',
     url: r.yamareco_url || r.url || '',
-  __source: r.__source || 'main' // ★追加
+    __source: r.__source || 'main' // ★追加
   })).filter(r => r.date || r.title);
+
+  /* ---------- ★追加：データ選択 ---------- */
+  function getSelectedSources() {
+    return Array.from(document.querySelectorAll('#dataSelector input:checked'))
+      .map(el => el.value.trim());
+  }
+
+  /* ---------- 以下ほぼ既存そのまま ---------- */
 
   const toYear = d => {
     const m = String(d).match(/(\d{4})/);
@@ -72,7 +92,6 @@ for (const src of sources) {
   const safeDate = d =>
     isNaN(Date.parse(d)) ? 0 : Date.parse(d);
 
-  /* ---------- DOM ---------- */
   const header = document.querySelector('.search-header');
   const filters = document.querySelector('.filters');
 
@@ -88,20 +107,11 @@ for (const src of sources) {
   const listEl = document.getElementById('list');
   const paginationEl = document.getElementById('pagination');
 
-  // ★既存：セレクト存在チェック（OK）
-  if (!yearSel || !monthSel || !areaSel || !genreSel) {
-    console.warn('セレクト要素が見つからない');
-    return;
-  }
-
-  /* ---------- ページング状態 ---------- */
   let currentPage = 1;
   let totalPages = 1;
   let filteredData = [];
 
-  /* ---------- セレクト生成 ---------- */
   function fillSelect(sel, label, values) {
-    if (!sel) return; // ★安全化
     sel.innerHTML = `<option value="">${label}：すべて</option>`;
     values.forEach(v => {
       const o = document.createElement('option');
@@ -120,7 +130,6 @@ for (const src of sources) {
   fillSelect(areaSel, '山域', [...new Set(norm.map(r => r.area).filter(Boolean))]);
   fillSelect(genreSel, 'ジャンル', [...new Set(norm.map(r => r.genre).filter(Boolean))]);
 
-  /* ---------- ソート関数 ---------- */
   function sortData(data, sortType) {
     const sorted = [...data];
     switch (sortType) {
@@ -142,7 +151,6 @@ for (const src of sources) {
     return sorted;
   }
 
-  /* ---------- ページング描画 ---------- */
   function renderPagination() {
     paginationEl.innerHTML = '';
     if (totalPages <= 1) return;
@@ -159,57 +167,49 @@ for (const src of sources) {
     }
   }
 
-  /* ---------- 結果描画 ---------- */
   function renderResults() {
     const pageSize = Number(pageSizeInput.value) || 20;
     const startIdx = (currentPage - 1) * pageSize;
-    const endIdx = startIdx + pageSize;
-    const pageData = filteredData.slice(startIdx, endIdx);
+    const pageData = filteredData.slice(startIdx, startIdx + pageSize);
 
     listEl.innerHTML = '';
+
+    if (pageData.length === 0) {
+      listEl.innerHTML = `<div class="empty">該当する記録がありません</div>`; // ★追加
+      return;
+    }
+
     pageData.forEach(r => {
       const card = document.createElement('div');
       card.className = 'card';
-      
+
       if (isMobile) {
         card.innerHTML = `
-          <div class="meta">${r.date} / ${r.area} / ${r.genre}</div>
+          <div class="meta">${r.date} / ${r.area} / ${r.genre} / ${r.__source}</div>
           <div class="title"><a href="${r.url}" target="_blank">${r.title}</a></div>
         `;
       } else {
         card.innerHTML = `
           <div class="date">${r.date}</div>
           <div class="title"><a href="${r.url}" target="_blank">${r.title}</a></div>
-          <div class="meta">山域：${r.area} / ジャンル：${r.genre}</div>
+          <div class="meta">山域：${r.area} / ジャンル：${r.genre} / ${r.__source}</div>
           ${r.url ? `<a class="btn" href="${r.url}" target="_blank">記事を開く</a>` : ''}
         `;
       }
 
-      card.style.cursor = 'pointer';
       card.addEventListener('click', (e) => {
         if (e.target.closest('a')) return;
         if (r.url) window.open(r.url, '_blank');
       });
-      
+
       listEl.appendChild(card);
     });
   }
 
-  // ← applyFiltersの「前」でOK
-
-function getSelectedSources() {
-  const checks = document.querySelectorAll('#dataSelector input:checked');
-  return Array.from(checks).map(c => c.value);
-}
-
-  /* ---------- フィルタ ---------- */
   function applyFilters() {
 
-  // ★ここに入れる
-  console.log('selected:', getSelectedSources());
-  console.log('sources in data:', [...new Set(records.map(r => r.__source))]);
-  console.log('sources in norm:', [...new Set(norm.map(r => r.__source))]);
-    
+    const selectedSources = getSelectedSources(); // ★追加
+
     const y = yearSel.value;
     const m = monthSel.value;
     const a = areaSel.value;
@@ -218,21 +218,20 @@ function getSelectedSources() {
     const keywords = keywordInput.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
     const sortType = sortSel.value;
 
-    //これも追加
-    const selectedSources = getSelectedSources();
-    
     let filtered = norm.filter(r => {
-     // ★追加（ここだけ）
-      if (selectedSources.length && !selectedSources.includes(r.__source)) return false; 
-      
+
+      if (selectedSources.length && !selectedSources.includes((r.__source || '').trim())) return false; // ★追加
+
       if (y && toYear(r.date) !== Number(y)) return false;
       if (m && toMonth(r.date) !== Number(m)) return false;
       if (a && r.area !== a) return false;
       if (g && r.genre !== g) return false;
+
       if (keywords.length) {
         const text = `${r.title} ${r.summary}`.toLowerCase();
         return keywords.every(k => text.includes(k));
       }
+
       return true;
     });
 
@@ -249,8 +248,10 @@ function getSelectedSources() {
     renderPagination();
   }
 
-  /* ---------- UI ---------- */
+  /* ---------- イベント ---------- */
+
   if (isMobile) {
+
     const searchBtn = document.createElement('button');
     searchBtn.type = 'button';
     searchBtn.className = 'search-apply-btn';
@@ -267,23 +268,19 @@ function getSelectedSources() {
     header.after(summary);
 
     function buildSummary() {
-  const p = [];
+      const p = [];
+      const s = getSelectedSources(); // ★追加
+      if (s.length) p.push(`データ=${s.join(',')}`); // ★追加
 
-  const selectedSources = getSelectedSources();
+      if (yearSel.value) p.push(`年=${yearSel.value}`);
+      if (monthSel.value) p.push(`月=${monthSel.value}`);
+      if (areaSel.value) p.push(`山域=${areaSel.value}`);
+      if (genreSel.value) p.push(`ジャンル=${genreSel.value}`);
+      if (keywordInput.value.trim()) p.push(`KW=${keywordInput.value.trim()}`);
+      return p.join(' / ') || 'すべて';
+    }
 
-  if (selectedSources.length) {
-    p.push(`データ=${selectedSources.join(',')}`);
-  }
-
-  if (yearSel.value) p.push(`年=${yearSel.value}`);
-  if (monthSel.value) p.push(`月=${monthSel.value}`);
-  if (areaSel.value) p.push(`山域=${areaSel.value}`);
-  if (genreSel.value) p.push(`ジャンル=${genreSel.value}`);
-  if (keywordInput.value.trim()) p.push(`KW=${keywordInput.value.trim()}`);
-
-  return p.join(' / ') || 'すべて';
-}
-     searchBtn.onclick = () => {
+    searchBtn.onclick = () => {
       applyFilters();
       header.classList.add('cond-hidden');
       summary.hidden = false;
@@ -299,17 +296,17 @@ function getSelectedSources() {
     applyFilters();
 
   } else {
+
     [yearSel, monthSel, areaSel, genreSel, sortSel, pageSizeInput]
       .forEach(el => el.addEventListener('change', applyFilters));
+
     keywordInput.addEventListener('keyup', (e) => {
-  if (e.key === 'Enter') {
-    applyFilters();
-  }
-});
-  // ★追加（ここ）
-  document.querySelectorAll('#dataSelector input')
-    .forEach(el => el.addEventListener('change', applyFilters));
-    
+      if (e.key === 'Enter') applyFilters();
+    });
+
+    document.querySelectorAll('#dataSelector input') // ★追加
+      .forEach(el => el.addEventListener('change', applyFilters));
+
     applyFilters();
   }
 
