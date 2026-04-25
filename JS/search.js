@@ -184,19 +184,24 @@ document.addEventListener("DOMContentLoaded", async () => {
       card.className = 'card';
 
       if (isMobile) {
-        card.innerHTML = `
-          <div class="meta">${r.date} / ${r.area} / ${r.genre} / ${r.__source}</div>
-          <div class="title"><a href="${r.url}" target="_blank">${r.title}</a></div>
-        `;
-      } else {
-        card.innerHTML = `
-          <div class="date">${r.date}</div>
-          <div class="title"><a href="${r.url}" target="_blank">${r.title}</a></div>
-          <div class="meta">山域：${r.area} / ジャンル：${r.genre} / ${r.__source}</div>
-          ${r.url ? `<a class="btn" href="${r.url}" target="_blank">記事を開く</a>` : ''}
-        `;
-      }
-
+  card.innerHTML = `
+    <div class="meta">
+      ${r.date} / ${r.area} / ${r.genre}
+      <span class="source source-${r.__source}">${r.__source}</span>
+    </div>
+    <div class="title"><a href="${r.url}" target="_blank">${r.title}</a></div>
+  `;
+} else {
+  card.innerHTML = `
+    <div class="date">${r.date}</div>
+    <div class="title"><a href="${r.url}" target="_blank">${r.title}</a></div>
+    <div class="meta">
+      山域：${r.area} / ジャンル：${r.genre}
+      <span class="source source-${r.__source}">${r.__source}</span>
+    </div>
+    ${r.url ? `<a class="btn" href="${r.url}" target="_blank">記事を開く</a>` : ''}
+  `;
+}
       card.addEventListener('click', (e) => {
         if (e.target.closest('a')) return;
         if (r.url) window.open(r.url, '_blank');
