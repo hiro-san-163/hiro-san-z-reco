@@ -31,9 +31,16 @@
     <h1>山行記録検索</h1>
 
     <p class="page-desc">
-      年・山域・ジャンル・キーワードから山行記録を絞り込めます。
+      検索対象データを選んだあと、キーワード・年・山域・ジャンルから山行記録を絞り込めます。
     </p>
-
+    
+ <!-- フィルタ -->
+    <div class="data-selector" id="dataSelector">
+      <label><input type="checkbox" value="hiro-san" checked> hiro-san</label>
+      <label><input type="checkbox" value="silverboy" checked> silverboy</label>
+      <label><input type="checkbox" value="syoutann" checked> syoutann</label>
+   </div>
+    
     <!-- キーワード検索 -->
     <div class="keyword-search">
       <input
@@ -43,7 +50,6 @@
       >
     </div>
 
-    <!-- フィルタ -->
     <div class="filters">
       <select id="year"></select>
       <select id="month"></select> <!-- ★追加 -->
