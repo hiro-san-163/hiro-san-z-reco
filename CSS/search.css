@@ -430,28 +430,31 @@
 }
 
 /* =====================================
-   ソースラベル色分け（最終上書き）
+   ソースラベル調整（パステル＋可読性）
 ===================================== */
 
 .source {
   display: inline-block;
   margin-left: 4px;
-  padding: 1px 6px;
+  padding: 2px 7px;
   font-size: 0.7rem;
   border-radius: 4px;
+  border: 1px solid rgba(0,0,0,0.08);
   font-weight: 600;
-  color: #fff;
+  color: #2f4f3e; /* 少し落ち着いた文字色 */
+
+  letter-spacing: 0.05em; /* ★文字間隔追加 */
 }
 
-/* 個別色 */
+/* パステル系カラー */
 .source-hiro-san {
-  background: #2e7d32;
+  background: #c8e6c9; /* 薄い緑 */
 }
 
 .source-silverboy {
-  background: #1565c0;
+  background: #bbdefb; /* 薄い青 */
 }
 
 .source-syoutann {
-  background: #c62828;
+  background: #ffcdd2; /* 薄い赤 */
 }
