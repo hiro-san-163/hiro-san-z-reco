@@ -174,6 +174,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     listEl.innerHTML = '';
 
+    // ← カード描画（省略）
+
+ 　　renderPagination(); // ★これが必要
+
     if (pageData.length === 0) {
       listEl.innerHTML = `<div class="empty">該当する記録がありません</div>`; // ★追加
       return;
