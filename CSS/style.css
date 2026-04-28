@@ -278,13 +278,13 @@ a:hover{ text-decoration:underline; }
 .nav-secondary{
   display:flex;
   flex-direction:column;
-  gap:18px;
+  gap:12px;
 }
 
 .nav-primary a,
 .nav-secondary a{
   display:block;
-  padding:18px 24px;
+  padding:14px 18px;
   border-radius:18px;
   background:rgba(255,255,255,0.55);
   backdrop-filter:blur(18px) saturate(160%);
@@ -302,7 +302,7 @@ a:hover{ text-decoration:underline; }
 }
 
 .nav-secondary a{
-  font-size:1.15rem;
+  font-size:1.05rem;
 }
 
 .nav-primary a:hover,
@@ -688,13 +688,14 @@ a:hover{ text-decoration:underline; }
 }
 
 .nav-secondary{
-  display:flex;
+  display:flex;!important;
   flex-wrap:wrap;
   gap:10px;
 }
 
 .nav-secondary a{
-  flex:0 0 calc(50% - 5px); /* 常に2列 */
+  flex:0 0 calc(50% - 5px)!important; /* 常に2列 */
+   max-width:calc(50% - 5px);
 }
 .home-nav a:active{
   transform:scale(0.96);
