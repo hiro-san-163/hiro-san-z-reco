@@ -822,3 +822,8 @@ a:hover{ text-decoration:underline; }
   border-bottom:2px solid #ffffff;
   padding-bottom:4px;
 }
+
+/* ナビ：非表示制御（保険） */
+.nav-hidden{
+  display:none;
+}
