@@ -271,14 +271,14 @@ a:hover{ text-decoration:underline; }
 .home-nav{
   display:flex;
   flex-direction:column;
-  gap:40px;
+  gap:24px;
 }
 
 .nav-primary,
 .nav-secondary{
   display:flex;
   flex-direction:column;
-  gap:12px;
+  gap:10px;
 }
 
 .nav-primary a,
@@ -636,14 +636,14 @@ a:hover{ text-decoration:underline; }
 .home-nav{
   display:flex;
   flex-direction:column;
-  gap:20px;
+  gap:16px;
 }
 
 /* ▼ primary（間隔を少し広げる） */
 .nav-primary{
   display:flex;
   gap:12px;
-  margin-bottom:6px; /* ← ここ追加（secondaryとの間隔） */
+  margin-bottom:0px; /* ← ここ追加（secondaryとの間隔） */
 }
 
 /* ▼ secondary（★ここ修正：grid → flex） */
@@ -688,7 +688,7 @@ a:hover{ text-decoration:underline; }
 }
 
 .nav-secondary{
-  display:flex;!important;
+  display:flex !important;
   flex-wrap:wrap;
   gap:10px;
 }
