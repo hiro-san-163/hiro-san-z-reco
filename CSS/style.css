@@ -687,10 +687,14 @@ a:hover{ text-decoration:underline; }
   flex:0 0 calc(50% - 4px);
 }
 
-/* ▼ 3個目以降（＝2段目）を3列に */
-.nav-secondary a:nth-child(n+3){
-  flex:0 0 calc(33.333% - 6px);
-  margin-top:14px; /* 1行目と2行目の間隔を広げて押し間違え軽減 */
+.nav-secondary{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.nav-secondary a{
+  flex:0 0 calc(50% - 5px); /* 常に2列 */
 }
 .home-nav a:active{
   transform:scale(0.96);
@@ -823,7 +827,6 @@ a:hover{ text-decoration:underline; }
   padding-bottom:4px;
 }
 
-/* ナビ：非表示制御（保険） */
-.nav-hidden{
-  display:none;
+.nav-secondary a.nav-hidden{
+  display:none !important;
 }
