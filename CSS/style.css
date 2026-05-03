@@ -1,9 +1,5 @@
-/* ======================================
-   BASE
-====================================== */
-
-/* ======================================
-   CSS変数：共通色とフォント定義
+/*/* ======================================
+   01 ROOT VARIABLES
 ====================================== */
 :root {
   --color-heading: #144b33;          /* 見出し（濃い緑） */
@@ -11,7 +7,10 @@
   --color-text-body: #333;            /* 本文 */
   --color-text-muted: #567;           /* 補助テキスト */
   --color-brand: #245d44;             /* ブランドカラー（リンク） */
-  
+
+/* ======================================
+   02 BASE
+====================================== */
   /* フォントサイズ */
   --size-h1: 2rem;
   --size-h2: 1.4rem;
@@ -88,7 +87,7 @@ a:hover{ text-decoration:underline; }
 }
 
 /* ======================================
-   HEADER
+   03 HEADER
 ====================================== */
 
 .site-header{
@@ -119,6 +118,9 @@ a:hover{ text-decoration:underline; }
   text-decoration:none;
 }
 
+/* ======================================
+   04 HOME NAVIGATION
+====================================== */
 /* グローバルナビ（PC） */
 .global-nav ul{
   list-style:none;
@@ -145,7 +147,7 @@ a:hover{ text-decoration:underline; }
 }
 
 /* ======================================
-   BREADCRUMB
+   05 BREADCRUMB
 ====================================== */
 
 .breadcrumb ul{
@@ -168,7 +170,7 @@ a:hover{ text-decoration:underline; }
 }
 
 /* ======================================
-   FOOTER
+   06 FOOTER
 ====================================== */
 
 .site-footer{
@@ -210,7 +212,7 @@ a:hover{ text-decoration:underline; }
 }
 
 /* ======================================
-   PAGINATION（追加）
+   07 PAGINATION（追加）
 ====================================== */
 
 #pagination{
@@ -237,7 +239,7 @@ a:hover{ text-decoration:underline; }
 }
 
 /* ======================================
-   PC LAYOUT（トップ）
+   08 PC LAYOUT（トップ）
 ====================================== */
 
 @media (min-width:961px){
@@ -317,6 +319,10 @@ a:hover{ text-decoration:underline; }
 }
 }
 
+/* ======================================
+   09 RECORS
+====================================== */
+
 .latest{
   display:flex;
   flex-direction:column;
@@ -375,8 +381,7 @@ a:hover{ text-decoration:underline; }
 }
 
 /* =========================================
-   RECORDS（year / area / genre）
-   Blogger抽出ラベル専用
+   10 RECORDS Blogger抽出ラベル専用
 ========================================= */
 
 /* ラベル全体レイアウト */
@@ -421,7 +426,7 @@ a:hover{ text-decoration:underline; }
     inset 0 1px 0 rgba(255,255,255,0.9);
 }
 /* =========================================
-   RECORDS：Blogger抽出ラベル（button版）
+   11 RECORDS：Blogger抽出ラベル（button版）
    リキッドガラス復元
 ========================================= */
 
@@ -471,7 +476,7 @@ a:hover{ text-decoration:underline; }
 
 
 /* =========================================
-   MOBILE LAYOUT
+   90 MOBILE LAYOUT
 ========================================= */
 
 @media screen and (max-width:768px){
@@ -487,7 +492,7 @@ a:hover{ text-decoration:underline; }
 }
 
 /* =========================================
-   ① HEADER
+   91 HEADER
 ========================================= */
 
 /* ハンバーガー表示＆大型化 */
@@ -507,7 +512,7 @@ a:hover{ text-decoration:underline; }
 }
 
 /* ======================================
-   HOME NAVIGATION
+  92 HOME NAVIGATION
 ====================================== */
 /* ナビ初期非表示 */
 .global-nav{
@@ -535,7 +540,7 @@ a:hover{ text-decoration:underline; }
 }
 
 /* =========================================
-   ② トップ縦並び
+   93 トップ縦並び
 ========================================= */
 
 .top-layout{
@@ -558,7 +563,7 @@ a:hover{ text-decoration:underline; }
 }
 
 /* =========================================
-   ③ ナビカード（スマホ最適）
+   94 ナビカード（スマホ最適）
 ========================================= */
 
 .home-nav{
@@ -618,7 +623,7 @@ a:hover{ text-decoration:underline; }
 }
 
  /* =========================================
-   RECORDS
+   95 RECORDS
 ========================================= */
 
    .label-buttons{
@@ -639,7 +644,7 @@ a:hover{ text-decoration:underline; }
   }
 
 /* =========================================
-   ④ FOOTER 
+   96 FOOTER 
 ========================================= */
 
 .site-footer{
@@ -686,6 +691,9 @@ a:hover{ text-decoration:underline; }
   }
 }
 
+/* ======================================
+   99 SMALL MOBILE
+====================================== */
 /* どうしても入らない端末用 */
 @media (max-width:380px){
   .footer-nav ul{
