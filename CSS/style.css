@@ -1,27 +1,29 @@
-/*/* ======================================
+/* ======================================
    01 ROOT VARIABLES
 ====================================== */
 :root {
-  --color-heading: #144b33;          /* 見出し（濃い緑） */
+  --color-heading: #144b33;           /* 見出し（濃い緑） */
   --color-heading-secondary: #1c6b4f; /* サブ見出し */
   --color-text-body: #333;            /* 本文 */
   --color-text-muted: #567;           /* 補助テキスト */
   --color-brand: #245d44;             /* ブランドカラー（リンク） */
+
+ /*  TRANSITION SYSTEM */
   --transition-fast: .2s ease;
   --transition-normal: .25s ease;
   --transition-slow: .3s ease;
 
  /*  GLASS SYSTEM */
-  --glass-bg:rgba(255,255,255,.72);　              /* glass background */
-  --glass-border:1px solid rgba(255,255,255,.28);　/* glass border */
+  --glass-bg:rgba(255,255,255,.72);                /* glass background */
+  --glass-border:1px solid rgba(255,255,255,.28);  /* glass border */
   --glass-shadow:0 8px 24px rgba(0,0,0,.08);       /* glass shadow */
   --glass-blur:blur(10px);                         /* glass blur */
 
-}
-
-/* ======================================
-   02 BASE
-====================================== */
+  /* glass soft */
+  --glass-bg-soft:rgba(255,255,255,.18);
+  --glass-border-soft:1px solid rgba(255,255,255,.45);
+  --glass-blur-soft:blur(14px);
+   
   /* フォントサイズ */
   --size-h1: 2rem;
   --size-h2: 1.4rem;
@@ -31,6 +33,9 @@
   --size-muted: 0.85rem;
 }
 
+/* ======================================
+   02 BASE
+====================================== */
 *,
 *::before,
 *::after{
@@ -414,11 +419,19 @@ a:hover{ text-decoration:underline; }
   padding:16px 30px;
   border-radius:40px;
 
-  background:rgba(255,255,255,0.18);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
+  
+  /* ラベル共通 */
+.label-buttons a,
+.label-buttons button{
+  padding:16px 30px;
+  border-radius:40px;
 
-  border:1px solid rgba(255,255,255,0.45);
+  background:var(--glass-bg-soft);
+
+  backdrop-filter:var(--glass-blur-soft);
+  -webkit-backdrop-filter:var(--glass-blur-soft);
+
+  border:var(--glass-border-soft);
 
   box-shadow:
     0 8px 28px rgba(0,0,0,0.08),
@@ -429,9 +442,10 @@ a:hover{ text-decoration:underline; }
   letter-spacing:.05em;
 
   color:#1c3d33;
-  transition:all .25s ease;
-}
 
+  transition:all var(--transition-normal);
+}
+   
 /* a専用 */
 .label-buttons a{
   display:inline-block;
