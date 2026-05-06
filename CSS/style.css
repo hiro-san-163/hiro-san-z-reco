@@ -119,7 +119,7 @@ a:hover{ text-decoration:underline; }
 }
 
 /* ======================================
-   04 HOME NAVIGATION
+   04 GLOBAL NAVIGATION
 ====================================== */
 /* グローバルナビ（PC） */
 .global-nav ul{
@@ -212,7 +212,7 @@ a:hover{ text-decoration:underline; }
 }
 
 /* ======================================
-   07 PAGINATION（追加）
+   07 PAGINATION
 ====================================== */
 
 #pagination{
@@ -239,7 +239,7 @@ a:hover{ text-decoration:underline; }
 }
 
 /* ======================================
-   08 PC LAYOUT（トップ）
+   08 HOME LAYOUT
 ====================================== */
 
 @media (min-width:961px){
@@ -322,6 +322,7 @@ a:hover{ text-decoration:underline; }
 /* ======================================
    09 RECORS
 ====================================== */
+/* 最新記録一覧 */
 
 .latest{
   display:flex;
@@ -380,11 +381,7 @@ a:hover{ text-decoration:underline; }
 }
 }
 
-/* =========================================
-   10 RECORDS Blogger抽出ラベル専用
-========================================= */
-
-/* ラベル全体レイアウト */
+/* Blogger抽出ラベル */
 .label-buttons{
   display:flex;
   flex-wrap:wrap;
@@ -425,10 +422,8 @@ a:hover{ text-decoration:underline; }
     0 14px 40px rgba(0,0,0,0.15),
     inset 0 1px 0 rgba(255,255,255,0.9);
 }
-/* =========================================
-   11 RECORDS：Blogger抽出ラベル（button版）
-   リキッドガラス復元
-========================================= */
+
+/* RECORDS：Blogger抽出ラベル（button版） */
 
 /* ラベルコンテナ */
 .label-buttons{
@@ -474,9 +469,64 @@ a:hover{ text-decoration:underline; }
     inset 0 1px 0 rgba(255,255,255,0.9);
 }
 
+/* ======================================
+   ABOUTページ専用（安全追加）
+====================================== */
+
+/* コンテンツ幅と余白 */
+.about .container{
+  max-width:720px;
+  margin:40px auto;
+}
+
+/* 見出し（共通スタイルから継承） */
+.about h2{
+  margin-top:32px;
+  margin-bottom:10px;
+  /* font-size, font-weight, color は h2 共通スタイルから継承 */
+}
+
+/* 本文 */
+.about p{
+  font-size: var(--size-body);
+  line-height:1.9;
+  margin-bottom:16px;
+  color: var(--color-text-body);
+}
+
+/* パンくず微調整（既存を活かす） */
+.breadcrumb{
+  font-size:12px;
+  color:#666;
+}
+
+/* ======================================
+   10 ABOUT PAGE
+====================================== */
+
+@media (max-width:768px){
+
+  .about .container{
+    margin:20px auto;
+    padding:0 14px;
+  }
+
+  .about p{
+    font-size:14px;
+    line-height:1.85;
+  }
+
+  .about h2{
+    margin-top:28px;
+  }
+
+}
+
+
+
 
 /* =========================================
-   90 MOBILE LAYOUT
+   90 MOBILE HEADER
 ========================================= */
 
 @media screen and (max-width:768px){
@@ -492,7 +542,7 @@ a:hover{ text-decoration:underline; }
 }
 
 /* =========================================
-   91 HEADER
+   91 MOBILE HEADER
 ========================================= */
 
 /* ハンバーガー表示＆大型化 */
@@ -512,7 +562,7 @@ a:hover{ text-decoration:underline; }
 }
 
 /* ======================================
-  92 HOME NAVIGATION
+  92  MOBILE GLOBAL NAV
 ====================================== */
 /* ナビ初期非表示 */
 .global-nav{
@@ -540,7 +590,7 @@ a:hover{ text-decoration:underline; }
 }
 
 /* =========================================
-   93 トップ縦並び
+   93 MOBILE HOME LAYOUT
 ========================================= */
 
 .top-layout{
@@ -561,10 +611,6 @@ a:hover{ text-decoration:underline; }
   line-height:1.7;
   margin-bottom:28px;
 }
-
-/* =========================================
-   94 ナビカード（スマホ最適）
-========================================= */
 
 .home-nav{
   display:flex;
@@ -622,8 +668,8 @@ a:hover{ text-decoration:underline; }
   transform:scale(0.96);
 }
 
- /* =========================================
-   95 RECORDS
+/* =========================================
+   94 MOBILE RECORDS
 ========================================= */
 
    .label-buttons{
@@ -644,7 +690,7 @@ a:hover{ text-decoration:underline; }
   }
 
 /* =========================================
-   96 FOOTER 
+   95 MOBILE FOOTER 
 ========================================= */
 
 .site-footer{
@@ -701,58 +747,6 @@ a:hover{ text-decoration:underline; }
   }
 }
 
-/* ======================================
-   ABOUTページ専用（安全追加）
-====================================== */
-
-/* コンテンツ幅と余白 */
-.about .container{
-  max-width:720px;
-  margin:40px auto;
-}
-
-/* 見出し（共通スタイルから継承） */
-.about h2{
-  margin-top:32px;
-  margin-bottom:10px;
-  /* font-size, font-weight, color は h2 共通スタイルから継承 */
-}
-
-/* 本文 */
-.about p{
-  font-size: var(--size-body);
-  line-height:1.9;
-  margin-bottom:16px;
-  color: var(--color-text-body);
-}
-
-/* パンくず微調整（既存を活かす） */
-.breadcrumb{
-  font-size:12px;
-  color:#666;
-}
-
-/* ======================================
-   ABOUT スマホ最適化（最小限）
-====================================== */
-
-@media (max-width:768px){
-
-  .about .container{
-    margin:20px auto;
-    padding:0 14px;
-  }
-
-  .about p{
-    font-size:14px;
-    line-height:1.85;
-  }
-
-  .about h2{
-    margin-top:28px;
-  }
-
-}
 
 /* ======================================
    HEADER ACTIVE（追加）
