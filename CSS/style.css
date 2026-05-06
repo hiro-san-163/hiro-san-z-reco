@@ -64,8 +64,8 @@ p {
     color: var(--color-text-body);
     margin: 0 0 16px 0;
   }
-/* 補助テキスト */ .
-    muted { color: var(--color-text-muted); 
+/* 補助テキスト */ 
+.muted { color: var(--color-text-muted); 
     } 
   a{ 
     color:var(--color-brand);
