@@ -1,0 +1,739 @@
+/* ======================================
+   01 ROOT VARIABLES
+====================================== */
+:root {
+  --color-heading: #144b33;           /* 見出し（濃い緑） */
+  --color-heading-secondary: #1c6b4f; /* サブ見出し */
+  --color-text-body: #333;            /* 本文 */
+  --color-text-muted: #567;           /* 補助テキスト */
+  --color-brand: #245d44;             /* ブランドカラー（リンク） */
+
+ /*  TRANSITION SYSTEM */
+  --transition-fast: .2s ease;
+  --transition-normal: .25s ease;
+  --transition-slow: .3s ease;
+
+ /*  GLASS SYSTEM */
+  --glass-bg:rgba(255,255,255,.72);                /* glass background */
+  --glass-border:1px solid rgba(255,255,255,.28);  /* glass border */
+  --glass-shadow:0 8px 24px rgba(0,0,0,.08);       /* glass shadow */
+  --glass-blur:blur(10px);                         /* glass blur */
+
+  /* glass soft */
+  --glass-bg-soft:rgba(255,255,255,.18);
+  --glass-border-soft:1px solid rgba(255,255,255,.45);
+  --glass-blur-soft:blur(14px);
+   
+  /* フォントサイズ */
+  --size-h1: 2rem;
+  --size-h2: 1.4rem;
+  --size-h3: 1.05rem;
+  --size-body: 1rem;
+  --size-small: 0.9rem;
+  --size-muted: 0.85rem;
+}
+
+/* ======================================
+   02 BASE
+====================================== */
+*,
+*::before,
+*::after{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:"Hiragino Sans","Noto Sans JP",sans-serif;
+  color:var(--color-text-body);
+  background:#f0f7f3 url('../data/IMG_4781.JPG') no-repeat center center;
+  background-size:cover;
+  line-height:1.6;
+  padding-top: 60px;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:rgba(240,247,243,0.45);
+  z-index:-1;
+}
+
+/* 見出しの統一スタイル */
+h1 {
+  font-size: var(--size-h1);
+  color: var(--color-heading);
+  font-weight: 700;
+  margin: 0 0 16px 0;
+}
+
+h2 {
+  font-size: var(--size-h2);
+  color: var(--color-heading-secondary);
+  font-weight: 700;
+  margin: 24px 0 12px 0;
+}
+
+h3 {
+  font-size: var(--size-h3);
+  color: var(--color-heading-secondary);
+  font-weight: 700;
+  margin: 18px 0 10px 0;
+}
+
+/* 本文の統一スタイル */
+p {
+  color: var(--color-text-body);
+  margin: 0 0 16px 0;
+}
+
+/* 補助テキスト */
+.muted {
+  color: var(--color-text-muted);
+}
+
+a{ color:var(--color-brand); text-decoration:none; }
+a:hover{ text-decoration:underline; }
+
+.container{
+  max-width:1300px;
+  margin:20px auto;
+  padding:0 20px;
+}
+
+/* ======================================
+   03 HEADER
+====================================== */
+
+.site-header{
+  background:#357f67;
+  color:#fff;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-inner{
+  max-width:1300px;
+  margin:0 auto;
+  padding:12px 20px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between; /* ← center をやめる */
+}
+
+/* ロゴ */
+.site-logo a{
+  font-size:1.8rem;
+  font-weight:700;
+  color:#ffffff;
+  letter-spacing:.05em;
+  text-decoration:none;
+}
+
+/* ======================================
+   04 GLOBAL NAVIGATION
+====================================== */
+/* グローバルナビ（PC） */
+.global-nav ul{
+  list-style:none;
+  display:flex;
+  gap:28px;
+  margin:0;
+  padding:0;
+}
+
+.global-nav a{
+  color:#fff;
+  font-weight:500;
+  text-decoration:none;
+}
+
+.global-nav a.active{
+  border-bottom:2px solid #ffffff;
+  padding-bottom:4px;
+}
+
+/* ハンバーガー（デフォルト非表示） */
+.nav-toggle{
+  display:none;
+  background:none;
+  border:none;
+  font-size:28px;
+  color:#fff;
+  cursor:pointer;
+}
+
+/* ======================================
+   05 BREADCRUMB
+====================================== */
+
+.breadcrumb ul{
+  list-style:none;
+  display:flex !important;
+  flex-direction:row !important;
+  gap:8px;
+  padding:0;
+  margin:0 0 20px 0;
+}
+
+.breadcrumb li::after{
+  content:"›";
+  margin:0 6px;
+  color:#888;
+}
+
+.breadcrumb li:last-child::after{
+  content:"";
+}
+
+/* ======================================
+   06 FOOTER
+====================================== */
+
+.site-footer{
+  background:#567e74;
+  padding:30px 0;
+  margin-top:60px;
+  color:#fff;
+}
+
+.footer-inner{
+  max-width:1300px;
+  margin:0 auto;
+  text-align:center;
+  padding:0 20px;
+}
+
+.footer-nav ul{
+  list-style:none;
+  display:flex !important;
+  flex-direction:row !important;
+  justify-content:center;
+  gap:24px;
+  margin:0 0 16px 0;
+  padding:0;
+}
+
+.footer-nav a{
+  color:#fff;
+  font-size:.9rem;
+}
+
+/* ★ 現在ページ強調（追加部分） */
+.footer-nav a.active{
+  background:#ffffff;
+  color:#357f67;
+  padding:6px 10px;
+  border-radius:6px;
+  font-weight:700;
+}
+
+/* ======================================
+   07 PAGINATION
+====================================== */
+
+#pagination{
+  margin:40px 0;
+  text-align:center;
+}
+
+#pagination button{
+  margin:0 6px;
+  padding:8px 14px;
+  border-radius:6px;
+  border:1px solid #357f67;
+  background:#fff;
+  color:#357f67;
+  cursor:pointer;
+  transition:.2s;
+}
+
+#pagination button.active{
+  background:#357f67;
+  color:#fff;
+  font-weight:700;
+  transform:scale(1.05);
+}
+
+/* ======================================
+   08 HOME LAYOUT
+====================================== */
+
+@media (min-width:961px){
+
+.top-layout{
+  display:flex;
+  gap:80px;
+  align-items:flex-start;
+}
+
+.sidebar{
+  flex:0 0 380px;
+  padding-top:30px;
+}
+
+.main-content{
+  flex:1;
+  padding-top:30px;
+}
+
+.site-title{
+  margin:0;
+  font-size:2.5rem;
+  font-weight:700;
+  color:#fff;
+}
+
+.site-description{
+  margin:0 0 50px 0;
+  color:#555;
+  line-height:1.8;
+  font-size:1.3rem;
+  font-weight:600;
+}
+
+.home-nav{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+.nav-primary,
+.nav-secondary{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.nav-primary a,
+.nav-secondary a{
+  display:block;
+  padding:14px 18px;
+  border-radius:18px;
+  background:rgba(255,255,255,0.55);
+  backdrop-filter:blur(18px) saturate(160%);
+  -webkit-backdrop-filter:blur(18px) saturate(160%);
+  border:1px solid rgba(255,255,255,0.7);
+  box-shadow:
+    0 10px 28px rgba(0,0,0,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.9);
+  transition:all .3s ease;
+}
+
+.nav-primary a{
+  font-size:1.6rem;
+  font-weight:700;
+}
+
+.nav-secondary a{
+  font-size:1.05rem;
+}
+
+.nav-primary a:hover,
+.nav-secondary a:hover{
+  background:rgba(255,255,255,0.8);
+  transform:translateY(-2px);
+}
+
+.nav-secondary a.nav-hidden{
+  display:none !important;
+}
+}
+
+/* ======================================
+   09 RECORDS
+====================================== */
+/* 最新記録一覧 */
+
+.latest{
+  display:flex;
+  flex-direction:column;
+  gap:30px;
+}
+
+.latest h2{
+  margin:0 0 24px 0;
+  /* font-size と color は h2 共通スタイルから継承 */
+}
+
+.record-card{
+  display:grid;
+  grid-template-columns:120px 1fr;
+  column-gap:20px;
+  row-gap:6px;
+  background:rgba(255,255,255,0.92);
+  border-radius:12px;
+  padding:18px;
+  box-shadow:0 4px 14px rgba(0,0,0,0.08);
+}
+
+.record-thumb{
+  grid-column:1;
+  grid-row:1 / 4;
+  width:120px;
+  height:120px;
+  object-fit:cover;
+  border-radius:10px;
+}
+
+.record-title{
+  grid-column:2;
+  margin:0;
+  font-size: var(--size-h3);
+  font-weight:700;
+  color: var(--color-heading-secondary);
+}
+
+.record-detail{
+  grid-column:2;
+  font-size: var(--size-muted);
+  color: var(--color-text-muted);
+}
+
+.record-summary{
+  grid-column:2;
+  font-size: var(--size-small);
+  color: var(--color-text-body);
+  line-height:1.6;
+}
+
+.footer-nav ul{
+  flex-wrap:wrap;
+}
+
+/* Blogger抽出ラベル */
+.label-buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:20px;
+  margin-top:40px;
+}
+
+/* ラベル共通 */
+.label-buttons a,
+.label-buttons button{
+  padding:16px 30px;
+  border-radius:40px;
+
+  
+  /* ラベル共通 */
+.label-buttons a,
+.label-buttons button{
+  padding:16px 30px;
+  border-radius:40px;
+
+  background:var(--glass-bg-soft);
+
+  backdrop-filter:var(--glass-blur-soft);
+  -webkit-backdrop-filter:var(--glass-blur-soft);
+
+  border:var(--glass-border-soft);
+
+  box-shadow:
+    0 8px 28px rgba(0,0,0,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.75);
+
+  font-size:1.25rem;
+  font-weight:700;
+  letter-spacing:.05em;
+
+  color:#1c3d33;
+
+  transition:all var(--transition-normal);
+}
+   
+/* a専用 */
+.label-buttons a{
+  display:inline-block;
+  text-decoration:none;
+}
+
+/* button専用 */
+.label-buttons button{
+  border:none;
+  outline:none;
+  cursor:pointer;
+}
+
+/* hover共通 */
+.label-buttons a:hover,
+.label-buttons button:hover{
+  transform:translateY(-5px);
+
+  box-shadow:
+    0 14px 40px rgba(0,0,0,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.9);
+}
+
+/* ======================================
+   10 ABOUT PAGE
+====================================== */
+
+/* ---------- base ---------- */
+.about .container{
+  max-width:720px;
+  margin:40px auto;
+}
+
+.about h2{
+  margin-top:32px;
+  margin-bottom:10px;
+}
+
+/* 本文 */
+.about p{
+  font-size: var(--size-body);
+  line-height:1.9;
+  margin-bottom:16px;
+  color: var(--color-text-body);
+}
+
+/* パンくず微調整（既存を活かす） */
+.breadcrumb{
+  font-size:12px;
+  color:#666;
+}
+
+/* ---------- mobile ---------- */
+
+@media (max-width:768px){
+
+  .about .container{
+    margin:20px auto;
+    padding:0 14px;
+  }
+
+  .about p{
+    font-size:14px;
+    line-height:1.85;
+  }
+
+  .about h2{
+    margin-top:28px;
+  }
+
+}
+
+
+
+
+/* =========================================
+   90 MOBILE HEADER
+========================================= */
+
+@media screen and (max-width:768px){
+
+.record-card{
+  display:block;
+}
+
+.record-thumb{
+  width:100%;
+  height:auto;
+  margin-bottom:12px;
+}
+
+/* =========================================
+   91 MOBILE HEADER
+========================================= */
+
+/* ハンバーガー表示＆大型化 */
+.nav-toggle{
+  display:block;
+  font-size:34px;
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  background:none;
+  border:none;
+  color:#ffa500;
+  cursor:pointer;
+  z-index: 1001;
+  text-shadow: -1px -1px 2px rgba(0,0,0,0.3), 1px 1px 2px rgba(255,255,255,0.3);
+}
+
+/* ======================================
+  92  MOBILE GLOBAL NAV
+====================================== */
+/* ナビ初期非表示 */
+.global-nav{
+  display:none;
+  position:fixed;
+  top:50%;
+  right:20px;
+  transform:translateY(-50%);
+  background:#357f67;
+  padding:18px 20px;
+  border-radius:14px;
+  box-shadow:0 14px 30px rgba(0,0,0,.25);
+  z-index:1002;
+}
+
+/* 横書き固定 */
+.global-nav ul{
+  flex-direction:column;
+  gap:18px;
+}
+
+/* 開いたら表示 */
+.global-nav.nav-active{
+  display:block;
+}
+
+/* =========================================
+   93 MOBILE HOME LAYOUT
+========================================= */
+
+.top-layout{
+  display:block;
+}
+
+.sidebar{
+  text-align:center;
+}
+
+.site-title{
+  font-size:1.6rem;
+  margin-bottom:12px;
+}
+
+.site-description{
+  font-size:1rem;
+  line-height:1.7;
+  margin-bottom:28px;
+}
+
+.home-nav{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+/* ▼ primary（間隔を少し広げる） */
+.nav-primary{
+  display:flex;
+  gap:10px;
+  margin-bottom:0px; /* ← ここ追加（secondaryとの間隔） */
+}
+
+/* ▼ secondary（★ここ修正：grid → flex） */
+.nav-secondary{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px; /* ← 横余白をさらに圧縮 */
+}
+
+.home-nav a{
+  flex:1;
+  padding:14px 8px;
+  text-align:center;
+  border-radius:20px;
+
+  background:rgba(255,255,255,0.22);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+
+  border:1px solid rgba(255,255,255,0.35);
+  box-shadow:0 6px 16px rgba(0,0,0,0.08);
+
+  color:#1c3d33;
+  transition:.2s;
+}
+
+.nav-primary a{
+  font-size:1.05rem;
+  font-weight:700;
+}
+
+
+/* 🔧 2列固定（崩れ防止） */
+.nav-secondary a{
+  flex:0 0 calc(50% - 4px);
+  max-width:calc(50% - 4px);
+
+  font-size:0.9rem;
+  padding:10px 6px;
+  line-height:1.2;
+}
+.home-nav a:active{
+  transform:scale(0.96);
+}
+
+/* =========================================
+   94 MOBILE RECORDS
+========================================= */
+
+   .label-buttons{
+    gap:12px;
+    margin-top:28px;
+  }
+
+  .label-buttons button{
+    padding:10px 18px;
+    border-radius:28px;
+    font-size:1rem;
+    min-height:44px;
+    letter-spacing:.04em;
+  }
+
+  .label-buttons button:hover{
+    transform:translateY(-3px);
+  }
+
+/* =========================================
+   95 MOBILE FOOTER 
+========================================= */
+
+.site-footer{
+  padding:18px 10px 14px;
+}
+
+.footer-note,
+.copyright{
+  display:none;
+}
+
+/* ulを基準に制御 */
+.footer-nav ul{
+  display:flex !important;
+  flex-direction:row !important;
+  justify-content:center;
+  align-items:center;
+  
+  flex-wrap:wrap; /* 折り返し許可 */
+  gap:10px;
+  margin-bottom:10px;
+}
+   
+/* スマホ版：6番目以降を非表示 */
+.footer-nav li:nth-child(n+6){
+  display:none;
+}
+   
+  .footer-nav li{
+    width:20%;        /* ←5個均等配置 */
+    text-align:center;
+  }
+
+  .footer-nav a{
+    font-size:0.8rem;
+    padding:6px 4px;
+    line-height:1.2;
+    display:block;
+  }
+}
+
+/* ======================================
+   99 SMALL MOBILE
+====================================== */
+/* どうしても入らない端末用 */
+@media (max-width:380px){
+  .footer-nav ul{
+    flex-wrap:wrap;
+  }
+}
