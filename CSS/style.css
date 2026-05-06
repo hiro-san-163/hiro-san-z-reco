@@ -7,6 +7,9 @@
   --color-text-body: #333;            /* 本文 */
   --color-text-muted: #567;           /* 補助テキスト */
   --color-brand: #245d44;             /* ブランドカラー（リンク） */
+  --transition-fast: .2s ease;
+  --transition-normal: .25s ease;
+  --transition-slow: .3s ease;
 
 /* ======================================
    02 BASE
@@ -448,17 +451,15 @@ a:hover{ text-decoration:underline; }
    10 ABOUT PAGE
 ====================================== */
 
-/* コンテンツ幅と余白 */
+/* ---------- base ---------- */
 .about .container{
   max-width:720px;
   margin:40px auto;
 }
 
-/* 見出し（共通スタイルから継承） */
 .about h2{
   margin-top:32px;
   margin-bottom:10px;
-  /* font-size, font-weight, color は h2 共通スタイルから継承 */
 }
 
 /* 本文 */
@@ -475,9 +476,7 @@ a:hover{ text-decoration:underline; }
   color:#666;
 }
 
-/* ======================================
-   10 ABOUT PAGE
-====================================== */
+/* ---------- mobile ---------- */
 
 @media (max-width:768px){
 
@@ -689,12 +688,6 @@ a:hover{ text-decoration:underline; }
   margin-bottom:10px;
 }
    
-/* 文字少し小さく */
-.footer-nav a{
-  font-size:.85rem;
-  padding:6px 4px;
-}
-
 /* スマホ版：6番目以降を非表示 */
 .footer-nav li:nth-child(n+6){
   display:none;
@@ -707,6 +700,7 @@ a:hover{ text-decoration:underline; }
 
   .footer-nav a{
     font-size:0.8rem;
+    padding:6px 4px;
     line-height:1.2;
     display:block;
   }
