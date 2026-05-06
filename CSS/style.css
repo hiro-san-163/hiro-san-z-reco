@@ -481,56 +481,67 @@ p {
     line-height:1.7;
     margin-bottom:28px;
   }
-  
-  /* =========================================
-   94 ナビカード（スマホ最適） 
-  ========================================= */
-  .home-nav{
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-  }
-  /* ▼ primary（間隔を少し広げる） */ 
-  .nav-primary{
-    display:flex;
-    gap:10px;
-    margin-bottom:0px;
-  /* ← ここ追加（secondaryとの間隔） */
-  }
-  /* ▼ secondary（★ここ修正：grid → flex） */ 
-  .nav-secondary{
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-  /* ← 横余白をさらに圧縮 */ 
-  }
-  .home-nav a{
-    flex:1;
-    padding:14px 8px;
-    text-align:center;
-    border-radius:20px;
-    background:rgba(255,255,255,0.22);
-    backdrop-filter:blur(8px);
-    -webkit-backdrop-filter:blur(8px);
-    border:1px solid rgba(255,255,255,0.35);
-    box-shadow:0 6px 16px rgba(0,0,0,0.08);
-    color:#1c3d33;
-    transition:.2s;
-  }
-  .nav-primary a{
-    font-size:1.05rem;
-    font-weight:700;
-  }
-  /* 2列固定（崩れ防止） */ 
-  .nav-secondary a{
-    flex:0 0 calc(50% - 4px);
-    max-width:calc(50% - 4px);
-    font-size:0.9rem; padding:10px 6px;
-    line-height:1.2;
-  }
-  .home-nav a:active{
-    transform:scale(0.96);
-  }
+
+ /* =========================================
+ 94 ナビカード（スマホ最適）
+========================================= */
+.home-nav{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+/* ▼ primary */
+.nav-primary{
+  display:flex;
+  gap:10px;
+  margin-bottom:0;
+}
+
+/* ▼ secondary */
+.nav-secondary{
+  display:flex;
+  flex-direction:row;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.home-nav a{
+  flex:1;
+  padding:14px 8px;
+  text-align:center;
+  border-radius:20px;
+  background:rgba(255,255,255,0.22);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,0.35);
+  box-shadow:0 6px 16px rgba(0,0,0,0.08);
+  color:#1c3d33;
+  transition:.2s;
+}
+
+.nav-primary a{
+  font-size:1.05rem;
+  font-weight:700;
+}
+
+/* secondary：2列固定 */
+.nav-secondary a{
+  flex:0 0 calc(50% - 4px);
+  max-width:calc(50% - 4px);
+  font-size:0.9rem;
+  padding:10px 6px;
+  line-height:1.2;
+}
+
+/* 3個目を中央寄せ */
+.nav-secondary a:last-child{
+  margin:0 auto;
+}
+
+.home-nav a:active{
+  transform:scale(0.96);
+}
   
   /* =========================================
    95 RECORDS 
