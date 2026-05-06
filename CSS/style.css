@@ -546,7 +546,7 @@ p {
   margin-bottom:0;
 }
 
-/* ▼ secondary */
+ /* ▼ secondary */
 .nav-secondary{
   display:flex;
   flex-direction:row;
@@ -600,7 +600,7 @@ p {
 .nav-secondary a:last-child{
   margin:0 auto;
 }
-
+ 
 .home-nav a:active{
   transform:scale(0.96);
 }
