@@ -216,28 +216,33 @@ p {
 }
 
 /* ======================================
- 08 PC LAYOUT（トップ） 
+ 08 PC LAYOUT（トップ）
 ====================================== */
 @media (min-width:961px){
+
 .top-layout{
   display:flex;
   gap:80px;
   align-items:flex-start;
 }
+
 .sidebar{
   flex:0 0 380px;
   padding-top:30px;
 }
+
 .main-content{
   flex:1;
   padding-top:30px;
 }
+
 .site-title{
   margin:0;
   font-size:2.5rem;
   font-weight:700;
   color:#fff;
-} 
+}
+
 .site-description{
   margin:0 0 50px 0;
   color:#555;
@@ -245,42 +250,66 @@ p {
   font-size:1.3rem;
   font-weight:600;
 }
+
+/* ナビ全体 */
 .home-nav{
   display:flex;
   flex-direction:column;
-  gap:16px;
+  gap:12px; /* primary と secondary の間隔調整 */
 }
+
+/* primary / secondary 共通 */
 .nav-primary,
 .nav-secondary{
   display:flex;
   flex-direction:column;
-  gap:8px;
 }
-.nav-primary a, 
+
+/* primary：項目間を少し広げる */
+.nav-primary{
+  gap:14px;
+}
+
+/* secondary：項目間を少し詰める */
+.nav-secondary{
+  gap:6px;
+}
+
+.nav-primary a,
 .nav-secondary a{
   display:block;
-  padding:14px 18px;
   border-radius:18px;
   background:rgba(255,255,255,0.55);
   backdrop-filter:blur(18px) saturate(160%);
   -webkit-backdrop-filter:blur(18px) saturate(160%);
   border:1px solid rgba(255,255,255,0.7);
-  box-shadow: 0 10px 28px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.9);
+  box-shadow:
+    0 10px 28px rgba(0,0,0,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.9);
   transition:all .3s ease;
 }
+
+/* primary：高さやや維持 */
 .nav-primary a{
+  padding:16px 18px;
   font-size:1.6rem;
   font-weight:700;
 }
+
+/* secondary：高さを少し増やす */
 .nav-secondary a{
+  padding:12px 18px;
   font-size:1.05rem;
+  line-height:1.4;
 }
+
 .nav-primary a:hover,
 .nav-secondary a:hover{
   background:rgba(255,255,255,0.8);
-  transform:translateY(-2px); 
+  transform:translateY(-2px);
 }
-} 
+
+}
 
 /* ======================================
  09 RECORS 
