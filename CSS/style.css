@@ -257,7 +257,7 @@ p {
 .home-nav{
   display:flex;
   flex-direction:column;
-  gap:16px; /* primary と secondary の間隔 */
+  gap:20px; /* primary と secondary の間隔 */
 }
 
 /* ======================================
@@ -276,7 +276,7 @@ p {
 
 /* secondary：項目間を詰める */
 .nav-secondary{
-  gap:10px;
+  gap:16px;
 }
 
 /* 共通カードデザイン */
@@ -536,7 +536,7 @@ p {
 .home-nav{
   display:flex;
   flex-direction:column;
-  gap:6px;
+  gap:12px;
 }
 
 /* ▼ primary */
@@ -551,7 +551,7 @@ p {
   display:flex;
   flex-direction:row;
   flex-wrap:wrap;
-  gap:8px;
+  gap:10px;
 }
 
 /* primary */
