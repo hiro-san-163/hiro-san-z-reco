@@ -11,6 +11,14 @@
   --transition-normal: .25s ease;
   --transition-slow: .3s ease;
 
+ /*  GLASS SYSTEM */
+  --glass-bg:rgba(255,255,255,.72);　              /* glass background */
+  --glass-border:1px solid rgba(255,255,255,.28);　/* glass border */
+  --glass-shadow:0 8px 24px rgba(0,0,0,.08);       /* glass shadow */
+  --glass-blur:blur(10px);                         /* glass blur */
+
+}
+
 /* ======================================
    02 BASE
 ====================================== */
