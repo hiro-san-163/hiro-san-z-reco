@@ -257,7 +257,7 @@ p {
 .home-nav{
   display:flex;
   flex-direction:column;
-  gap:20px; /* primary と secondary の間隔 */
+  gap:24px; /* primary と secondary の間隔 */
 }
 
 /* ======================================
@@ -536,7 +536,7 @@ p {
 .home-nav{
   display:flex;
   flex-direction:column;
-  gap:12px;
+  gap:16px;
 }
 
 /* ▼ primary */
