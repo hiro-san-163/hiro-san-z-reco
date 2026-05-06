@@ -136,6 +136,11 @@ a:hover{ text-decoration:underline; }
   text-decoration:none;
 }
 
+.global-nav a.active{
+  border-bottom:2px solid #ffffff;
+  padding-bottom:4px;
+}
+
 /* ハンバーガー（デフォルト非表示） */
 .nav-toggle{
   display:none;
@@ -317,10 +322,14 @@ a:hover{ text-decoration:underline; }
   background:rgba(255,255,255,0.8);
   transform:translateY(-2px);
 }
+
+.nav-secondary a.nav-hidden{
+  display:none !important;
+}
 }
 
 /* ======================================
-   09 RECORS
+   09 RECORDS
 ====================================== */
 /* 最新記録一覧 */
 
@@ -470,7 +479,7 @@ a:hover{ text-decoration:underline; }
 }
 
 /* ======================================
-   ABOUTページ専用（安全追加）
+   10 ABOUT PAGE
 ====================================== */
 
 /* コンテンツ幅と余白 */
@@ -746,17 +755,3 @@ a:hover{ text-decoration:underline; }
     flex-wrap:wrap;
   }
 }
-
-
-/* ======================================
-   HEADER ACTIVE（追加）
-====================================== */
-
-.global-nav a.active{
-  border-bottom:2px solid #ffffff;
-  padding-bottom:4px;
-}
-
-.nav-secondary a.nav-hidden{
-  display:none !important;
-}　　
