@@ -548,9 +548,8 @@ p {
 
 /* ▼ secondary */
 .nav-secondary{
-  display:flex;
-  flex-direction:row;
-  flex-wrap:wrap;
+  display:grid;
+  grid-template-columns:1fr 1fr;
   gap:10px;
 }
 
@@ -574,9 +573,8 @@ p {
 
 /* secondary */
 .nav-secondary a{
-  flex:0 0 calc(50% - 4px);
-  max-width:calc(50% - 4px);
-
+  width:100%;
+ 
   padding:10px 6px;
   text-align:center;
   border-radius:20px;
@@ -596,8 +594,10 @@ p {
   line-height:1.2;
 }
 
-/* 3個目を中央寄せ */
+/* 3個目を中央 */
 .nav-secondary a:last-child{
+  grid-column:1 / -1;
+  max-width:220px;
   margin:0 auto;
 }
 
