@@ -245,9 +245,10 @@ p {
   padding-top:30px;
 }
 
-.site-title{
-  display:none;
+.intro{
+  margin-bottom:40px;
 }
+ 
 .site-description{
   margin:0 0 36px 0;
   color:#555;
