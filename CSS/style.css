@@ -82,6 +82,14 @@ p {
 /* ======================================
  03 HEADER
 ====================================== */
+.pc-nav{
+  display:block;
+}
+
+.mobile-nav{
+  display:none;
+}
+
 .site-header{ 
   background:#357f67;
   color:#fff;
@@ -456,6 +464,33 @@ p {
  90 MOBILE LAYOUT 
 ========================================= */
 @media screen and (max-width:768px){
+
+  .pc-nav{
+    display:none;
+  }
+
+  .mobile-nav{
+    display:none;
+    position:fixed;
+    top:50%;
+    right:20px;
+    transform:translateY(-50%);
+    background:#357f67;
+    padding:18px 20px;
+    border-radius:14px;
+    box-shadow:0 14px 30px rgba(0,0,0,.25);
+    z-index:1002;
+  }
+
+  .mobile-nav ul{
+    flex-direction:column;
+    gap:18px;
+  }
+
+  .mobile-nav.nav-active{
+    display:block;
+  }
+
 .record-card{
   display:block; 
 } 
@@ -463,6 +498,7 @@ p {
   width:100%;
   height:auto;
   margin-bottom:12px;
+}
 }
   
 /* =========================================
