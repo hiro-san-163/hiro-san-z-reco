@@ -119,6 +119,19 @@ p {
 /* ======================================
  04 HOME NAVIGATION 
 ====================================== */
+.pc-nav ul{
+  list-style:none;
+  display:flex;
+  gap:28px;
+  margin:0;
+  padding:0;
+}
+
+.pc-nav a{
+  color:#fff;
+  font-weight:500;
+  text-decoration:none;
+}
 /* グローバルナビ（PC） */
 .global-nav ul{
   list-style:none;
@@ -499,7 +512,6 @@ p {
   height:auto;
   margin-bottom:12px;
 }
-}
   
 /* =========================================
  91 HEADER 
@@ -519,12 +531,12 @@ p {
     z-index: 1001;
     text-shadow: -1px -1px 2px rgba(0,0,0,0.3), 1px 1px 2px rgba(255,255,255,0.3);
   }
-  
+}
   /* ======================================
    92 HOME NAVIGATION 
   ====================================== */
   /* ナビ初期非表示 */ 
-  .global-nav{
+  .mobile-nav{
     display:none;
     position:fixed;
     top:50%;
@@ -537,12 +549,12 @@ p {
     z-index:1002;
   }
   /* 横書き固定 */ 
-  .global-nav ul{
+  .mobile-nav ul{
     flex-direction:column;
     gap:18px;
   }
   /* 開いたら表示 */ 
-  .global-nav.nav-active{
+  .mobile-nav.nav-active{
     display:block;
   }
   
