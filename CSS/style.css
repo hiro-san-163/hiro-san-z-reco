@@ -682,15 +682,16 @@ p {
     font-size:.85rem;
     padding:6px 4px;
   }
-  /* スマホ版：6番目以降を非表示 */
-  .footer-nav li:nth-child(n+6){
-    display:none;
-  }
-  .footer-nav li{
-    width:20%;
-  /* ←5個均等配置 */
-    text-align:center;
-  }
+ /* スマホ版：5番目以降を非表示 */
+.footer-nav li:nth-child(n+5){
+  display:none;
+}
+
+.footer-nav li{
+  width:25%;
+/* ←4個均等配置 */
+  text-align:center;
+}
   .footer-nav a{
     font-size:0.8rem;
     line-height:1.2;
