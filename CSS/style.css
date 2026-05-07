@@ -667,16 +667,20 @@ p {
     display:none; 
   }
   /* ulを基準に制御 */
-  .footer-nav ul{
-    display:flex !important;
-    flex-direction:row !important;
-    justify-content:center;
-    align-items:center;
-    flex-wrap:wrap; 
-  /* 折り返し許可 */ 
-    gap:10px;
-    margin-bottom:10px;
-  }
+　.footer-nav ul{
+  display:flex !important;
+  flex-direction:row !important;
+  justify-content:space-between;
+  align-items:center;
+
+  flex-wrap:nowrap;
+
+  gap:4px;
+
+  margin-bottom:10px;
+
+  padding:0;
+}
   /* 文字少し小さく */
   .footer-nav a{
     font-size:.85rem;
@@ -688,15 +692,21 @@ p {
 }
 
 .footer-nav li{
-  width:25%;
-/* ←4個均等配置 */
+  flex:1;
+  min-width:0;
   text-align:center;
 }
-  .footer-nav a{
-    font-size:0.8rem;
-    line-height:1.2;
-    display:block;
-  }
+ .footer-nav a{
+  display:block;
+
+  font-size:0.72rem;
+
+  line-height:1.15;
+
+  padding:6px 2px;
+
+  white-space:nowrap;
+}
  }
 
 /* ======================================
