@@ -731,3 +731,8 @@ p {
 a.nav-hidden{
   display:none !important;
 }
+
+/* 非表示グループ */
+.nav-hidden-group{
+  display:none;
+}
