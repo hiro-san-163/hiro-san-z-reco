@@ -7,7 +7,6 @@
 --color-text-body: #333;            /* 本文 */
 --color-text-muted: #567;           /* 補助テキスト */ 
 --color-brand: #245d44; /* ブランドカラー（リンク） */ 
---color-nav-sub: rgba(255,255,255,0.78);
 
 /* ====================================== 
  02 BASE
@@ -326,7 +325,7 @@ p {
   font-weight:500;
   line-height:1.5;
 
-  color:var(--color-nav-sub);
+   color:var(--color-text-muted);
 }
 
 /* ======================================
