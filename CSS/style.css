@@ -376,7 +376,7 @@ p {
 } 
 .record-card{
   display:grid;
-  grid-template-columns:120px 1fr;
+  grid-template-columns:140px 1fr;
   column-gap:20px;
   row-gap:10px;
   background:rgba(255,255,255,0.92);
@@ -387,8 +387,8 @@ p {
 .record-thumb{
   grid-column:1;
   grid-row:1 / 4;
-  width:120px;
-  height:120px;
+  width:140px;
+  height:140px;
   object-fit:cover;
   border-radius:10px;
 }
