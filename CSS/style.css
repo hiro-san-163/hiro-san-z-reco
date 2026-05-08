@@ -378,10 +378,10 @@ p {
   display:grid;
   grid-template-columns:120px 1fr;
   column-gap:20px;
-  row-gap:6px;
+  row-gap:10px;
   background:rgba(255,255,255,0.92);
   border-radius:12px;
-  padding:18px;
+  padding:22px;
   box-shadow:0 4px 14px rgba(0,0,0,0.08);
 }
 .record-thumb{
