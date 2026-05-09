@@ -701,7 +701,20 @@ p {
   .label-buttons button:hover{
     transform:translateY(-3px);
   }
+
+ .record-title{
+  margin:0 0 6px;
+  line-height:1.45;
+}
+
+ .record-detail{
+  margin-bottom:8px;
+
+  font-size:0.85rem;
   
+  opacity:0.78;
+}
+ 
   /* =========================================
    96 FOOTER 
   ========================================= */
