@@ -236,7 +236,7 @@ p {
 }
 
 .sidebar{
-  flex:0 0 380px;
+  flex:0 0 340px;
   padding-top:30px;
 }
 
@@ -619,11 +619,26 @@ p {
   box-shadow:0 6px 16px rgba(0,0,0,0.08);
   color:#1c3d33;
   transition:.2s;
-
-  font-size:1.05rem;
-  font-weight:700;
 }
 
+.nav-label{
+  display:block;
+
+  font-size:1.25rem;
+  line-height:1.3;
+}
+
+.nav-sub{
+  display:block;
+
+  margin-top:4px;
+
+  font-size:0.88rem;
+  font-weight:500;
+
+  color:var(--color-text-muted);
+}
+ 
 /* secondary */
 .nav-secondary a{
   width:100%;
