@@ -403,6 +403,7 @@ p {
   grid-column:2;
   font-size: var(--size-muted);
   color: var(--color-text-muted);
+  opacity:0.78;
 }
 .record-summary{
   grid-column:2;
