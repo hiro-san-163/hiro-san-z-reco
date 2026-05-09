@@ -722,10 +722,14 @@ p {
   opacity:0.78;
 }
 
+ .latest{
+  gap:18px;
+}
+
+
  .latest h2{
   margin-bottom:16px;
 }
-
  .record-summary{
   line-height:1.75;
 }
