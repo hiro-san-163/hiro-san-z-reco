@@ -726,10 +726,18 @@ p {
   gap:18px;
 }
 
-
- .latest h2{
+.latest h2{
   margin-bottom:16px;
+
+  font-size:2rem;
+
+  padding-bottom:6px;
+
+  border-bottom:2px solid rgba(20,75,51,0.15);
+
+  display:inline-block;
 }
+ 
  .record-summary{
   line-height:1.75;
 }
