@@ -532,17 +532,7 @@ p {
     display:block;
   }
 
-  .record-card{
-    display:block;
-  }
-
-  .record-thumb{
-    width:100%;
-    height:auto;
-    margin-bottom:12px;
-  }
-
-/* =========================================
+ /* =========================================
  91 HEADER 
 ========================================= */
 
@@ -681,6 +671,22 @@ p {
   /* =========================================
    95 RECORDS 
   ========================================= */
+
+ .record-card{
+    display:block;
+  
+  padding:16px;
+
+  border-radius:14px;
+  }
+
+  .record-thumb{
+    width:100%;
+    height:auto;
+    margin-bottom:10px;
+  }
+
+
   .label-buttons{
     gap:12px;
     margin-top:28px;
