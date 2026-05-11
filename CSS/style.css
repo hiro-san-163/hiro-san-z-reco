@@ -74,11 +74,7 @@ p {
   a:hover{
     text-decoration:underline;
     }
-  .container{ 
-    max-width:1300px; margin:20px auto;
-    padding:0 20px;
-    }
-
+  
 /* ======================================
  03 HEADER
 ====================================== */
@@ -201,6 +197,33 @@ p {
 }
 
 /* ======================================
+ 07 LAYOUT
+====================================== */
+
+.container{ 
+   max-width:1200px;
+   margin:20px auto;
+   padding:0 20px;
+  }
+
+
+.top-layout{
+  display:flex;
+  gap:80px;
+  align-items:flex-start;
+}
+
+.sidebar{
+  flex:0 0 340px;
+  padding-top:30px;
+}
+
+.main-content{
+  flex:1;
+  padding-top:30px;
+}
+
+/* ======================================
  07 PAGINATION（追加） 
 ====================================== */ 
 #pagination{
@@ -225,25 +248,9 @@ p {
 }
 
 /* ======================================
- 08 PC LAYOUT（トップ）
+ 08 TOP
 ====================================== */
 @media (min-width:961px){
-
-.top-layout{
-  display:flex;
-  gap:80px;
-  align-items:flex-start;
-}
-
-.sidebar{
-  flex:0 0 340px;
-  padding-top:30px;
-}
-
-.main-content{
-  flex:1;
-  padding-top:30px;
-}
 
 .intro{
   margin-bottom:40px;
