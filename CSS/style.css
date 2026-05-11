@@ -201,7 +201,7 @@ p {
 ====================================== */
 
 .container{ 
-   max-width:1200px;
+   max-width:1300px;
    margin:20px auto;
    padding:0 20px;
   }
@@ -252,6 +252,7 @@ p {
 ====================================== */
 @media (min-width:961px){
 
+ /* ----- intro ----- */
 .intro{
   margin-bottom:40px;
 }
@@ -264,35 +265,30 @@ p {
   font-weight:600;
 }
 
-/* ======================================
- ナビ全体
-====================================== */
-.home-nav{
+/* ----- home nav : layout ----- */
+ 
+ .home-nav{
   display:flex;
   flex-direction:column;
   gap:24px; /* primary と secondary の間隔 */
 }
 
-/* ======================================
- primary / secondary 共通
-====================================== */
 .nav-primary,
 .nav-secondary{
   display:flex;
   flex-direction:column;
 }
 
-/* primary：項目間を少し広げる */
 .nav-primary{
   gap:16px;
 }
-
-/* secondary：項目間を詰める */
+ 
 .nav-secondary{
-  gap:16px;
+  margin-top:28px;
+  gap:12px;
 }
 
-/* 共通カードデザイン */
+/* ----- home nav : card ----- */ 
 .nav-primary a,
 .nav-secondary a{
   display:block;
@@ -313,7 +309,20 @@ p {
   transition:all .3s ease;
 }
 
- /* タイトル */
+ .nav-primary a{
+  padding:18px 20px;
+}
+
+ .nav-secondary a{
+  padding:10px 14px;
+
+  font-size:0.92rem;
+
+  background:rgba(255,255,255,0.34);
+}
+ 
+/* ----- nav typography ----- */
+
 .nav-label{
   display:block;
 
@@ -324,7 +333,6 @@ p {
   color:var(--color-heading);
 }
 
-/* 補助説明 */
 .nav-sub{
   display:block;
 
@@ -337,31 +345,9 @@ p {
    color:var(--color-text-muted);
 }
 
-/* ======================================
- primary
-====================================== */
-.nav-primary a{
-  padding:18px 20px;
-}
- 
-/* ======================================
- secondary
-====================================== */
-.nav-secondary{
-  margin-top:28px;
-  gap:12px;
-}
+/* ----- hover ----- */
 
-.nav-secondary a{
-  padding:10px 14px;
-
-  font-size:0.92rem;
-
-  background:rgba(255,255,255,0.34);
-}
- 
-/* hover */
-.nav-primary a:hover,
+ .nav-primary a:hover,
 .nav-secondary a:hover{
   background:rgba(255,255,255,0.8);
   transform:translateY(-2px);
@@ -370,52 +356,81 @@ p {
 }
 
 /* ======================================
- 09 RECORS 
+ 09 RECOR CARD
 ====================================== */
+
+/* ----- latest section ----- */
+
 .latest{
   display:flex;
   flex-direction:column;
   gap:30px;
 }
+
 .latest h2{
   margin:0 0 24px 0;
-  /* font-size と color は h2 共通スタイルから継承 */ 
-} 
+}
+
+ /* ----- record card ----- */
+
 .record-card{
   display:grid;
   grid-template-columns:140px 1fr;
   column-gap:20px;
   row-gap:10px;
+ 
   background:rgba(255,255,255,0.92);
+ 
   border-radius:12px;
   padding:22px;
+ 
   box-shadow:0 4px 14px rgba(0,0,0,0.08);
 }
+
+/* ----- thumbnail ----- */
+
 .record-thumb{
   grid-column:1;
   grid-row:1 / 4;
+ 
   width:140px;
   height:140px;
+ 
   object-fit:cover;
+ 
   border-radius:10px;
 }
+
+/* ----- typography ----- */
+
 .record-title{
   grid-column:2;
+ 
   margin:0;
+ 
   font-size: var(--size-h3);
   font-weight:700;
+ 
   color: var(--color-heading-secondary);
 }
+
 .record-detail{
   grid-column:2;
+ 
   font-size: var(--size-muted);
+ 
   color: var(--color-text-muted);
+ 
   opacity:0.78;
 }
+
 .record-summary{
   grid-column:2;
+ 
   font-size: var(--size-small);
+ 
   color: var(--color-text-body);
+ 
   line-height:1.6;
 }
 
