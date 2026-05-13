@@ -971,12 +971,7 @@ p {
   padding-bottom:4px;
 }
 
-.nav-secondary
-a.nav-hidden{
+.nav-secondary a.nav-hidden{
   display:none !important;
 }
 
-/* 非表示グループ */
-.nav-hidden-group{
-  display:none;
-}
