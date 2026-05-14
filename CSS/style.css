@@ -382,7 +382,7 @@ p {
 .latest-records{
   display:flex;
   flex-direction:column;
-  gap:30px;
+  gap:24px;
 }
 
 .latest h2{
@@ -813,7 +813,7 @@ p {
  .latest-records{
   display:flex;
   flex-direction:column;
-  gap:18px;
+  gap:14px;
 }
 
 .latest h2{
