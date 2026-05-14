@@ -101,16 +101,13 @@ p {
 }
 
 .header-inner{
+  max-width:1300px;
+  margin:0 auto;
+  padding:12px 20px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-
-  max-width:1300px;
-
-  margin:0 auto; 
-  padding:12px 20px;
 }
-
 /* ロゴ */
 .site-logo a{
   font-size:1.8rem;
