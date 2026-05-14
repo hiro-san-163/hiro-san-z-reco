@@ -88,23 +88,29 @@ p {
   display:none;
 }
 
-.site-header{ 
+.site-header{
+  position:fixed;
+  top:0;
+  z-index:1000;
+
+  width:100%;
+
   background:#357f67;
+
   color:#fff;
-  position: fixed;
-  width: 100%;
-  top: 0;
-  z-index: 1000;
-  } 
+}
+
 .header-inner{
-  max-width:1300px;
-  margin:0 auto;
-  padding:12px 20px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-/* ← center をやめる */
- }
+
+  max-width:1300px;
+
+  margin:0 auto; 
+  padding:12px 20px;
+}
+
 /* ロゴ */
 .site-logo a{
   font-size:1.8rem;
