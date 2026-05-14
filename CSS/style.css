@@ -379,6 +379,12 @@ p {
   gap:30px;
 }
 
+.latest-records{
+  display:flex;
+  flex-direction:column;
+  gap:30px;
+}
+
 .latest h2{
   margin:0 0 24px 0;
 }
@@ -799,6 +805,12 @@ p {
 ----------------------------------------- */
 
 .latest{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+ .latest-records{
   display:flex;
   flex-direction:column;
   gap:18px;
