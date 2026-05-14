@@ -88,16 +88,13 @@ p {
   display:none;
 }
 
-.site-header{
-  position:fixed;
-  top:0;
-  z-index:1000;
-
-  width:100%;
-
+.site-header{ 
   background:#357f67;
-
   color:#fff;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
 }
 
 .header-inner{
