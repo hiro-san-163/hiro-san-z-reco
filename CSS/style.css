@@ -91,12 +91,9 @@ p {
 .site-header{
   position:fixed;
   top:0;
-  z-index:1000;
-
   width:100%;
-
+  z-index:1000;
   background:#357f67;
-
   color:#fff;
 }
 
@@ -106,7 +103,6 @@ p {
   justify-content:space-between;
 
   max-width:1300px;
-
   margin:0 auto;
   padding:12px 20px;
 }
@@ -115,8 +111,8 @@ p {
 .site-logo a{
   font-size:1.8rem;
   font-weight:700;
-  color:#ffffff;
   letter-spacing:.05em;
+  color:#ffffff;
   text-decoration:none;
  } 
 
@@ -124,33 +120,36 @@ p {
  04 HOME NAVIGATION 
 ====================================== */
 .pc-nav ul{
-  list-style:none;
   display:flex;
   gap:28px;
+ 
   margin:0;
   padding:0;
+
+  list-style:none; 
 }
 
 .pc-nav a{
   display:inline-block;
 
   color:#fff;
-
   font-weight:500;
-
   text-decoration:none;
 }
 
 /* ハンバーガー（デフォルト非表示） */
 .nav-toggle{
   display:none;
+ 
   background:none;
   border:none;
+ 
   font-size:28px;
   color:#fff;
+ 
   cursor:pointer;
 }
-
+ 
 /* ======================================
  05 BREADCRUMB 
 ====================================== */
