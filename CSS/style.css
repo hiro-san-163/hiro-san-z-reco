@@ -547,6 +547,17 @@ p {
   border-radius:12px;
    
   box-shadow:0 4px 14px rgba(0,0,0,0.08);
+
+  cursor:pointer;
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+
+.record-card:hover{
+  transform:translateY(-3px);
+}
+
+.record-card:active{
+  transform:translateY(-1px);
 }
 
 /* -----------------------------------------
