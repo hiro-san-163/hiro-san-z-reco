@@ -187,8 +187,8 @@ p {
 }
 .footer-nav ul{
   list-style:none;
-  display:flex !important;
-  flex-direction:row !important;
+  display:flex;
+  flex-direction:row;
   justify-content:center;
   gap:24px;
   margin:0 0 16px 0;
