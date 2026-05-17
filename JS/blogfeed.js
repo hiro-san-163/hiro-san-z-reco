@@ -105,6 +105,11 @@ function createLatestHandler() {
         const article = document.createElement("article");
         article.className = "record-card";
 
+         /* ★ここに追加 */
+        article.addEventListener("click", () => {
+          window.open(link, "_blank", "noopener");
+        });
+
         article.innerHTML = `
           ${postInfo.image ? `
             <img src="${postInfo.image}" class="record-thumb" alt="${title}">
