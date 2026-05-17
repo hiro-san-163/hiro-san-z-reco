@@ -179,12 +179,14 @@ p {
   margin-top:60px;
   color:#fff;
 }
+
 .footer-inner{
   max-width:1300px;
   margin:0 auto;
   text-align:center;
   padding:0 20px;
 }
+
 .footer-nav ul{
   list-style:none;
   display:flex;
@@ -194,10 +196,17 @@ p {
   margin:0 0 16px 0;
   padding:0;
 }
+
 .footer-nav a{
+  display:inline-block;
+
   color:#fff;
+
   font-size:.9rem;
+
+  text-decoration:none;
 } 
+
 /* ★ 現在ページ強調（追加部分） */ 
 .footer-nav a.active{
   background:#ffffff;
