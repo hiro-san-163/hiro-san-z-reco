@@ -550,6 +550,9 @@ p {
 
   cursor:pointer;
   transition:transform .2s ease, box-shadow .2s ease;
+
+  /* ★ここに追加 */
+  -webkit-tap-highlight-color: transparent; 
 }
 
 .record-card:hover{
@@ -745,9 +748,16 @@ p {
  .mobile-nav a:hover{
   color:#ffe082;
 }
+ 
  .mobile-nav.nav-active{
     display:block;
-  }
+}
+
+ .record-card:active{
+    transform: scale(0.98);
+    transition: transform .1s ease;
+    box-shadow:0 2px 10px rgba(0,0,0,0.12);
+}
 
  /* =========================================
  91 HEADER 
