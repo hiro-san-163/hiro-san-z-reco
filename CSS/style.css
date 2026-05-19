@@ -613,6 +613,21 @@ p {
  line-height:1.6;
 }
 
+/* -----------------------------------------
+ records list title
+----------------------------------------- */
+
+#list-title{
+  margin:0 0 20px;
+
+  color:var(--color-heading);
+
+  font-size:1.4rem;
+  font-weight:700;
+
+  line-height:1.4;
+}
+
 /* ======================================
  11 LABEL BUTTON
 ====================================== */
