@@ -191,7 +191,9 @@ function showLatestPosts(label) {
 ================================================= */
 function handlePosts(data) {
 
-  const container = document.querySelector("#latest-list ul");
+  const container =
+  document.querySelector("#latest-list .latest-records");
+
   if (!container) return;
 
   container.innerHTML = "";
