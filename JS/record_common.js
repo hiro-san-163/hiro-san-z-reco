@@ -215,8 +215,13 @@ function handlePosts(data) {
     const content = entry.content ? entry.content.$t : "";
     const postInfo = extractPostContent(content);
 
-    const article = document.createElement("article");
-    article.className = "record-card";
+const article = document.createElement("article");
+article.className = "record-card";
+
+article.addEventListener("click", () => {
+  window.open(link, "_blank", "noopener");
+});
+     
 
     article.innerHTML = `
       ${postInfo.image ? `
