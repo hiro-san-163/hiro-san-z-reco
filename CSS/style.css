@@ -646,29 +646,18 @@ p {
   transition:opacity .2s ease;
 }
 
-/* -----------------------------------------
- more link
------------------------------------------ */
-
-#more-link{
-  display:inline-block;
-
-  margin-top:18px;
-
-  color:var(--color-brand);
-
-  font-weight:600;
-
-  text-decoration:none;
-
-  transition:opacity .2s ease;
-}
-
 
 #more-link:hover{
   opacity:0.7;
 }
 
+/* -----------------------------------------
+ list box
+----------------------------------------- */
+
+.list-box{
+  margin-top:32px;
+}
 
 /* ======================================
  11 LABEL BUTTON
