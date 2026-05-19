@@ -197,7 +197,6 @@ function handlePosts(data) {
   if (!container) return;
 
   container.innerHTML = "";
-  container.classList.add("latest");
 
   const entries = data.feed.entry || [];
 
