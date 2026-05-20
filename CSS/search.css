@@ -1,23 +1,4 @@
-/* =====================================
-   検索ページ専用（安定版・整理済）
-===================================== */
 
-/* CSS変数定義（style.cssと共通） */
-:root {
-  --color-heading: #144b33;
-  --color-heading-secondary: #1c6b4f;
-  --color-text-body: #333;
-  --color-text-muted: #567;
-  --brand: #1c6b4f;
-  --muted: #567;
-  
-  --size-h1: 2rem;
-  --size-h2: 1.4rem;
-  --size-h3: 1.05rem;
-  --size-body: 1rem;
-  --size-small: 0.9rem;
-  --size-muted: 0.85rem;
-}
 
 /* =====================================
    検索ヘッダー（幅制限・他ページに統一）
