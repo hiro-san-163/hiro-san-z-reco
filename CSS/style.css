@@ -1165,6 +1165,29 @@ p {
 .record-summary{
   line-height:1.75;
 }
+
+/* -----------------------------------------
+ records ui spacing
+----------------------------------------- */
+
+.records-sub{
+  margin-top:36px;
+}
+
+.list-box{
+  margin-top:24px;
+}
+
+.loading,
+.label-placeholder{
+  padding:14px 16px;
+
+  font-size:0.9rem;
+}
+
+#more-link{
+  margin-top:14px;
+}
  
 /* =========================================
    96 FOOTER
