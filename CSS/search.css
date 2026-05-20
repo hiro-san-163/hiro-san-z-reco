@@ -158,11 +158,6 @@
 /* デスクトップ版：3列グリッド */
 @media (min-width: 769px) {
   .card {
-    background: #fff;
-    border: 1px solid #e0eee8;
-    border-radius: 6px;
-    padding: 0.7rem 0.9rem;
-    
     display: grid;
     grid-template-columns: 130px 1fr 90px;
     grid-template-areas:
@@ -213,10 +208,6 @@
 /* スマホ版：シンプルレイアウト */
 @media (max-width: 768px) {
   .card {
-    background: #fff;
-    border: 1px solid #e0eee8;
-    border-radius: 6px;
-    padding: 0.7rem 0.9rem;
     display: block;
   }
   
@@ -232,16 +223,7 @@
     margin-bottom: 0;
   }
   
-  .card .title a {
-    color: var(--brand);
-    text-decoration: none;
-  }
-  
-  .card .title a:hover {
-    text-decoration: underline;
-  }
-  
-  .card .date {
+   .card .date {
     display: none;
   }
   
@@ -250,13 +232,15 @@
   }
 }
 
-.card .title a {
-  color: var(--brand);
-  text-decoration: none;
-}
+/* =====================================
+   card base
+===================================== */
 
-.card .title a:hover {
-  text-decoration: underline;
+.card{
+  background:#fff;
+  border:1px solid #e0eee8;
+  border-radius:6px;
+  padding:0.7rem 0.9rem;
 }
 
 /* =====================================
@@ -270,6 +254,19 @@
 
 .card:active {
   transform: scale(0.98);
+}
+
+/* =====================================
+   title link
+===================================== */
+
+.card .title a {
+  color: var(--brand);
+  text-decoration: none;
+}
+
+.card .title a:hover {
+  text-decoration: underline;
 }
 
 /* =====================================
