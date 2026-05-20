@@ -2,19 +2,24 @@
  01 ROOT VARIABLES 
 ====================================== */
 :root { 
---color-heading: #144b33;           /* 見出し（濃い緑） */
---color-heading-secondary: #1c6b4f; /* サブ見出し */ 
---color-text-body: #333;            /* 本文 */
---color-text-muted: #567;           /* 補助テキスト */ 
---color-brand: #245d44; /* ブランドカラー（リンク） */ 
+  --color-heading: #144b33;
+  --color-heading-secondary: #1c6b4f; 
+  --color-text-body: #333;
+  --color-text-muted: #567;
 
-/* フォントサイズ */ 
---size-h1: 2rem; 
---size-h2: 1.4rem; 
---size-h3: 1.05rem; 
---size-body: 1rem; 
---size-small: 0.9rem; 
---size-muted: 0.85rem; 
+  --color-brand: #245d44;
+
+  /* search.css互換 */
+  --brand: #1c6b4f;
+  --muted: #567;
+
+  /* フォントサイズ */
+  --size-h1: 2rem;
+  --size-h2: 1.4rem;
+  --size-h3: 1.05rem;
+  --size-body: 1rem;
+  --size-small: 0.9rem;
+  --size-muted: 0.85rem;
 }
 
 /* ====================================== 
