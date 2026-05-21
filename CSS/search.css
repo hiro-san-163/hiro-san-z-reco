@@ -85,6 +85,16 @@
 .keyword-search input,
 .filters select,
 .filters input[type="number"]{
+  height:2.3rem;
+  padding:0.4rem 0.6rem;
+
+  font-size:0.9rem;
+
+  border-radius:4px;
+  border:1px solid #cfe2d8;
+
+  box-sizing:border-box;
+}
 
 .pagination button{
   border-radius:4px;
