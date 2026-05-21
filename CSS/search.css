@@ -328,7 +328,6 @@
    data selector
 ===================================== */
 
-/* データ選択UI */
 .data-selector {
   margin-bottom: 0.8rem;
   display: flex;
@@ -359,7 +358,7 @@
   font-weight: 600;
 }
 
-/* カード：ソースラベル強調 */
+/* meta layout */
 .card .meta {
   display: flex;
   flex-wrap: wrap;
