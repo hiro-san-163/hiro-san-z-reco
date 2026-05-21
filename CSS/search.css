@@ -124,14 +124,6 @@
   align-items: end;
 }
 
-.filters select,
-.filters input[type="number"] {
-  height: 2.3rem;
-  padding: 0.4rem 0.6rem;
-  font-size: 0.9rem;
-  box-sizing: border-box;
-}
-
 /* スマホ版：フィルター調整 */
 @media (max-width: 768px) {
   .filters {
