@@ -206,20 +206,6 @@
     text-align: right;
   }
   
-  .card .btn {
-    display: inline-block;
-    padding: 0.3rem 0.5rem;
-    font-size: 0.8rem;
-    border-radius: 4px;
-    background: #eef5f2;
-    color: var(--brand);
-    border: 1px solid #cfe2d8;
-    text-decoration: none;
-  }
-  
-  .card .btn:hover {
-    background: #e0efe8;
-  }
 }
 
 /* スマホ版：シンプルレイアウト */
