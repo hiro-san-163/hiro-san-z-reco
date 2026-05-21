@@ -223,3 +223,12 @@
   font-size: 0.9rem;
   color: #789;
 }
+
+/* link-card clickable fix */
+.link-card a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
