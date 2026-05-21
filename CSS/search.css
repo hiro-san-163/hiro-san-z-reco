@@ -70,13 +70,9 @@
     border: none;
     border-radius: 4px;
     font-weight: 600;
-    cursor: pointer;
   }
   
-  .search-summary .summary-edit:hover {
-    opacity: 0.9;
-  }
-}
+ }
 
 /* =====================================
    form ui base
@@ -102,7 +98,25 @@
 }
 
 /* =====================================
-   キーワード検索エリア
+   button interaction
+===================================== */
+
+.search-summary .summary-edit,
+.search-apply-btn,
+.pagination button,
+.data-selector label{
+ transition:opacity .2s ease;
+}
+
+.search-summary .summary-edit:hover,
+.search-apply-btn:hover,
+.pagination button:hover,
+.data-selector label:hover{
+  opacity:0.9;
+}
+
+/* =====================================
+  keyword-search 
 ===================================== */
 
 .keyword-search {
@@ -144,14 +158,10 @@
     color: #fff;
     border: none;
     border-radius: 4px;
-    cursor: pointer;
     font-weight: 600;
   }
   
-  .search-apply-btn:hover {
-    opacity: 0.9;
-  }
-}
+ }
 
 /* =====================================
    山行ログ一覧（レスポンシブ対応）
@@ -293,7 +303,6 @@
   padding: 0.4rem 0.7rem;
   font-size: 0.85rem;
   background: #fff;
-  cursor: pointer;
   white-space: nowrap;
 }
 
@@ -343,7 +352,6 @@
   background: #eef5f2;
   padding: 0.3rem 0.5rem;
   border-radius: 4px;
-  cursor: pointer;
   border: 1px solid #cfe2d8;
 }
 
