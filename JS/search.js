@@ -203,7 +203,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       山域：${r.area} / ジャンル：${r.genre}
       <span class="source source-${r.__source}">${r.__source}</span>
     </div>
-    ${r.url ? `<a class="btn" href="${r.url}" target="_blank">記事を開く</a>` : ''}
   `;
 }
       card.addEventListener('click', (e) => {
