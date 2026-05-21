@@ -140,9 +140,8 @@
 }
 
 .link-card a {
-  text-decoration: none;
   display: flex;
-  align-items: center;
+  align-items: flex-start; /* ←ここだけ変更 */
   gap: 0.5rem;
 }
 
